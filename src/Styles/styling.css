@@ -1,0 +1,417 @@
+
+
+.button{
+    background:  black;
+    position: relative;
+    display: inline-block;
+    padding: 10px 30px;
+    color:burlywood;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-size: 16px;
+    overflow: hidden;
+    width:200px;
+    margin:0 auto;
+    transition: 0.2s;
+    border-radius: 14px;
+    border:none;
+ 
+}
+.button:hover{
+    color:#fead03;
+    background: lightgoldenrodyellow;
+    box-shadow: 0 0 10px lightgoldenrodyellow, 0 0 40px lightgoldenrodyellow, 0 0 80px lightgoldenrodyellow;
+    transition-delay: 1s;
+}
+.button span{
+    position: absolute;
+    display: block;
+
+}
+.button span:nth-child(1){
+    top:0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,transparent,lightgoldenrodyellow);
+}
+.button:hover span:nth-child(1){
+    left:100%;
+    transition:1s;
+}
+.button span:nth-child(3){
+    bottom:0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg,transparent,lightgoldenrodyellow);
+}
+.button:hover span:nth-child(3){
+    right:100%;
+    transition:1s;
+    transition-delay: 0.5s;
+}
+.button span:nth-child(2){
+    top:-100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg,transparent,lightgoldenrodyellow);
+}
+.button:hover span:nth-child(2){
+    top:100%;
+    transition:1s;
+    transition-delay: 0.25s;
+}
+.button span:nth-child(4){
+    bottom:-100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg,transparent,lightgoldenrodyellow);
+}
+.button:hover span:nth-child(4){
+    bottom:100%;
+    transition:1s;
+    transition-delay: 0.75s;
+}
+
+.card
+{
+    position: absolute;
+    top : 55%;
+    left: 50%;
+    transform: translate(-50%,-50%) perspective(2000px);
+    transform-style: preserve-3d;
+    width: 300px;
+    height: 400px;
+    background: white;
+    box-shadow: inset 300px 0 50px rgba(0,0,0,0.5), 0 20px 100px rgba(0,0,0,0.5);
+    transition : 1s;
+}
+
+.card:hover{
+    transform: translate(-50%,-50%) perspective(2000px) rotate(-10deg);
+    box-shadow: inset 20px 0 50px rgba(0,0,0,0.5), 0 10px 100px rgba(0,0,0,0.5);
+    }
+.card:before{
+    content:'';
+    position: absolute;
+    top:-5px;
+    left:0;
+    width:100%;
+    height:5px;
+    background: #fead03;
+    transform-origin: bottom;
+    transform: skewX(-45deg);
+    } 
+.card:after{
+    content:'';
+    position: absolute;
+    top:0;
+    right:-5px;
+    width:5px;
+    height:100%;
+    background: #fead03;
+    transform-origin: left;
+    transform: skewY(-45deg);
+
+}
+.card .imgBox{
+    width:100%;
+    height:100%;
+    position: relative;
+    transform-origin:left ;
+    transition: 1s;
+}
+.card:hover .imgBox{
+    transform: rotateY(-135deg);
+}
+.card .details{
+    
+    position: absolute;
+    top:0;
+    left:0;
+    box-sizing: border-box;
+    padding:20px;
+    z-index: -1;
+}
+/* login page */            
+.form{
+    top:10%;
+    margin:0 auto;
+    position: relative;
+    width:350px;
+    padding: 40px 40px 60px;
+    background: #131419;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: -5px -5px 10px rgba(255,255,255,0.05),
+                5px 5px 15px rgba(0,0,0,0.5);
+}
+.form .logo{
+    background:url("../img/tnc100.jpeg");
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0px 0px 2px #cecdcd,
+    0px 0px 0px 5px #0a0a0a,
+    8px 8px 15px #353638,
+    -8px -8px 15px rgb(0, 0, 0);
+}
+.form h2{
+    color:#c7c7c7;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+.form .input{
+    text-align:left;
+    margin-top: 40px;
+}
+.form .input .inputBox{
+    margin-top: 20px;
+}
+.form .input .inputBox label{
+    display:block;
+    color:#868686;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+.form .input .inputBox input{
+    width:100%;
+    height: 50px;
+    background: #131419;
+    border: none;
+    outline:none;
+    border-radius: 40px;
+    padding:5px 15px;
+    color:#fff;
+    font-size: 18px;
+    color: #03a9f4;
+    box-shadow: inset -2px -2px 6px rgba(255,255,255,0.1),
+                inset 2px 2px 6px rgba(0,0,0,0.8);
+}
+.form .input .inputBox input[type="submit"]{
+    margin-top: 20px;
+    background-color:#10a9eb;
+    color: #09080f;;
+    box-shadow: -2px -2px 6px rgba(255,255,255,0.1),
+                2px 2px 6px rgba(0,0,0,0.8);
+}
+.form .input .inputBox input[type="submit"]:active{
+    color:#006c9c;
+    margin-top: 20px;
+    box-shadow: -2px -2px 6px rgba(255,255,255,0.1),
+                2px 2px 6px rgba(0,0,0,0.8);
+}
+.form .input .inputBox input::placeholder{
+    color: #555;
+    font-size: 18px;
+}
+.forget{
+    margin-top: 30px;
+    color:#555;
+}
+.forget text{
+    text-underline-position: below;
+    color: #ff0047;
+}
+.forget text:hover{
+    cursor:pointer;
+}
+.register{
+    margin-top: 30px;
+    color:#555;
+}
+.register a{
+    color: #ec004f;
+}
+.section2{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.scrolldown{
+    position: absolute;
+    bottom:5px ;
+    left:50%;
+    width: 30px;
+    height:30px;
+    
+    transform:translateY(-80px) translateX(-50%)
+    rotate(45deg);
+
+}
+.scrolldown spanscroll{
+    position: absolute;
+    top:0;
+    left:0;
+    display: block;
+    width: 100%;
+    height:100%;
+    border-bottom:2px solid #fff;
+    border-right: 2px solid #fff;
+    animation:animate 1.5s linear infinite ;
+    opacity: 0;
+
+}
+.scrolldown spanscroll:nth-child(1)
+{
+    transform: translate(-15px,-15px);
+    animation-delay: -0.4s;
+}
+.scrolldown spanscroll:nth-child(2){
+    transform: translate(0,0px);
+    animation-delay: -0.2s;
+
+}
+.scrolldown spanscroll:nth-child(3){
+    transform: translate(15px,15px);
+    animation-delay: 0s;
+
+}
+@keyframes animate{
+    0%{
+        top:-5px;
+        left:-5px;
+        opacity: 0;
+    }
+    25%{
+        top:0px;
+        left:0px;
+        opacity: 1;
+    }
+   50%,100%{
+        top:5px;
+        left:5px;
+        opacity: 0;
+    }
+
+} 
+.h1{
+   position: relative;
+    margin:30px 0 0 400px;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    font-size: 3em;
+    text-shadow: 0 2px 0 rgba(0,0,0,.5);
+
+}   
+.spanvalue:before{
+content: 'Fableeeeeeeee';
+animation: animate infinite 8s;
+}
+@keyframes animate{
+    
+    0%
+    {
+        color:red;
+        content: 'Classic';    
+    }
+    5%
+    {
+        color: rosybrown;
+        content: 'Fiction';    
+    }
+    10%
+    {
+        color: royalblue;
+        content: 'Comic';    
+    }
+    15%
+    {
+        color:seagreen ;
+        content: 'Fantasy';    
+    }
+    20%
+    {
+        color:gold;
+        content: 'Drama';    
+    }
+    25%
+    {
+        color:indigo;
+        content: 'Fairytale';    
+    }
+    30%
+    {
+        color:lightcoral;
+        content: 'Crime';    
+    }
+    35%
+    {
+        color:olive;
+        content: 'Horror';    
+    }
+    40%
+    {
+        color:orchid;
+        content: 'Mystery';    
+    }
+    45%
+    {
+        color:peru;
+        content: 'Humor';    
+    }
+    50%
+    {
+        color:purple;
+        content: 'Sci-Fi';    
+    }
+    55%
+    {
+        color:aquamarine;
+        content: 'Romance';    
+    }
+    60%
+    {
+        color:sienna;
+        content: 'Satire';    
+    }
+    65%
+    {
+        color:darkred;
+        content: 'Mythology';    
+    }
+    70%
+    {
+        color:dimgray;
+        content: 'Thriller';    
+    }
+    75%
+    {
+        color:firebrick;
+        content: 'Suspense';    
+    }
+    80%
+    {
+        color:greenyellow;
+        content: 'Biography';    
+    }
+    85%
+    {
+        color:chocolate;
+        content: 'Memoir';    
+    }
+    90%
+    {
+        color:black;
+        content: 'Poetry';    
+    }
+    95%
+    {
+        color:navy;
+        content: 'Adventure';    
+    }
+    100%
+    {
+        color:mediumspringgreen;
+        content: 'Magic';    
+    }
+}

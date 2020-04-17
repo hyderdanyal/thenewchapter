@@ -1,0 +1,65 @@
+{
+  "name": "project",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.9.7",
+    "@material-ui/icons": "^4.9.1",
+    "@tensorflow/tfjs": "^1.7.2",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@trendmicro/react-sidenav": "^0.5.0",
+    "axios": "^0.19.2",
+    "bc-react-session": "^1.5.2",
+    "classnames": "^2.2.6",
+    "firebase": "^7.13.1",
+    "firebase-admin": "^8.10.0",
+    "firebase-tools": "^7.16.1",
+    "nodemailer": "^6.4.6",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-color": "^2.18.0",
+    "react-dom": "^16.13.1",
+    "react-expandable-grid": "^1.0.3",
+    "react-facebook-login": "^4.1.1",
+    "react-firebase": "^2.2.8",
+    "react-firebaseui": "^4.1.0",
+    "react-firestore": "^1.0.1",
+    "react-google-button": "^0.7.1",
+    "react-google-login": "^5.1.2",
+    "react-grid-gallery": "^0.5.5",
+    "react-live-search": "^1.0.2",
+    "react-multi-carousel": "^2.5.4",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-scroll-horizontal": "^1.6.4",
+    "typed.js": "^2.0.11",
+    "typeface-roboto": "^0.0.75"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "bootstrap": "^4.4.1",
+    "node-sass": "^4.13.1"
+  }
+}

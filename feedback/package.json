@@ -1,0 +1,19 @@
+{
+    "name": "feedback",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: NO test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "firebase": "^7.14.0",
+        "nodemailer": "^6.4.6"
+    }
+}

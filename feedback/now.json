@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "name": "tnc",
+    "builds": [
+        {
+            "src": "**/*.js",
+            "use": "@now/node"
+        }
+    ],
+    "regions": [
+        "sin1"
+    ]
+}
