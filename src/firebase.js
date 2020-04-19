@@ -27,8 +27,9 @@ class Firebase {
     const  image  = selectedFile;
     console.log("IMAGE",image)
     
-    var uploadTask = this.storage.ref(`images/${this.getCurrentUsername}.jpg`).put(image);
+    var uploadTask = this.storage.ref(`images/${this.getCurrentUsername()}.jpg`).put(image);
 
+    // uploadTask.then(data=>console.log('uploaded', data)).catch(err=>console.error(err));
 // Register three observers:
 // 1. 'state_changed' observer, called any time the state changes
 // 2. Error observer, called on failure
@@ -55,7 +56,6 @@ uploadTask.on('state_changed', function(snapshot){
     console.log('File available at', downloadURL);
   });
 });
-
     //  this.storage.ref(`images/${firebase.getCurrentUsername}.jpeg`).put(image);
     // uploadTask.on(
     //   "state_changed",
