@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from "../components/Header/Header";
 import HeaderLinks from "../components/Header/DashHeaderLink";
 import Footer from "../components/Footer/Footer";
@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 
 const session = Session.get();
 
-
 export default function profile(props) {
     if (session.isValid === false) {
         alert('Please Login First!');
@@ -25,12 +24,6 @@ export default function profile(props) {
     }
     else {
         try {
-
-            if (!firebase.getCurrentUsername()) {
-                alert('Please Login First')
-                props.history.replace('/login')
-                return null
-            }
 
             return (
                 <>
@@ -55,7 +48,8 @@ export default function profile(props) {
 
                     <div class="wrapper">
                         <div class="left">
-                            <img src="https://i.imgur.com/cMy8V5j.png" alt="user" width="100" />
+                            {/* {console.log(displayPicture)} */}
+                            <img src={firebase.getCurrentDisplayPhoto} alt="user" width="100" />
                             <h4>{firebase.getCurrentUsername()}</h4>
                             <Link to="/editprofile"><h5> <u>Edit Profile? </u></h5></Link>
                             <br></br>

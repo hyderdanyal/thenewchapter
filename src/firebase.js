@@ -20,32 +20,63 @@ class Firebase {
     this.auth = app.auth();
     this.storage = app.storage();
   }
+  
+  
+   uploadImage(selectedFile) {
+    
+    const  image  = selectedFile;
+    console.log("IMAGE",image)
+    
+    var uploadTask = this.storage.ref(`images/${this.getCurrentUsername}.jpg`).put(image);
 
+// Register three observers:
+// 1. 'state_changed' observer, called any time the state changes
+// 2. Error observer, called on failure
+// 3. Completion observer, called on successful completion
+uploadTask.on('state_changed', function(snapshot){
+  // Observe state change events such as progress, pause, and resume
+  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  console.log('Upload is ' + progress + '% done');
+  switch (snapshot.state) {
+    case firebase.storage.TaskState.PAUSED: // or 'paused'
+      console.log('Upload is paused');
+      break;
+    case firebase.storage.TaskState.RUNNING: // or 'running'
+      console.log('Upload is running');
+      break;
+  }
+}, function(error) {
+  // Handle unsuccessful uploads
+}, function() {
+  // Handle successful uploads on complete
+  // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    console.log('File available at', downloadURL);
+  });
+});
 
-  async  uploadImage(file, setFile) {
-
-    const { image } = file;
-    const uploadTask = this.storage.ref(`images/${image.name}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      snapshot => {
-        //progress function
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setFile[progress] = progress
-      },
-      () => {
-        this.storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then(url => {
-            setFile[url] = url
-          })
-      }
-    )
-    return (file, console.log("AAA", setFile));
+    //  this.storage.ref(`images/${firebase.getCurrentUsername}.jpeg`).put(image);
+    // uploadTask.on(
+    //   "state_changed",
+    //   snapshot => {
+    //     //progress function
+    //     const progress = Math.round(
+    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //     );
+    //     setSelectedFile[progress] = progress
+    //   })
+    //   () => {
+    //     this.storage
+    //       .ref("images")
+    //       .child(image.name)
+    //       .getDownloadURL()
+    //       .then(url => {
+    //         setFile[url] = url
+    //       })
+    //   }
+    // )
+    // return (file, console.log("AAA", setFile));
   }
   login(email, password) {
     return this.auth.signInWithEmailAndPassword(email, password);
@@ -81,17 +112,18 @@ class Firebase {
   getCurrentEmail() {
     return this.auth.currentUser.email
   }
-  getCurrentPhone() {
-    return this.auth.currentUser.phoneNumber
+  getCurrentDisplayPhoto() {
+    return this.auth.currentUser.photoURL
   }
   getCurrentUID() {
     return this.auth.currentUser.uid
   }
 
-  editProfile(name, email) {
-
+  editProfile(name, email,preview) {
+    console.log(preview)
     return (this.auth.currentUser.updateEmail(email),
-      this.auth.currentUser.updateProfile({ displayName: name })
+      this.auth.currentUser.updateProfile({ displayName: name,
+      photoURL: preview })
     )
   }
 

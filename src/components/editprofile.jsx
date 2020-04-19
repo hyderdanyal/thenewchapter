@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header/Header";
 import HeaderLinks from "./Header/HeaderLinks";
 import Footer from "./Footer/Footer";
@@ -32,23 +32,38 @@ const editprofile = (props) => {
             var [name, setName] = useState('');
             // var [imageAsFile, setImageAsFile] = useState('');
             // var [imageAsUrl, setImageAsUrl] = useState(allInputs);
-            var [file, setFile] = useState({
-                image: null,
-                url: "",
-                progress: 0
-            })
+            const [selectedFile, setSelectedFile] = useState('')
+            const [preview,setPreview]=useState('')
+            useEffect(()=>{
+                if(!selectedFile){
+                    setPreview(undefined)
+                    return
+                }
+                const objectUrl=URL.createObjectURL(selectedFile)
+                setPreview(objectUrl)
 
+                return () => URL.revokeObjectURL(objectUrl)
+            },[selectedFile])
+            console.log("FILE",selectedFile)
             const fileSelectedHandler = e => {
-                if (e.target.files[0]) {
-                    const image = e.target.files[0];
-                    setFile(() => ({ image }));
+              
+                if(!e.target.files || e.target.files.length === 0){
+                    setSelectedFile(undefined)
+                    return
                 }
-                e.addEventListener('change', handlefile, false)
-                function handlefile() {
-                    const fileList = this.files;
-                    console.log(fileList)
-                }
-                console.log(file, "SETFILE", setFile)
+                setSelectedFile(e.target.files[0])
+
+                // if (e.target.files[0]) {
+                //     const image = e.target.files[0];
+                //     setFile(() => ({ image }));
+                    
+                // }
+                // e.addEventListener('change', handlefile, false)
+                // function handlefile() {
+                //     const fileList = this.files;
+                //     console.log(fileList)
+                // }
+                // console.log(file, "SETFILE", setFile)
                 // const inputElement = document.getElementById("fileUpload").files[0];
                 // inputElement.addEventListener("change", handleFiles, false)
                 // function handleFiles() {
@@ -57,7 +72,7 @@ const editprofile = (props) => {
                 // }
             }
             async function handleFireBaseUpload(e) {
-                await firebase.uploadImage(file, setFile);
+                // await firebase.uploadImage(file, setFile);
 
                 // const { url } = file;
                 // console.log("FILE::", file, "SETFILE::", url)
@@ -110,8 +125,10 @@ const editprofile = (props) => {
                                 <h2>Edit Profile</h2>
                                 <br></br>
                                 {/* {files.map(({ src }) => ( */}
-                                <div class="logo2" style={{ backgroundImage: `url(${file})` }}>
+                                {/* <div class="logo2" style={{ backgroundImage: `url(${file})` }}> */}
+                                <div>
                                     <input id="fileUpload" class="imgbutton" type="file" name="Upload" onChange={fileSelectedHandler}></input>
+                                    <img src={preview} class="logo2"></img>
                                 </div>
                                 {/* ))} */}
                                 <div class="input">
@@ -137,7 +154,6 @@ const editprofile = (props) => {
                                         ></input>
 
                                     </div>
-                                    <button onClick={handleFireBaseUpload}>Upload</button>
                                     <div class="inputBox">
 
 
@@ -186,10 +202,13 @@ const editprofile = (props) => {
                     alert("Error:", error.message);
                 })
             }
-            function editProfile() {
+            async function editProfile() {
                 try {
-
+                    console.log("EDIT::",selectedFile)
+                   await firebase.uploadImage(selectedFile)
                     firebase.editProfile(name, email)
+                    alert("Profile Updated Successfully. Thank You!")
+                    window.location.href="/profile"
                 } catch (error) {
                     console.log(error)
                     alert("Error in Updating Profile", error)
