@@ -14,6 +14,7 @@ var config = {
   appId: "1:29877262803:web:dd2b8f42bd475aaa4cf726",
   measurementId: "G-542LZTKW60"
 };
+
 class Firebase {
   constructor() {
     app.initializeApp(config);
@@ -25,8 +26,7 @@ class Firebase {
    uploadImage(selectedFile) {
     
     const  image  = selectedFile;
-    console.log("IMAGE",image)
-    
+    var updateDisplayPicture=app.auth().currentUser
     var uploadTask = this.storage.ref(`images/${this.getCurrentUsername()}.jpg`).put(image);
 
     // uploadTask.then(data=>console.log('uploaded', data)).catch(err=>console.error(err));
@@ -48,14 +48,22 @@ uploadTask.on('state_changed', function(snapshot){
       break;
   }
 }, function(error) {
+  console.log(error)
   // Handle unsuccessful uploads
 }, function() {
   // Handle successful uploads on complete
   // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  uploadTask.snapshot.ref.getDownloadURL().then(function( downloadURL) {
     console.log('File available at', downloadURL);
+    updateDisplayPicture.updateProfile({photoURL:downloadURL})
+    return (
+      alert("Profile Updated Successfully. Thank You"),
+      window.location.href="/profile")
   });
-});
+
+}
+);
+
     //  this.storage.ref(`images/${firebase.getCurrentUsername}.jpeg`).put(image);
     // uploadTask.on(
     //   "state_changed",
@@ -77,6 +85,12 @@ uploadTask.on('state_changed', function(snapshot){
     //   }
     // )
     // return (file, console.log("AAA", setFile));
+  }
+  uploadPhoto(downloadURL){
+    console.log("DOWNLOADURL::",downloadURL)
+    this.auth.currentUser.updateProfile({photoURL:downloadURL})
+    console.log("PHOTOURL::",this.getCurrentDisplayPhoto())
+
   }
   login(email, password) {
     return this.auth.signInWithEmailAndPassword(email, password);
@@ -119,11 +133,10 @@ uploadTask.on('state_changed', function(snapshot){
     return this.auth.currentUser.uid
   }
 
-  editProfile(name, email,preview) {
-    console.log(preview)
+  editProfile(name, email) {
+   
     return (this.auth.currentUser.updateEmail(email),
-      this.auth.currentUser.updateProfile({ displayName: name,
-      photoURL: preview })
+      this.auth.currentUser.updateProfile({ displayName: name })
     )
   }
 

@@ -45,11 +45,11 @@ export default function profile(props) {
                         />
 
                     </div>
-
+                            
                     <div class="wrapper">
                         <div class="left">
-                            {/* {console.log(displayPicture)} */}
-                            <img src={firebase.getCurrentDisplayPhoto} alt="user" width="100" />
+                            {/* {console.log(firebase.getCurrentDisplayPhoto)} */}
+                            <img src={firebase.getCurrentDisplayPhoto()} alt="user" width="100" />
                             <h4>{firebase.getCurrentUsername()}</h4>
                             <Link to="/editprofile"><h5> <u>Edit Profile? </u></h5></Link>
                             <br></br>

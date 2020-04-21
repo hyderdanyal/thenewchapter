@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header/Header";
 import HeaderLinks from "./Header/HeaderLinks";
 import Footer from "./Footer/Footer";
-import firebase from "./../firebase";
+import Firebase from "./../firebase";
 import { withRouter, Redirect } from "react-router-dom";
 import UserProfile from "./session";
 import { Session } from 'bc-react-session';
@@ -11,6 +11,7 @@ import BackgroundImg from "../img/profilebackground.jpg";
 import LeftHeader from "../components/Header/leftheader";
 import "./../Styles/editprofilestyle.css";
 import tnclogo from "../img/tnc100.jpeg";
+import firebase from 'firebase'
 
 
 
@@ -34,7 +35,11 @@ const editprofile = (props) => {
             // var [imageAsUrl, setImageAsUrl] = useState(allInputs);
             const [selectedFile, setSelectedFile] = useState('')
             const [preview,setPreview]=useState('')
+            
             useEffect(()=>{
+                while(preview==''){
+                    setPreview(Firebase.getCurrentDisplayPhoto())
+                }
                 if(!selectedFile){
                     setPreview(undefined)
                     return
@@ -44,7 +49,6 @@ const editprofile = (props) => {
 
                 return () => URL.revokeObjectURL(objectUrl)
             },[selectedFile])
-            console.log("FILE",selectedFile)
             const fileSelectedHandler = e => {
               
                 if(!e.target.files || e.target.files.length === 0){
@@ -53,30 +57,8 @@ const editprofile = (props) => {
                 }
                 setSelectedFile(e.target.files[0])
 
-                // if (e.target.files[0]) {
-                //     const image = e.target.files[0];
-                //     setFile(() => ({ image }));
-                    
-                // }
-                // e.addEventListener('change', handlefile, false)
-                // function handlefile() {
-                //     const fileList = this.files;
-                //     console.log(fileList)
-                // }
-                // console.log(file, "SETFILE", setFile)
-                // const inputElement = document.getElementById("fileUpload").files[0];
-                // inputElement.addEventListener("change", handleFiles, false)
-                // function handleFiles() {
-                //     const fileList = this.files;
-                //     console.log(fileList)
-                // }
             }
-            async function handleFireBaseUpload(e) {
-                // await firebase.uploadImage(file, setFile);
-
-                // const { url } = file;
-                // console.log("FILE::", file, "SETFILE::", url)
-            }
+           
 
             return (
                 <>
@@ -128,20 +110,21 @@ const editprofile = (props) => {
                                 {/* <div class="logo2" style={{ backgroundImage: `url(${file})` }}> */}
                                 <div>
                                     <input id="fileUpload" class="imgbutton" type="file" name="Upload" onChange={fileSelectedHandler}></input>
+                                   
                                     <img src={preview} class="logo2"></img>
                                 </div>
                                 {/* ))} */}
                                 <div class="input">
                                     <div class="inputBox">
                                         <label> Name </label>
-                                        <input type="text" id="name" name="name" defaultValue={name = (firebase.getCurrentUsername())}
+                                        <input type="text" id="name" name="name" defaultValue={name = (Firebase.getCurrentUsername())}
                                             onChange={e => setName(e.target.defaultValue)}
                                             width="100%"></input>
                                         <br></br>
                                         <br></br>
 
                                         <label> Email </label>
-                                        <input type="email" id="email" name="email" defaultValue={email = (firebase.getCurrentEmail())}
+                                        <input type="email" id="email" name="email" defaultValue={email = (Firebase.getCurrentEmail())}
                                             onChange={e => setEmail(e.target.defaultValue)}
                                             width="100%"></input>
                                         <br></br>
@@ -192,7 +175,7 @@ const editprofile = (props) => {
 
 
             function resetPassword() {
-                var auth = firebase.auth;
+                var auth = Firebase.auth;
                 var emailAddress = email;
 
                 auth.sendPasswordResetEmail(emailAddress).then(function () {
@@ -204,9 +187,9 @@ const editprofile = (props) => {
             }
             async function editProfile() {
                 try {
-                    console.log("EDIT::",selectedFile)
-                   await firebase.uploadImage(selectedFile)
-                firebase.editProfile(name, email)
+                    
+                   await Firebase.uploadImage(selectedFile)
+                Firebase.editProfile(name, email)
                     // alert("Profile Updated Successfully. Thank You!")
                     // window.location.href="/profile"
                 } catch (error) {

@@ -13,7 +13,7 @@ import BackgroundDiv from "../img/divlakda.jpg";
 import "react-multi-carousel/lib/styles.css";
 import { Redirect } from "react-router-dom";
 import { Session } from "bc-react-session";
-import "../Styles/component.css"
+import "../Styles/homestyle.css";
 import BookGif from "../img/bookgif.gif";
 import GenreImg from "../img/genrecss.png";
 
