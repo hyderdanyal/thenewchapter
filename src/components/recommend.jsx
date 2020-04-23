@@ -14,6 +14,8 @@ import Book2 from "../img/book2.jpg"
 import Book3 from "../img/book3.jpg"
 import Book4 from "../img/book4.jpg"
 import Search from "../components/search"
+import ReactExpandableGrid from "./Grid/ExpandableSlider";
+
 
 
 
@@ -50,6 +52,17 @@ export default function latest(props) {
     else {
         try {
 
+            var data=[
+                { 'img': 'http://i.imgur.com/mf3qfzt.jpg', 'link': 'https://www.instagram.com/p/BQvy7gbgynF/', 'title': 'Elephants', 'description': 'Photo by @ronan_donovan // Two bull African elephants at dawn in Uganda\'s Murchison Falls National Park. See more from Uganda with @ronan_donovan.' },
+            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' },
+            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+
+            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
+        ]
+        var data_strings=JSON.stringify(data)
+
 
             return (
                 <>
@@ -75,19 +88,30 @@ export default function latest(props) {
                         <br></br>
                         <br></br>
                         <div >
-                            <h2><font color="babypink"> Recommend a Book </font></h2>
+                            <h2><font color="#fead03"> Recommend a Book </font></h2>
                             <br></br>
                             <br></br>
-
-                            <Search />
-
+                            <div style={{
+                                height:'auto',
+                                minHeight:'30vh',
+                                width:'100%'
+                            }}>
+                                <Search style={{margin:'0 auto'}} />
+                            </div>
 
                             <br></br>
                             <br></br>
                             <div >
                                 <br></br>
                                 <h2><font color="#fead03"> Recommended Books </font></h2>
-                                <Carousel responsive={responsive}
+                                <div>
+                                <ReactExpandableGrid
+                                gridData={data_strings} />
+                                </div>
+
+
+
+                                {/* <Carousel responsive={responsive}
                                     swipeable={false}
                                     draggable={false}
                                     showDots={true}
@@ -127,7 +151,7 @@ export default function latest(props) {
                                     <div>
                                         <img src={Book4} alt="" />
                                     </div>
-                                </Carousel>;
+                                </Carousel>; */}
                             <br></br>
                                 <br></br>
                                 <br></br>

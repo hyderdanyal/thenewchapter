@@ -9,7 +9,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    animation: animate 5s linear infinite;
+    animation: animater 5s linear infinite;
     transform: translate(-50%,-50%) ;
 }
 .pencil{
@@ -89,7 +89,7 @@
     border-radius: 50%;
     z-index: 1;
 }
-@keyframes animate{
+@keyframes animater{
    0%{
        transform: translate(-50%,-50%) rotate(360deg);
    }

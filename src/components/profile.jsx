@@ -3,7 +3,6 @@ import Header from "../components/Header/Header";
 import HeaderLinks from "../components/Header/DashHeaderLink";
 import Footer from "../components/Footer/Footer";
 import LeftHeader from "../components/Header/leftheader";
-import styles from "../Styles/homeStyle";
 import { Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import firebase from "../firebase";
@@ -46,7 +45,7 @@ export default function profile(props) {
 
                     </div>
                             
-                    <div class="wrapper">
+                    <div class="wrapper2">
                         <div class="left">
                             {/* {console.log(firebase.getCurrentDisplayPhoto)} */}
                             <img src={firebase.getCurrentDisplayPhoto()} alt="user" width="100" />
@@ -64,10 +63,7 @@ export default function profile(props) {
                                         <h4>Email</h4>
                                         <p>{firebase.getCurrentEmail()}</p>
                                     </div>
-                                    <div class="data">
-                                        <h4>Phone</h4>
-                                        <p>0001-213-998761</p>
-                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -78,20 +74,11 @@ export default function profile(props) {
                                         <h4>My List</h4>
                                         <p>Lorem ipsum dolor sit amet.</p>
                                     </div>
-                                    <div class="data">
-                                        <h4>Liked</h4>
-                                        <p>dolor sit amet.</p>
-                                    </div>
+                                    
                                 </div>
                             </div>
 
-                            <div class="social_media">
-                                <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                </ul>
-                            </div>
+                            
                         </div>
                     </div>
 

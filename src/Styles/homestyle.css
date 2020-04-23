@@ -5,15 +5,21 @@
 .wrapper {
 	margin: 0 auto 100px auto;
 	max-width: 100%;
+	overflow:auto;
+	/* overflow-y: hidden; */
+	/* white-space: nowrap; */
+	
 	}
 
 .stage {
 	list-style: none;
 	padding: 0;
+	width: 100%;
+	/* display: inline-block; */
 	
 }
 
-.horizontal-scroll-wrapper {
+/* .horizontal-scroll-wrapper {
 	width:80%;
 	height: 50vh;
 	overflow-y:auto;
@@ -28,7 +34,7 @@
 	height:100px;
 	transform:rotate(90deg);
 	transform-origin: right top;
-}
+} */
 
 /*************************************
 Build the scene and rotate on hover

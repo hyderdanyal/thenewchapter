@@ -18,6 +18,7 @@ import AboutUs from "../src/components/Footer/aboutus"
 import Privacy from "../src/components/Footer/privacy"
 import Licenses from "../src/components/Footer/licenses"
 import Feedback from "./components/feedback"
+import Background from "./components/Background"
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
         <Route exact path="/footer/privacy" component={Privacy} />
         <Route exact path="/footer/licenses" component={Licenses} />
         <Route exact path="/feedback" component={Feedback} />
+        <Route exact path="/Background" component={Background}/>
       </BrowserRouter>
     </>
   ) : <div id="loader"><Loader /></div>
