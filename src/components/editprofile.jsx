@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import Header from "./Header/Header";
-import HeaderLinks from "./Header/HeaderLinks";
+import HeaderLinks from "./Header/DashHeaderLink";
 import Footer from "./Footer/Footer";
 import Firebase from "./../firebase";
 import { withRouter, Redirect } from "react-router-dom";
@@ -10,8 +10,7 @@ import { Session } from 'bc-react-session';
 import BackgroundImg from "../img/profilebackground.jpg";
 import LeftHeader from "../components/Header/leftheader";
 import "./../Styles/editprofilestyle.css";
-import tnclogo from "../img/tnc100.jpeg";
-import firebase from 'firebase'
+
 
 
 
@@ -20,6 +19,7 @@ const session = Session.get();
 
 
 const editprofile = (props) => {
+    try{
     if (session.isValid === false) {
         alert('Please Login First!');
         return <Redirect to="/login" />
@@ -37,11 +37,11 @@ const editprofile = (props) => {
             const [preview,setPreview]=useState('')
             
             useEffect(()=>{
-                while(preview==''){
+                // if(preview===''){
+                //     setPreview(Firebase.getCurrentDisplayPhoto())
+                // }
+                 if(!selectedFile){
                     setPreview(Firebase.getCurrentDisplayPhoto())
-                }
-                if(!selectedFile){
-                    setPreview(undefined)
                     return
                 }
                 const objectUrl=URL.createObjectURL(selectedFile)
@@ -205,7 +205,9 @@ const editprofile = (props) => {
 
 
     }
-
+    }catch(error){
+        console.log(error)
+    }
     //  );
 }
 export default withRouter(editprofile);

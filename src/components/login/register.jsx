@@ -81,7 +81,8 @@ const LoginPage = (props) => {
                         objectFit: "cover",
                     }}
                 >
-                    <div class="form" method="post">
+                    <div class="form" method="post"
+                    style={{top:'50px'}}>
                         <h2>Register</h2>
                         <div class="logo"></div>
                         <div class="input">

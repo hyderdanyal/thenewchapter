@@ -27,7 +27,8 @@ const componentsStyle = theme => ({
     fontSize: "2.6rem",
     fontWeight: "500",
     display: "inline-block",
-    position: "relative"
+    position: "relative",
+    top:"15px"
 
 
 
@@ -35,9 +36,10 @@ const componentsStyle = theme => ({
   subtitle: {
     fontSize: "1.45rem",
     maxWidth: "500px",
-    margin: "10px 0 0",
+    margin: "25px 0 0",
     textAlign: 'left',
-    bottom: "50%"
+    bottom: "50%",
+    letterSpacing:"0.1rem"
 
   },
   search: {

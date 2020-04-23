@@ -87,7 +87,10 @@ const RegisterPage = (props) => {
             }}
           >
 
-            <div class="form" method="post">
+            <div class="form" method="post" 
+            style={{
+              top:'-30px'
+            }}>
               <h2>Login</h2>
               <br></br>
               <div class="logo"></div>

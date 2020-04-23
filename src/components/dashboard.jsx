@@ -18,6 +18,9 @@ import { Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import "../Styles/styling.css";
 import cfl from '../img/cfl.jpg';
+import ReactExpandableGrid from "./Grid/ExpandableSlider";
+import { useEffect } from "react";
+
 
 
 
@@ -47,6 +50,8 @@ const payload = Session.get();
 console.log("asasa", session.isValid);
 console.log(payload);
 
+
+
 export default function dashboard(props) {
     if (session.isValid === false) {
         alert('Please Login First!');
@@ -63,10 +68,36 @@ export default function dashboard(props) {
                 return null
             }
 
+            var datas=[
+                { 'img': 'http://i.imgur.com/mf3qfzt.jpg', 'link': 'https://www.instagram.com/p/BQvy7gbgynF/', 'title': 'Elephants', 'description': 'Photo by @ronan_donovan // Two bull African elephants at dawn in Uganda\'s Murchison Falls National Park. See more from Uganda with @ronan_donovan.' },
+                { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+                { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' },
+                { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+                { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+                
+                { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
+            ]
+            
+            var data_strings=JSON.stringify(datas)
+            
+           useEffect(()=>{
+                console.log("INSIDE")
+                fetch("http://127.0.0.1:5000/authorbased?Title=The Hobbit")
+                .then(results=>{
+                    return (results.json(), console.log("RESULTS",results))
+                }).then(data=>{
+                    
+                    return console.log("Set",data)
+                })
+            })            
+            
 
+            
+            
             return (
 
                 <div style={{ backgroundImage: `url(${BackgroundDiv})` }}>
+                   
                     <Header
                         brand="The New Chapter"
                         leftLinks={<LeftHeader />}
@@ -104,13 +135,16 @@ export default function dashboard(props) {
                                 <img style={{ height: '400px', width: '300px' }} src={cfl} alt=''></img>
                             </div>
                             <div class='details'><p>Hello {firebase.getCurrentUsername().toUpperCase()}, </p>
+                            <br></br>
                                 <p> We find ourselves lucky to have you on-board with us .</p>
+                                <p> We at The New Chapter provide great book recommendations and try our best to convince you'll to come again.</p>
+                                <br></br>
                                 <br></br>
                                 <br></br>
                                 <TypedR
                                     strings={[
-                                        "<font color='#141a46' size='6'><strong>Let's</font><br><strong><font color='#ec8b5e' size='11px'><i> READ,</i></font></strong>",
-                                        "<font color='#141a46' size='6'><strong>Let's</font><br><strong><font color='#ec8b5e' size='11px'><i> DISCOVER!</i></font></strong>"
+                                        "<font color='#141a46' size='6px'><strong>Let's</font><br><br><strong><font color='#ec8b5e' size='7px'><i>READ,</i></font></strong>",
+                                        "<font color='#141a46' size='6px'><strong>Let's</font><br><br><strong><font color='#ec8b5e' size='7px'><i>DISCOVER!</i></font></strong>"
                                     ]}></TypedR>
                             </div>
                         </div>
@@ -120,49 +154,14 @@ export default function dashboard(props) {
                     </div>
                     <br></br>
                     <br></br>
-                    <div >
+                    <div style={{height:'auto'}}>
                         <h2><font color="#fead03">My List </font></h2>
-                        <Carousel responsive={responsive}
-                            swipeable={false}
-                            draggable={false}
-                            showDots={true}
-                            //autoPlay={true}
-                            //responsive={responsive}
-                            ssr={true} // means to render carousel on server-side.
-                            infinite={true}
-                            autoPlay={props.deviceType !== "mobile" ? true : false}
-                            autoPlaySpeed={1000}
-                            keyBoardControl={true}
-                            customTransition="all .8"
-                            transitionDuration={1800}
-                            containerClass="carousel-container"
-                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                            deviceType={props.deviceType}
-                            dotListClass="custom-dot-list-style"
-                            itemClass="carousel-item-padding-40-px"
-                        >
-                            <div>
-                                <img src={Book1} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book2} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book3} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                        </Carousel>;
+                       
+                            
+                        <div>
+                                <ReactExpandableGrid
+                                gridData={data_strings} />
+                                </div>
                 <br></br>
                     </div>
                     <br></br>
@@ -171,47 +170,10 @@ export default function dashboard(props) {
                     <div >
                         <br></br>
                         <h2><font color="#fead03">Trending Now </font></h2>
-                        <Carousel responsive={responsive}
-                            swipeable={false}
-                            draggable={false}
-                            showDots={true}
-                            //autoPlay={true}
-                            //responsive={responsive}
-                            ssr={true} // means to render carousel on server-side.
-                            infinite={true}
-                            autoPlay={props.deviceType !== "mobile" ? true : false}
-                            autoPlaySpeed={1000}
-                            keyBoardControl={true}
-                            customTransition="all .8"
-                            transitionDuration={1800}
-                            containerClass="carousel-container"
-                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                            deviceType={props.deviceType}
-                            dotListClass="custom-dot-list-style"
-                            itemClass="carousel-item-padding-40-px"
-                        >
-                            <div>
-                                <img src={Book1} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book2} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book3} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                        </Carousel>;
+                        <div>
+                                <ReactExpandableGrid
+                                gridData={data_strings} />
+                                </div>
                 <br></br>
                     </div>
                     <br></br>
@@ -220,47 +182,10 @@ export default function dashboard(props) {
                     <div >
                         <br></br>
                         <h2><font color="#fead03">Top 10 </font></h2>
-                        <Carousel responsive={responsive}
-                            swipeable={false}
-                            draggable={false}
-                            showDots={true}
-                            //autoPlay={true}
-                            //responsive={responsive}
-                            ssr={true} // means to render carousel on server-side.
-                            infinite={true}
-                            autoPlay={props.deviceType !== "mobile" ? true : false}
-                            autoPlaySpeed={1000}
-                            keyBoardControl={true}
-                            customTransition="all .8"
-                            transitionDuration={1800}
-                            containerClass="carousel-container"
-                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                            deviceType={props.deviceType}
-                            dotListClass="custom-dot-list-style"
-                            itemClass="carousel-item-padding-40-px"
-                        >
-                            <div>
-                                <img src={Book1} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book2} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book3} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                        </Carousel>;
+                        <div>
+                                <ReactExpandableGrid
+                                gridData={data_strings} />
+                                </div>
                 <br></br>
                     </div>
                     <br></br>
@@ -269,47 +194,10 @@ export default function dashboard(props) {
                     <div >
                         <br></br>
                         <h2><font color="#fead03">Because You Read Corona! </font></h2>
-                        <Carousel responsive={responsive}
-                            swipeable={false}
-                            draggable={false}
-                            showDots={true}
-                            //autoPlay={true}
-                            //responsive={responsive}
-                            ssr={true} // means to render carousel on server-side.
-                            infinite={true}
-                            autoPlay={props.deviceType !== "mobile" ? true : false}
-                            autoPlaySpeed={1000}
-                            keyBoardControl={true}
-                            customTransition="all .8"
-                            transitionDuration={1800}
-                            containerClass="carousel-container"
-                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                            deviceType={props.deviceType}
-                            dotListClass="custom-dot-list-style"
-                            itemClass="carousel-item-padding-40-px"
-                        >
-                            <div>
-                                <img src={Book1} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book2} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book3} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                            <div>
-                                <img src={Book4} alt="" />
-                            </div>
-                        </Carousel>;
+                        <div>
+                                <ReactExpandableGrid
+                                gridData={data_strings} />
+                                </div>
                 <br></br>
                     </div>
                     <br></br>

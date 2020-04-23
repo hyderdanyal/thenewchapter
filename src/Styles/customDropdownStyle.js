@@ -64,7 +64,10 @@ const customDropdownStyle = theme => ({
     height: "fit-content",
     color: "#333",
     whiteSpace: "nowrap",
-    minHeight: "unset"
+    minHeight: "unset",
+    "&:hover": {
+      backgroundColor:"#fead03"
+    }
   },
   blackHover: {
     "&:hover": {

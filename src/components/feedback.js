@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from "./Header/Header";
-import HeaderLinks from "./Header/HeaderLinks";
+import HeaderLinks from "./Header/DashHeaderLink";
 import Footer from "./Footer/Footer";
 import BackgroundImg from "../img/profilebackground.jpg";
 import LeftHeader from "./Header/leftheader";

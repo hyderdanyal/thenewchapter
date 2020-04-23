@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    bottom: -55vh;
     
 }
 .scrolldown{
@@ -17,7 +18,7 @@
     rotate(45deg);
 
 }
-.scrolldown spanscroll{
+.scrolldown .spanscroll{
     position: absolute;
     top:0;
     left:0;
@@ -26,26 +27,26 @@
     height:100%;
     border-bottom:2px solid #fff;
     border-right: 2px solid #fff;
-    animation:animate 1.5s linear infinite ;
+    animation:animated 1.5s linear infinite ;
     opacity: 0;
 
 }
-.scrolldown spanscroll:nth-child(1)
+.scrolldown .spanscroll:nth-child(1)
 {
     transform: translate(-15px,-15px);
     animation-delay: -0.4s;
 }
-.scrolldown spanscroll:nth-child(2){
+.scrolldown .spanscroll:nth-child(2){
     transform: translate(0,0px);
     animation-delay: -0.2s;
 
 }
-.scrolldown spanscroll:nth-child(3){
+.scrolldown .spanscroll:nth-child(3){
     transform: translate(15px,15px);
     animation-delay: 0s;
 
 }
-@keyframes animate{
+@keyframes animated{
     0%{
         top:-5px;
         left:-5px;

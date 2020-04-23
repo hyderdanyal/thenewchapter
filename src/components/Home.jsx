@@ -196,7 +196,7 @@ export default function Components(props) {
               <br></br>
 
 
-              <div class="wrapper">
+              <div class="wrapper" style={{width:"100%",height:"100%"}}>
                 <ul class="stage clearfix">
 
                   <li class="scene">
@@ -283,7 +283,7 @@ export default function Components(props) {
 
                 </ul>
               </div>
-]
+
 
 
               <br></br>
@@ -325,7 +325,7 @@ export default function Components(props) {
             <div style={{ color: "yellow", textAlign: "right", width: "50%", paddingRight: "10%" }} className="c">
               <h3 className={classes.title} style={{ textAlign: "right" }}>Genres </h3>
 
-              <h2 style={{ textAlign: "right" }}> We have <i><b>17863</b></i> books of <i><b>412</b></i> genres. </h2>
+              <h2 style={{ textAlign: "right", margin:"25px" }}> We have <i><b>17863</b></i> books of <i><b>412</b></i> genres. </h2>
               <br></br>
               <button class="button" size="lg"
                 href="/register"
