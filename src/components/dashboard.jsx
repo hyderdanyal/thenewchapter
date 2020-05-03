@@ -59,6 +59,8 @@ var rating_data_strings
 var mf_data
 var mf_data_strings
 
+
+
 export default function dashboard(props) {
     if (session.isValid === false) {
         alert('Please Login First!');

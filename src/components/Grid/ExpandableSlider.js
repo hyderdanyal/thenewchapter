@@ -4,7 +4,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types';
-import { title } from '../../Styles/material-kit-react';
+
 
 class SingleGridCell extends React.Component {
 
