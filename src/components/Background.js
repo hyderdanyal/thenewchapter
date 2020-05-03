@@ -38,12 +38,13 @@ class Background extends React.Component{
             {error?<p>{error.message}</p> : null}
             {hasLoaded ?(
                 books.map(book=>{
-                    const {Title,Bookid,ImgURL}=book
+                    const {Title,Bookid,ImgURL,Desc}=book
                     return(
                        <div key={Bookid}>
                            <p>Title:{Title}</p>
                            <p>ImgURL:{ImgURL}</p>
                            <img src={ImgURL}></img>
+                           <p>Description:{Desc}</p>
                        <hr />
                        </div> 
                     )

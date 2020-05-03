@@ -10,9 +10,14 @@ import { Session } from 'bc-react-session';
 import firebase from "../firebase";
 import LeftHeader from "../components/Header/leftheader";
 import ReactExpandableGrid from "./Grid/ExpandableGrid";
+import { useEffect } from "react";
+import { useState } from "react";
+import Loader from "./loader";
 
 
 const session = Session.get();
+var latest_data
+var latest_data_strings
 
 
 export default function latest(props) {
@@ -21,6 +26,8 @@ export default function latest(props) {
         return <Redirect to="/login" />
     }
     else {
+        
+
         try {
 
             if (!firebase.getCurrentUsername()) {
@@ -28,21 +35,52 @@ export default function latest(props) {
                 props.history.replace('/login')
                 return null
             }
-            var data=[
-                { 'img': 'http://i.imgur.com/mf3qfzt.jpg', 'link': 'https://www.instagram.com/p/BQvy7gbgynF/', 'title': 'Elephants', 'description': 'Photo by @ronan_donovan // Two bull African elephants at dawn in Uganda\'s Murchison Falls National Park. See more from Uganda with @ronan_donovan.' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-
-            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
-        ]
-        var data_strings=JSON.stringify(data)
+            
+            const [latestState,setLatestState]=useState({
+                latesthasLoaded:false,
+                latestbooks:[],
+                latesterror:null
+            })
+    
+            function fetchBooksLatest(){
+            
+                fetch("http://127.0.0.1:5000/timebased")
+                        .then(response=>response.json())
+                        .then((data)=>{
+                            
+                            setLatestState({
+                                latestbooks:data,
+                                latesthasLoaded:true
+                            })
+                            
+                        })
+                        .catch(latesterror=>setLatestState({
+                            latesterror,
+                            latesthasLoaded:true}))
+                            
+                            
+                        }
+                
+                            const{latesthasLoaded,latestbooks,latesterror}=latestState
+                            useEffect(()=>{
+                                fetchBooksLatest()
+                            })
+    
+                            latest_data=latestbooks.map(book=>{
+                                const{Title,Bookid,ImgURL,Desc}=book
+                                
+                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                                
+                            })
+                            latest_data_strings=JSON.stringify(latest_data)
+            
             return (
                 <>
+                {latesterror ?<p>{latesterror.message}</p> : null}
+                {latesthasLoaded ?(
                     <div style={{
                         backgroundImage: `url(${BackgroundDiv})`,
-                        height: "130vh"
+                        height: "100%"
                     }}>
                         <Header
                             brand="The New Chapter"
@@ -64,15 +102,19 @@ export default function latest(props) {
                         <div >
                             <h2><font color="#fead03"> Latest Books </font></h2>
                             <div >
+                                {latesthasLoaded ? (
                                 <ReactExpandableGrid
-                                gridData={data_strings} />
+                                gridData={latest_data_strings} />
+                                ):(<Loader/>)}
                             </div>
                             <br></br>
                         </div>
 
-                    </div>
+                    
 
                     <Footer></Footer>
+                    </div>
+                ):(<Loader/>)}
                 </>
             )
         } catch{

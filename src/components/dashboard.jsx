@@ -21,34 +21,43 @@ import cfl from '../img/cfl.jpg';
 import ReactExpandableGrid from "./Grid/ExpandableSlider";
 import { useEffect } from "react";
 import { useState } from "react";
+import Loader from './loader'
+// import { Title } from "@material-ui/icons";
 
 
 
 
 
-const responsive = {
-    superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5,
-    },
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 5,
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-    },
-};
+
+// const responsive = {
+//     superLargeDesktop: {
+//         // the naming can be any, depends on you.
+//         breakpoint: { max: 4000, min: 3000 },
+//         items: 5,
+//     },
+//     desktop: {
+//         breakpoint: { max: 3000, min: 1024 },
+//         items: 5,
+//     },
+//     tablet: {
+//         breakpoint: { max: 1024, min: 464 },
+//         items: 2,
+//     },
+//     mobile: {
+//         breakpoint: { max: 464, min: 0 },
+//         items: 1,
+//     },
+// };
 
 const session = Session.get();
-const payload = Session.get();
-
+var tag_data
+var tag_data_strings
+var datas
+var data_strings
+var rating_data
+var rating_data_strings
+var mf_data
+var mf_data_strings
 
 export default function dashboard(props) {
     if (session.isValid === false) {
@@ -65,23 +74,33 @@ export default function dashboard(props) {
                 props.history.replace('/login')
                 return null
             }
-
-            var datas=[
-                { 'img': 'http://i.imgur.com/mf3qfzt.jpg', 'link': 'https://www.instagram.com/p/BQvy7gbgynF/', 'title': 'Elephants', 'description': 'Photo by @ronan_donovan // Two bull African elephants at dawn in Uganda\'s Murchison Falls National Park. See more from Uganda with @ronan_donovan.' },
-                { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-                { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' },
-                { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-                { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-                
-                { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
-            ]
             
             const [state,setState]=useState({
                 hasLoaded:false,
                 books:[],
                 error:null
             })
-            function fetchBooks(){
+            
+            const [tagState,setTagState]=useState({
+                taghasLoaded:false,
+                tagbooks:[],
+                tagerror:null
+            })
+
+            const [ratingState,setRatingState]=useState({
+                ratinghasLoaded:false,
+                ratingbooks:[],
+                ratingerror:null
+            })
+
+            const [mfState,setMfState]=useState({
+                mfhasLoaded:false,
+                mfbooks:[],
+                mferror:null
+            })
+            
+            const[author,setAuthor]=useState({authorBook:[]})
+            function fetchBooksAuthor(){
         
                 fetch("http://127.0.0.1:5000/authorbased?Title=The Hobbit")
                         .then(response=>response.json())
@@ -96,32 +115,130 @@ export default function dashboard(props) {
                         .catch(error=>setState({
                             error,
                             hasLoaded:true}))
+                            
+                            
+                        }
+                        //     })            
+                            // var datas
+                            // var data_strings
+                
+                            const{hasLoaded,books,error}=state
+                          
+                            function fetchBooksTag(){
+        
+                                fetch("http://127.0.0.1:5000/tagbased?Title=The Hobbit")
+                                        .then(response=>response.json())
+                                        .then((data)=>{
+                                            
+                                            setTagState({
+                                                tagbooks:data,
+                                                taghasLoaded:true
+                                            })
+                                            
+                                        })
+                                        .catch(tagerror=>setTagState({
+                                            tagerror,
+                                            taghasLoaded:true}))
+                                            
+                                            
+                                        }
+                                
+                            // const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
+                                                      
+                                            function fetchBooksRating(){
                         
-            }
-            useEffect(()=>fetchBooks())
+                                                fetch("http://127.0.0.1:5000/ratingbased")
+                                                        .then(response=>response.json())
+                                                        .then((data)=>{
+                                                            
+                                                            setRatingState({
+                                                                ratingbooks:data,
+                                                                ratinghasLoaded:true
+                                                            })
+                                                            
+                                                        })
+                                                        .catch(ratingerror=>setRatingState({
+                                                            ratingerror,
+                                                            ratinghasLoaded:true}))
+                                                            
+                                                            
+                                                        }
+                                                
+                                                        function fetchBooksMf(){
+                                                            let uid=firebase.getCurrentUID()    
+                                                            fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
+                                                                    .then(response=>response.json())
+                                                                    .then((data)=>{
+                                                                        
+                                                                        setMfState({
+                                                                            mfbooks:data,
+                                                                            mfhasLoaded:true
+                                                                        })
+                                                                        
+                                                                    })
+                                                                    .catch(mferror=>setMfState({
+                                                                        mferror,
+                                                                        mfhasLoaded:true}))
+                                                                        
+                                                                        
+                                                                    }
+                                                
+                                                            const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
 
-            var data_strings=JSON.stringify(datas)
-            
-        //    useEffect(()=>{
-        //         console.log("INSIDE")
-        //         fetch("http://127.0.0.1:5000/authorbased?Title=The Hobbit")
-        //         .then(results=>{
-        //             return results.json()
-        //             // return (results.json(), console.log("RESULTS",results))
-        //         }).then(data=>{
-        //             data.results.map((bTitle)=>{
-        //                 return(console.log(bTitle.Title))
-        //             })
+                                                            const{taghasLoaded,tagbooks,tagerror}=tagState
+
+                                                            const{mfhasLoaded,mfbooks,mferror}=mfState
+
+             useEffect(()=>{
+                fetchBooksAuthor()
+                fetchBooksTag()
+                fetchBooksRating()
+                fetchBooksMf()
+            })
+                    datas=books.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        
+                        // setAuthor({authorBook:data_strings})
+                        
+                        
+                        // setState({hasLoaded:true})
+                        
+                        // console.log("DATASTRINGS",author.authorBook)
+                    })
+                    data_strings=JSON.stringify(datas)
                     
-        //             return console.log("Set",data)
-        //         })
-        //     })            
-            
+                    tag_data=tagbooks.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        
+                    })
+                    tag_data_strings=JSON.stringify(tag_data)
 
-            const{hasLoaded,books,error}=state
-            
+                    rating_data=ratingbooks.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        
+                    })
+                    rating_data_strings=JSON.stringify(rating_data)
+                    
+                    mf_data=mfbooks.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        
+                    })
+                    mf_data_strings=JSON.stringify(mf_data)
+                    
+
             return (
+                
                 <React.Fragment>
+                    {error ?<p>{error.message}</p> : null}
+                {hasLoaded ?(    
                 <div style={{ backgroundImage: `url(${BackgroundDiv})` }}>
                    
                     <Header
@@ -198,21 +315,41 @@ export default function dashboard(props) {
                         <h2><font color="#fead03">Author Based Recommendation </font></h2>
                        
                             
-                        
-                            {hasLoaded ?( 
+                        <div>
+                            {/* {hasLoaded ?( 
                                 books.map(book=>{
-                                    const{Title,Bookid,ImgURL}=book
-
-                                    datas=[{'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title}]
+                                    const{Title,Bookid,ImgURL,Desc}=book
+                                    
+                                    datas=[{'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc},]
                                     var data_strings=JSON.stringify(datas)
                                     
                                     return(
-                                     <ReactExpandableGrid key={Bookid}
+                                        <ReactExpandableGrid key={Bookid}
                                      gridData={data_strings} />
-                                )
-                            })
-                            ):<p></p>}
+                                    )
+                                })
                                 
+                            ):<p></p>} */}
+                            {taghasLoaded ? (
+                            <ReactExpandableGrid
+                            gridData={tag_data_strings} />
+                            ):(<Loader/>)}
+                             </div>   
+                <br></br>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <div >
+                        <br></br>
+                        <h2><font color="#fead03">Matrix Factorization </font></h2>
+                        <div>
+                        {mfhasLoaded ? (
+                            <ReactExpandableGrid
+                            gridData={mf_data_strings} />
+                            ):(<Loader/>)}
+                                
+                                </div>
                 <br></br>
                     </div>
                     <br></br>
@@ -222,8 +359,11 @@ export default function dashboard(props) {
                         <br></br>
                         <h2><font color="#fead03">Trending Now </font></h2>
                         <div>
-                                <ReactExpandableGrid
-                                gridData={data_strings} />
+                        {ratinghasLoaded ? (
+                            <ReactExpandableGrid
+                            gridData={rating_data_strings} />
+                            ):(<Loader/>)}
+                                
                                 </div>
                 <br></br>
                     </div>
@@ -232,7 +372,7 @@ export default function dashboard(props) {
                     <br></br>
                     <div >
                         <br></br>
-                        <h2><font color="#fead03">Top 10 </font></h2>
+                        <h2><font color="#fead03">Top Books </font></h2>
                         <div>
                                 <ReactExpandableGrid
                                 gridData={data_strings} />
@@ -258,10 +398,12 @@ export default function dashboard(props) {
 
                     <Footer ></Footer>
                 </div>
+                ):(<Loader/>)}
                 </React.Fragment>
 
             )
-        } catch{
+        } catch(error){
+            console.log(error)
             alert("Login Again please")
 
             return <Redirect to="/login" />

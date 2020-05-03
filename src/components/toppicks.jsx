@@ -15,6 +15,9 @@ import { Session } from 'bc-react-session';
 import firebase from "../firebase";
 import LeftHeader from "./Header/leftheader";
 import ReactExpandableGrid from "./Grid/ExpandableSlider";
+import { useEffect } from "react";
+import { useState } from "react";
+import Loader from './loader'
 
 
 
@@ -41,6 +44,8 @@ const responsive = {
 };
 
 const session = Session.get();
+var rating_data
+var rating_data_strings
 
 
 export default function mylist(props) {
@@ -57,20 +62,59 @@ export default function mylist(props) {
                 return null
             }
 
-            var data=[
-                { 'img': 'http://i.imgur.com/mf3qfzt.jpg', 'link': 'https://www.instagram.com/p/BQvy7gbgynF/', 'title': 'Elephants', 'description': 'Photo by @ronan_donovan // Two bull African elephants at dawn in Uganda\'s Murchison Falls National Park. See more from Uganda with @ronan_donovan.' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+            const [ratingState,setRatingState]=useState({
+                ratinghasLoaded:false,
+                ratingbooks:[],
+                ratingerror:null
+            })
 
-            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
-        ]
-        var data_strings=JSON.stringify(data)
+            const {ratinghasLoaded,ratingbooks,ratingerror}=ratingState
+                                                      
+                                            function fetchBooksRating(){
+                        
+                                                fetch("http://127.0.0.1:5000/ratingbased")
+                                                        .then(response=>response.json())
+                                                        .then((data)=>{
+                                                            
+                                                            setRatingState({
+                                                                ratingbooks:data,
+                                                                ratinghasLoaded:true
+                                                            })
+                                                            
+                                                        })
+                                                        .catch(ratingerror=>setRatingState({
+                                                            ratingerror,
+                                                            ratinghasLoaded:true}))
+                                                            
+                                                            
+                                                        }
+                                                
+                                                            // const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
+                                                            useEffect(()=>{
+                                                                fetchBooksRating()
+                                                            })
 
+            rating_data=ratingbooks.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        
+                    })
+                    rating_data_strings=JSON.stringify(rating_data)
+
+                    rating_data=ratingbooks.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        
+                    })
+                    rating_data_strings=JSON.stringify(rating_data)
         
             return (
 
+                <React.Fragment>
+                    {ratingerror ?<p>{ratingerror.message}</p> : null}
+                {ratinghasLoaded ?(    
                 <div style={{ backgroundImage: `url(${BackgroundDiv})` }}>
                     <Header
                         brand="The New Chapter"
@@ -95,8 +139,10 @@ export default function mylist(props) {
                         <br></br>
                         <h2><font color="#fead03"> Top Books </font></h2>
                         <div>
-                                <ReactExpandableGrid
-                                gridData={data_strings} />
+                        {ratinghasLoaded ? (
+                            <ReactExpandableGrid
+                            gridData={rating_data_strings} />
+                            ):(<Loader/>)}
                                 </div>
                             <br></br>
                     </div>
@@ -109,7 +155,7 @@ export default function mylist(props) {
                         <h2><font color="#fead03"> Recommended Books </font></h2>
                         <div>
                                 <ReactExpandableGrid
-                                gridData={data_strings} />
+                                gridData={rating_data_strings} />
                                 </div>
                             <br></br>
                         <br></br>
@@ -121,6 +167,8 @@ export default function mylist(props) {
 
                     <Footer></Footer>
                 </div>
+                ):(<Loader/>)}
+                </React.Fragment>
             )
         } catch{
             alert("Login Again")

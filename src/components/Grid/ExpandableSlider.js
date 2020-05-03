@@ -4,6 +4,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types';
+import { title } from '../../Styles/material-kit-react';
 
 class SingleGridCell extends React.Component {
 
@@ -25,8 +26,10 @@ class SingleGridCell extends React.Component {
         var SingleGridCellStyle = {
             background: 'url(' + this.props.SingleGridCellData['img'] + ') no-repeat center center',
             backgroundSize: this.props.cellSize,
-            width: this.props.cellSize,
-            height: this.props.cellSize,
+            // width: this.props.cellSize,
+            // height: this.props.cellSize,
+            width:'260px',
+            height:'340px',
             display: 'inline-block',
             margin: this.props.cellMargin,
             marginBottom: 25,
@@ -38,7 +41,7 @@ class SingleGridCell extends React.Component {
         )
     }
 }
-
+var TitleName
 class ReactExpandableGrid extends React.Component {
 
     constructor(props) {
@@ -140,13 +143,14 @@ class ReactExpandableGrid extends React.Component {
                     var title = document.getElementById('ExpandedDetailTitle')
                     var img = document.getElementById('ExpandedDetailImage')
                     var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
+                    var LikeButton=document.getElementById('ExpandedLikeButton')
                     var ImageLink = document.getElementById('ExpandedDetailImageLink')
                     description.innerHTML = this.state.gridData[thisIdNumber]['description']
                     title.innerHTML = this.state.gridData[thisIdNumber]['title']
                     img.src = this.state.gridData[thisIdNumber]['img']
                     DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
                     ImageLink.href = this.state.gridData[thisIdNumber]['link']
-
+                    // LikeButton.onclick=console.log(this.state.gridData[thisIdNumber]['title'])
                     this.renderExpandedDetail(target)
 
                     detail.style.display = 'block'
@@ -162,12 +166,17 @@ class ReactExpandableGrid extends React.Component {
                 var title = document.getElementById('ExpandedDetailTitle')
                 var img = document.getElementById('ExpandedDetailImage')
                 var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
+                var LikeButton=document.getElementById('ExpandedLikeButton')
                 var ImageLink = document.getElementById('ExpandedDetailImageLink')
                 description.innerHTML = this.state.gridData[thisIdNumber]['description']
                 title.innerHTML = this.state.gridData[thisIdNumber]['title']
                 img.src = this.state.gridData[thisIdNumber]['img']
                 DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
                 ImageLink.href = this.state.gridData[thisIdNumber]['link']
+                var TitleName=this.state.gridData[thisIdNumber]['title']
+                LikeButton.onclick=(console.log(TitleName +'is Liked'))
+                // DescriptionLink.onclick=(console.log(TitleName +'is Liked'))
+                // console.log(this.state.gridData[thisIdNumber]['title'])
 
                 this.renderExpandedDetail(target)
 
@@ -175,7 +184,10 @@ class ReactExpandableGrid extends React.Component {
             })
         }
     }
-
+    BookLiked(){
+        // console.log(this.state.gridData)       
+        // alert(TitleName +'Book Liked')
+    }
     generateGrid() {
         var grid = []
         var idCounter = -1 // To help simplify mapping to object array indices. For example, <li> with 0th id corresponds to 0th child of <ol>
@@ -190,6 +202,7 @@ class ReactExpandableGrid extends React.Component {
         var cssforExpandedDetail = {
             backgroundColor: this.props.detailBackgroundColor,
             height: this.props.detailHeight,
+            width:'1700px',
             display: 'none',
             position: 'relative',
             padding: '20px',
@@ -199,8 +212,8 @@ class ReactExpandableGrid extends React.Component {
         var cssforExpandedDetailImage = {
             display: 'inline-block',
             maxWidth: this.props.ExpandedDetail_image_size,
-            width: '100%',
-            height: 'auto',
+            width: '70',
+            height: '100%',
             align: 'center',
             position: 'absolute',
             top: 0,
@@ -224,7 +237,10 @@ class ReactExpandableGrid extends React.Component {
             height: '80%',
             marginRight: '30px',
             marginLeft: '30px',
-            textAlign: 'justify'
+            textAlign: 'justify',
+            wordWrap: 'break-word',
+            overflow:'auto',
+            whiteSpace:'break-spaces'
         }
 
         var cssforExpandedDetailLeft
@@ -248,10 +264,16 @@ class ReactExpandableGrid extends React.Component {
             textDecoration: 'none',
             position: 'relative',
             float: 'bottom',
-            bottom: 20,
+            bottom: -5,
             cursor: 'pointer'
         }
-
+        var cssForLikeButton = {
+            textDecoration: 'none',
+            position: 'relative',
+            float: 'bottom',
+            bottom: -5,
+            cursor: 'pointer'
+        }
         var cssForImageLink = {
             cursor: 'pointer'
         }
@@ -302,6 +324,7 @@ class ReactExpandableGrid extends React.Component {
                     <div id='ExpandedDetailTitle' className='ExpandedDetailTitle' style={cssforExpandedDetailTitle}> Title </div>
                     <div id='ExpandedDetailDescription' className='ExpandedDetailDescription' style={cssforExpandedDetailDescription}> Some Description</div>
                     <a id='ExpandedDetailDescriptionLink' style={cssForDescriptionLink}> → Link </a>
+                    <button id='ExpandedLikeButton' style={cssForLikeButton} >💖Like</button>
                 </div>
             </li>
         )
@@ -340,7 +363,7 @@ class ReactExpandableGrid extends React.Component {
             borderLeft: '20px solid transparent',
             borderRight: '20px solid transparent',
             borderBottom: '30px solid' + this.props.detailBackgroundColor,
-            marginTop: this.props.cellSize,
+            marginTop: '340px',
             marginLeft: this.props.cellSize / 2 - 20,
             display: 'none'
         }
@@ -372,6 +395,7 @@ ReactExpandableGrid.propTypes = {
     ExpandedDetail_title_bgColor: PropTypes.string,
     ExpandedDetail_img_bgColor: PropTypes.string,
     ExpandedDetail_link_text: PropTypes.string,
+    ExpandedLike_text: PropTypes.string,
     ExpandedDetail_font_color: PropTypes.string,
     ExpandedDetail_closeX_bool: PropTypes.bool,
     show_mobile_style_from_width: PropTypes.number
@@ -408,6 +432,7 @@ ReactExpandableGrid.defaultProps = {
     ExpandedDetail_title_bgColor: '#D9D9D9',
     ExpandedDetail_img_bgColor: '#D9D9D9',
     ExpandedDetail_link_text: '→ Link',
+    ExpandedLike_text:'💖Like',
     ExpandedDetail_font_color: '#434343',
     ExpandedDetail_closeX_bool: true,
     show_mobile_style_from_width: 600,

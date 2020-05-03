@@ -25,8 +25,8 @@ class SingleGridCell extends React.Component {
         var SingleGridCellStyle = {
             background: 'url(' + this.props.SingleGridCellData['img'] + ') no-repeat center center',
             backgroundSize: this.props.cellSize,
-            width: this.props.cellSize,
-            height: this.props.cellSize,
+            width: "260px",
+            height: "340px",
             display: 'inline-block',
             margin: this.props.cellMargin,
             marginBottom: 25,
@@ -199,8 +199,8 @@ class ReactExpandableGrid extends React.Component {
         var cssforExpandedDetailImage = {
             display: 'inline-block',
             maxWidth: this.props.ExpandedDetail_image_size,
-            width: '100%',
-            height: 'auto',
+            width: '70',
+            height: '100%',
             align: 'center',
             position: 'absolute',
             top: 0,
@@ -224,7 +224,10 @@ class ReactExpandableGrid extends React.Component {
             height: '80%',
             marginRight: '30px',
             marginLeft: '30px',
-            textAlign: 'justify'
+            textAlign: 'justify',
+            wordWrap: 'break-word',
+            overflow:'auto',
+            whiteSpaces:'break-spaces'
         }
 
         var cssforExpandedDetailLeft
@@ -248,7 +251,7 @@ class ReactExpandableGrid extends React.Component {
             textDecoration: 'none',
             position: 'relative',
             float: 'bottom',
-            bottom: 20,
+            bottom: -5,
             cursor: 'pointer'
         }
 
@@ -336,7 +339,7 @@ class ReactExpandableGrid extends React.Component {
             borderLeft: '20px solid transparent',
             borderRight: '20px solid transparent',
             borderBottom: '30px solid' + this.props.detailBackgroundColor,
-            marginTop: this.props.cellSize,
+            marginTop: '340px',
             marginLeft: this.props.cellSize / 2 - 20,
             display: 'none'
         }
