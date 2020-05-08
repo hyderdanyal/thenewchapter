@@ -10,6 +10,7 @@ import Dashboard from "./components/dashboard"
 import TypedR from "./Styles/typed"
 import TopPicks from "./components/toppicks"
 import Latest from "./components/latest"
+import Genre from "./components/genre"
 import Recommend from "./components/recommend"
 import Profile from "./components/profile"
 import EditProfile from "./components/editprofile"
@@ -42,6 +43,7 @@ function App() {
         <Route exact path="/typed" component={TypedR} />
         <Route exact path="/toppicks" component={TopPicks} />
         <Route exact path="/latest" component={Latest} />
+        <Route exact path="/genre" component={Genre} />
         <Route exact path="/recommend" component={Recommend} />
         <Route exact path="/loader" component={Loader} />
         <Route exact path="/profile" component={Profile} />

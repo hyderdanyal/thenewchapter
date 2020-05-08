@@ -18,6 +18,7 @@ import ReactExpandableGrid from "./Grid/ExpandableSlider";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loader from './loader'
+import Slider from './Slider/components/NetflixSlider'
 
 
 
@@ -46,7 +47,7 @@ const responsive = {
 const session = Session.get();
 var rating_data
 var rating_data_strings
-
+var myListBooks=[]
 
 export default function mylist(props) {
     if (session.isValid === false) {
@@ -62,12 +63,14 @@ export default function mylist(props) {
                 return null
             }
 
+            const [myList,setMyList]=useState([])
+
             const [ratingState,setRatingState]=useState({
                 ratinghasLoaded:false,
                 ratingbooks:[],
                 ratingerror:null
             })
-
+            const [userId,setUserId]=useState(0)
             const {ratinghasLoaded,ratingbooks,ratingerror}=ratingState
                                                       
                                             function fetchBooksRating(){
@@ -75,7 +78,7 @@ export default function mylist(props) {
                                                 fetch("http://127.0.0.1:5000/ratingbased")
                                                         .then(response=>response.json())
                                                         .then((data)=>{
-                                                            
+                                                            // console.log(data)
                                                             setRatingState({
                                                                 ratingbooks:data,
                                                                 ratinghasLoaded:true
@@ -92,23 +95,34 @@ export default function mylist(props) {
                                                             // const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
                                                             useEffect(()=>{
                                                                 fetchBooksRating()
-                                                            })
+                                                                firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
+                                                                .then((response)=>{
+                                                                    console.log(response)
+                                                                    setMyList([response])
+                                                                   
+                                                                })
+                                 
+                                                            
+                                                                
+                                                            },[userId])
+                                                            // console.log(myList)
+
 
             rating_data=ratingbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
                         
-                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
                     rating_data_strings=JSON.stringify(rating_data)
 
-                    rating_data=ratingbooks.map(book=>{
-                        const{Title,Bookid,ImgURL,Desc}=book
+                    // rating_data=ratingbooks.map(book=>{
+                    //     const{Title,Bookid,ImgURL,Desc}=book
                         
-                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                    //     return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
                         
-                    })
-                    rating_data_strings=JSON.stringify(rating_data)
+                    // })
+                    // rating_data_strings=JSON.stringify(rating_data)
         
             return (
 
@@ -140,11 +154,15 @@ export default function mylist(props) {
                         <h2><font color="#fead03"> Top Books </font></h2>
                         <div>
                         {ratinghasLoaded ? (
-                            <ReactExpandableGrid
-                            gridData={rating_data_strings} />
+                        <Slider>
+                        {rating_data.map(rating_data => (
+                        <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
+                         ))}
+                            </Slider>    
                             ):(<Loader/>)}
                                 </div>
                             <br></br>
+                            
                     </div>
                     <br></br>
                     <br></br>
@@ -154,8 +172,13 @@ export default function mylist(props) {
                         <br></br>
                         <h2><font color="#fead03"> Recommended Books </font></h2>
                         <div>
-                                <ReactExpandableGrid
-                                gridData={rating_data_strings} />
+                        <Slider>
+                            {rating_data.map(rating_data => (
+                            <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                                {/* <ReactExpandableGrid
+                                gridData={rating_data_strings} /> */}
                                 </div>
                             <br></br>
                         <br></br>

@@ -20,6 +20,7 @@ class Firebase {
     app.initializeApp(config);
     this.auth = app.auth();
     this.storage = app.storage();
+    this.firestore=app.firestore();
   }
   
   
@@ -139,8 +140,81 @@ uploadTask.on('state_changed', function(snapshot){
       this.auth.currentUser.updateProfile({ displayName: name })
     )
   }
+  addRating(name,uid,bookid,ratingValue){
+    this.firestore.collection("ratings").doc(name).collection(uid).doc(bookid).set({
+      userId: uid,
+      bookId: bookid,
+      ratingValue: ratingValue
+  })
+  // .then(function(docRef) {
+  //     console.log("Document written with ID: ", docRef.id);
+  // })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+  }
 
-}
+  addMyList(name,uid,bookid,booktitle,bookdesc,bookimage){
+    this.firestore.collection("mylist").doc(name).collection(uid).doc(bookid).set({
+      userId: uid,
+      Bookid: bookid,
+      Title: booktitle,
+      Desc: bookdesc,
+      ImgURL: bookimage
+  })
+  // .then(function(docRef) {
+  //     console.log("Document written with ID: ", docRef.id);
+  // })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+  }
+
+  readMyList(uid,name){
+    let db=app.firestore()
+    const fetchedBooks = [];
+     let myListPromise=new Promise((resolve,reject)=>{
+    
+    
+    db.collection("mylist").doc(name).collection(uid).get()
+    .then(response => {
+      response.forEach(document => {
+        const fetchedBook = {
+          id: document.id,
+          ...document.data()
+        };
+        fetchedBooks.push(fetchedBook)
+        // console.log("HELLO",fetchedBooks.length)
+        return new Promise((resolve,reject)=>{
+          if(fetchedBooks.length>0){
+            resolve(fetchedBooks)
+          }
+
+        })
+      });
+     
+    })
+    // console.log(fetchedBooks.length)
+    
+      // resolve(fetchedBooks)
+      
+    
+    
+  
+  })
+  
+  return myListPromise
+  // .then((mylist)=>{return mylist})
+}}
+
+
 
 export default new Firebase();
 
+
+// console.log("Current data: ", myListBooks);
+
+// .onSnapshot(function(doc) {
+//     console.log("Current data: ", doc.data());
+//     // console.log("BID",doc.data().bookId)
+// });
