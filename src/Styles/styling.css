@@ -284,7 +284,7 @@ animation: animate infinite 8s;
 ::-webkit-scrollbar
 {
     width:12px;
-    /* display: none; */
+    display: none;
 }
 ::-webkit-scrollbar-thumb{
     background: linear-gradient(#000,#fead03);

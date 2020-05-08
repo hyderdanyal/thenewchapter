@@ -197,21 +197,24 @@ Posters and still images
 **************************************/
 
 .scene:nth-child(1) .movie .poster {
-  background-image: url(../img/poster01.jpg);
+  background-image: url(https://rukminim1.flixcart.com/image/832/832/book/7/1/6/curious-george-rides-a-bike-curious-george-prebound-original-imaeahf7zqhzvzkh.jpeg?q=70);
+	background-position: -15px;
 }
 
+
 .scene:nth-child(2) .poster {
-  background-image: url(../img/poster02.jpg);
+  background-image: url(https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1327885488l/4499214.jpg);
 }
 
 .scene:nth-child(3) .poster {
-  background-image: url(../img/poster03.jpg);
+  background-image: url(https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1437420710l/24814._SX318_.jpg);
+  background-position: -256px ;
 }
 .scene:nth-child(4) .poster {
-	background-image: url(../img/book1.jpg);
+	background-image: url(https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1384543130l/18505784.jpg);
   }
   .scene:nth-child(5) .poster {
-	background-image: url(../img/book2.jpg);
+	background-image: url(https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1399717203l/587666.jpg);
   }
 .scene:nth-child(1) .info header {
 	/* background-image: url(../img/still01.jpg); */

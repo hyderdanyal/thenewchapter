@@ -13,14 +13,18 @@ import ReactExpandableGrid from "./Grid/ExpandableGrid";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loader from "./loader";
+import queryString from 'query-string'
+// import {selectedGenre} from "../components/Header/leftheader"
 
+var value
+var selectedGenre
 
 const session = Session.get();
-var latest_data
-var latest_data_strings
+var genre_data
+var genre_data_strings
 
 
-export default function latest(props) {
+export default function genre(props) {
     if (session.isValid === false) {
         alert('Please Login First!');
         return <Redirect to="/login" />
@@ -36,49 +40,56 @@ export default function latest(props) {
                 return null
             }
             
-            const [latestState,setLatestState]=useState({
-                latesthasLoaded:false,
-                latestbooks:[],
-                latesterror:null
+            const [genreState,setGenreState]=useState({
+                genrehasLoaded:false,
+                genrebooks:[],
+                genreerror:null
             })
             const [userId,setUserId]=useState(0)
-    
-            function fetchBooksLatest(){
             
-                fetch("http://127.0.0.1:5000/timebased")
+            // const value=queryString.parse(props.location.search)
+            // const selectedGenre=value.genre
+
+            function fetchBooksGenre(){
+                value=queryString.parse(props.location.search)
+                selectedGenre=value.genre
+                // console.log(`http://127.0.0.1:5000/genre?genre=${selectedGenre}`)
+                fetch(`http://127.0.0.1:5000/genre?genre=${selectedGenre.toLowerCase()}`)
                         .then(response=>response.json())
                         .then((data)=>{
                             
-                            setLatestState({
-                                latestbooks:data,
-                                latesthasLoaded:true
+                            setGenreState({
+                                genrebooks:data,    
+                                genrehasLoaded:true
                             })
                             
                         })
-                        .catch(latesterror=>setLatestState({
-                            latesterror,
-                            latesthasLoaded:true}))
+                        .catch(genreerror=>setGenreState({
+                            genreerror,
+                            genrehasLoaded:true}))
                             
                             
                         }
                 
-                            const{latesthasLoaded,latestbooks,latesterror}=latestState
+                            const{genrehasLoaded,genrebooks,genreerror}=genreState
                             useEffect(()=>{
-                                fetchBooksLatest()
+                               
+                                fetchBooksGenre()
                             },[userId])
-    
-                            latest_data=latestbooks.map(book=>{
+                            // console.log(props.location.search)
+                            
+                            genre_data=genrebooks.map(book=>{
                                 const{Title,Bookid,ImgURL,Desc}=book
                                 
                                 return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
                                 
                             })
-                            latest_data_strings=JSON.stringify(latest_data)
+                            genre_data_strings=JSON.stringify(genre_data)
             
             return (
                 <>
-                {latesterror ?<p>{latesterror.message}</p> : null}
-                {latesthasLoaded ?(
+                {genreerror ?<p>{genreerror.message}</p> : null}
+                {genrehasLoaded ?(
                     <div style={{
                         backgroundImage: `url(${BackgroundDiv})`,
                         height: "100%"
@@ -101,11 +112,11 @@ export default function latest(props) {
                         <br></br>
                         <br></br>
                         <div >
-                            <h2><font color="#fead03"> Latest Books </font></h2>
+                        <h2><font color="#fead03"> Genre  >   {selectedGenre}</font></h2>
                             <div >
-                                {latesthasLoaded ? (
+                                {genrehasLoaded ? (
                                 <ReactExpandableGrid
-                                gridData={latest_data_strings} />
+                                gridData={genre_data_strings} />
                                 ):(<Loader/>)}
                             </div>
                             <br></br>
@@ -119,61 +130,11 @@ export default function latest(props) {
                 </>
             )
         } catch{
-            alert("Login Again")
-            return <Redirect to="/login" />
+            // alert("Login Again")
+            // return <Redirect to="/login" />
+            return <Loader/>
         }
     }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// <GridContainer>
-//     <Link to='/dashboard'>
-//         <GridItem>
-//             <img src={Book1} alt='' />
-//         </GridItem>
-//     </Link>
-//     <GridItem>
-//         <img src={Book2} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book3} alt="" />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-// </GridContainer>
-//     <Gallery style={{ width: "100%" }} images={IMAGES} />

@@ -1,17 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 
+.input.rbt-input-main.form-control.rbt-input
+{
+  background-color: pink;
+}
 
-.container {
+/* .container {
   position: relative;
   margin: auto;
   top: -60%;
   /* left: 10%; */
-  bottom: 0;
+  /* bottom: 0;
   width: 400px;
   height: 60px;
-}
+} */ 
 
-.container .search {
+/* .container .search { 
     position: absolute;
     margin: auto;
     top: 0;
@@ -26,7 +30,7 @@
     z-index: 4;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
     /* box-shadow: 0 0 25px 0 #fead03; */
-}
+/* } 
 .container .search:hover {
       cursor: pointer;
     }
@@ -72,15 +76,15 @@
     outline: none;
     border: none;
     /* border-bottom: 1px solid rgba(255, 255, 255, 0.2); */
-    background: #fead03;
+    /* background: #fead03; 
     color: white;
     text-shadow: 0 0 10px #fead03;
     padding: 0 80px 0 20px;
     border-radius: 30px;
     box-shadow: 0 0 25px 0 #fead03,
-                0 20px 25px 0 rgba(0, 0, 0, 0.2);
+                0 20px 25px 0 rgba(0, 0, 0, 0.2);*/
     /* box-shadow: inset 0 0 25px 0 rgba(0, 0, 0, 0.5); */
-    transition: all 1s;
+    /* transition: all 1s; 
     opacity: 0;
     z-index: 5;
     font-weight: bolder;
@@ -120,5 +124,4 @@ input::placeholder {
       color: white;
       opacity: 0.5;
       font-weight: bolder;
-    }
-  
+    }*/

@@ -174,8 +174,8 @@ class ReactExpandableGrid extends React.Component {
                 DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
                 ImageLink.href = this.state.gridData[thisIdNumber]['link']
                 var TitleName=this.state.gridData[thisIdNumber]['title']
-                LikeButton.onclick=(console.log(TitleName +'is Liked'))
-                // DescriptionLink.onclick=(console.log(TitleName +'is Liked'))
+                LikeButton.onClick=(console.log(TitleName +' is Liked'))
+                DescriptionLink.onclick=(console.log(TitleName +'is Likeed'))
                 // console.log(this.state.gridData[thisIdNumber]['title'])
 
                 this.renderExpandedDetail(target)

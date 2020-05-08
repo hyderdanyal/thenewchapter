@@ -15,6 +15,7 @@ import Book3 from "../img/book3.jpg"
 import Book4 from "../img/book4.jpg"
 import Search from "../components/search"
 import ReactExpandableGrid from "./Grid/ExpandableSlider";
+import Rating from "react-rating"; 
 
 
 
@@ -91,6 +92,15 @@ export default function latest(props) {
                             <h2><font color="#fead03"> Recommend a Book </font></h2>
                             <br></br>
                             <br></br>
+                            <div style={{color:"#fead03"}}> 
+                            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+
+                                <Rating
+                                emptySymbol="fa fa-star-o fa-2x"
+                                fullSymbol="fa fa-star fa-2x"
+                                fractions={2}
+                                /></div>
+                                <br></br><br></br><br></br><br></br>
                             <div style={{
                                 height:'auto',
                                 minHeight:'30vh',

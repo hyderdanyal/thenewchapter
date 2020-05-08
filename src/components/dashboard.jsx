@@ -22,6 +22,7 @@ import ReactExpandableGrid from "./Grid/ExpandableSlider";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loader from './loader'
+import Slider from './Slider/components/NetflixSlider'
 // import { Title } from "@material-ui/icons";
 
 
@@ -76,7 +77,7 @@ export default function dashboard(props) {
                 props.history.replace('/login')
                 return null
             }
-            
+            const [userId,setUserId]=useState(0)
             const [state,setState]=useState({
                 hasLoaded:false,
                 books:[],
@@ -196,11 +197,11 @@ export default function dashboard(props) {
                 fetchBooksTag()
                 fetchBooksRating()
                 fetchBooksMf()
-            })
+            },[userId])
                     datas=books.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
                         
-                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                         // setAuthor({authorBook:data_strings})
                         
@@ -214,7 +215,7 @@ export default function dashboard(props) {
                     tag_data=tagbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
                         
-                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
                     tag_data_strings=JSON.stringify(tag_data)
@@ -222,7 +223,7 @@ export default function dashboard(props) {
                     rating_data=ratingbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
                         
-                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
                     rating_data_strings=JSON.stringify(rating_data)
@@ -230,7 +231,7 @@ export default function dashboard(props) {
                     mf_data=mfbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
                         
-                        return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
                     mf_data_strings=JSON.stringify(mf_data)
@@ -304,8 +305,13 @@ export default function dashboard(props) {
                         <br></br>
                         <h2><font color="#fead03">My List </font></h2>
                         <div>
-                                <ReactExpandableGrid
-                                gridData={data_strings} />
+                                <Slider>
+                            {datas.map(datas => (
+                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                                {/* <ReactExpandableGrid
+                                gridData={data_strings} /> */}
                                 </div>
                 <br></br>
                     </div>
@@ -333,8 +339,13 @@ export default function dashboard(props) {
                                 
                             ):<p></p>} */}
                             {taghasLoaded ? (
-                            <ReactExpandableGrid
-                            gridData={tag_data_strings} />
+                            <Slider>
+                            {tag_data.map(tag_data => (
+                            <Slider.Item movie={tag_data} key={tag_data.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                            // <ReactExpandableGrid
+                            // gridData={tag_data_strings} />
                             ):(<Loader/>)}
                              </div>   
                 <br></br>
@@ -347,8 +358,13 @@ export default function dashboard(props) {
                         <h2><font color="#fead03">Matrix Factorization </font></h2>
                         <div>
                         {mfhasLoaded ? (
-                            <ReactExpandableGrid
-                            gridData={mf_data_strings} />
+                            <Slider>
+                            {mf_data.map(mf_data => (
+                            <Slider.Item movie={mf_data} key={mf_data.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                            // <ReactExpandableGrid
+                            // gridData={mf_data_strings} />
                             ):(<Loader/>)}
                                 
                                 </div>
@@ -362,8 +378,13 @@ export default function dashboard(props) {
                         <h2><font color="#fead03">Trending Now </font></h2>
                         <div>
                         {ratinghasLoaded ? (
-                            <ReactExpandableGrid
-                            gridData={rating_data_strings} />
+                            <Slider>
+                            {rating_data.map(rating_data => (
+                            <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                            // <ReactExpandableGrid
+                            // gridData={rating_data_strings} />
                             ):(<Loader/>)}
                                 
                                 </div>
@@ -376,8 +397,13 @@ export default function dashboard(props) {
                         <br></br>
                         <h2><font color="#fead03">Top Books </font></h2>
                         <div>
-                                <ReactExpandableGrid
-                                gridData={data_strings} />
+                        <Slider>
+                            {datas.map(datas => (
+                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                                {/* <ReactExpandableGrid
+                                gridData={data_strings} /> */}
                                 </div>
                 <br></br>
                     </div>
@@ -388,8 +414,13 @@ export default function dashboard(props) {
                         <br></br>
                         <h2><font color="#fead03">Because You Read Corona! </font></h2>
                         <div>
-                                <ReactExpandableGrid
-                                gridData={data_strings} />
+                            <Slider>
+                            {datas.map(datas => (
+                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
+                                {/* <ReactExpandableGrid
+                                gridData={data_strings} /> */}
                                 </div>
                 <br></br>
                     </div>

@@ -33,10 +33,7 @@ function HeaderLinks(props) {
     return (
 
         <List className={classes.list}>
-            <ListItem className={classes.listItem2}>
-                <Search />
-
-            </ListItem>
+            
             <ListItem className={classes.listItem}>
                 <CustomDropdown
                     noLiPadding
