@@ -223,7 +223,7 @@ const StyledMenu = withStyles({
             </ListItem>
             <ListItem className={classes.listItem}>
                 <Button href="/recommend" color="transparent">
-                    Recommend
+                    Recommendations
                 </Button>
             </ListItem>
             <ListItem className={classes.listItem}>

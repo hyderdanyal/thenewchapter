@@ -11,7 +11,7 @@ import { Button } from "@material-ui/core";
 import TypedR from "../Styles/typed"
 import BackgroundDiv from "../img/divlakda.jpg";
 import "react-multi-carousel/lib/styles.css";
-import { Redirect } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 import { Session } from "bc-react-session";
 import "../Styles/homestyle.css";
 import BookGif from "../img/bookgif.gif";
@@ -144,11 +144,12 @@ export default function Components(props) {
 
             <div style={{ color: "yellow", paddingLeft: "10%", width: "50%", justifyContent: "center" }} className="b">
               <h3 className={classes.title}>Don't know what to read? </h3>
+              <br></br><br></br><br></br>
               <h3 className={classes.subtitle} >We at THE NEW CHAPTER provide with promising book recommendations for individuals from a huge set of authors working on different genres using machine learning algorithms to keep our users rejoicing. </h3>
               <br></br>
 
-              <button class="button" size="lg"
-                href="/register"
+              <Link to='/login'><button class="button" size="lg"
+                href="/login"
 
 
               // target="_blank"
@@ -159,6 +160,7 @@ export default function Components(props) {
                 <span></span>
                 Try it !
                     </button>
+                    </Link>
             </div>
             <div class="bookgif" style={{ width: "50%", display: "grid", alignContent: "center" }} >
               <img style={{
@@ -326,26 +328,26 @@ export default function Components(props) {
 
             <div style={{ color: "yellow", textAlign: "right", width: "50%", paddingRight: "10%" }} className="c">
               <h3 className={classes.title} style={{ textAlign: "right" }}>Genres </h3>
-
+              <br></br><br></br><br></br>
               <h2 style={{ textAlign: "right", margin:"25px" }}> We have <i><b>17863</b></i> books of <i><b>412</b></i> genres. </h2>
               <br></br>
-              <button class="button" size="lg"
-                href="/register"
+              <Link to='/login'><button class="button" size="lg"
+                
 
 
               // target="_blank"
               >
-                <span></span>
+                <span ></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 Try it !
                     </button>
+                    </Link>
             </div>
 
           </div>
-          <br></br>
-
+          
         </div>
         <Footer style={{ position: "relative", backgroundColor: "black", color: "#fead03" }} />
       </div >

@@ -4,7 +4,14 @@
 
 import React from 'react'
 import PropTypes from 'prop-types';
+import firebase from '../../firebase'
+import Rating from "react-rating";
 
+
+var gridTitle
+var gridBookId
+var gridDesc
+var gridImgURL
 class SingleGridCell extends React.Component {
 
     constructor(props) {
@@ -49,6 +56,8 @@ class ReactExpandableGrid extends React.Component {
             selected_id: '',
             gridData: JSON.parse(this.props.gridData)
         }
+        
+        // console.log('Grid data',this.props.gridData)
     }
 
     handleResize() {
@@ -125,6 +134,7 @@ class ReactExpandableGrid extends React.Component {
     handleCellClick(event) {
         var target = event.target
         var thisIdNumber = parseInt(event.target.id.substring(10))
+        
 
         if (this.state.expanded) { // expanded == true
             if (this.state.selected_id === event.target.id) { // Clicking on already opened detail
@@ -150,6 +160,7 @@ class ReactExpandableGrid extends React.Component {
                     this.renderExpandedDetail(target)
 
                     detail.style.display = 'block'
+                    console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
                 })
             }
         } else { // expanded == false
@@ -170,7 +181,10 @@ class ReactExpandableGrid extends React.Component {
                 ImageLink.href = this.state.gridData[thisIdNumber]['link']
 
                 this.renderExpandedDetail(target)
-
+                gridBookId=this.state.gridData[thisIdNumber]['bookid']
+                gridTitle=title.innerHTML
+                gridImgURL=img.src
+                gridDesc=description.innerHTML
                 detail.style.display = 'block'
             })
         }
@@ -304,7 +318,25 @@ class ReactExpandableGrid extends React.Component {
                     <div id='ExpandedDetail_close' key='ExpandedDetail_close' style={cssforExpandedDetailClose} onClick={this.closeExpandedDetail.bind(this)}>{closeX}</div>
                     <div id='ExpandedDetailTitle' className='ExpandedDetailTitle' style={cssforExpandedDetailTitle}> Title </div>
                     <div id='ExpandedDetailDescription' className='ExpandedDetailDescription' style={cssforExpandedDetailDescription}> Some Description</div>
+                    <button 
+                    onClick={()=>{
+                                  firebase.addMyList(firebase.getCurrentUsername(),firebase.getCurrentUID(),gridBookId,gridTitle,gridDesc,gridImgURL)
+                                
+                                }}>
+                                    Add to My List</button>
+                                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
                     <a id='ExpandedDetailDescriptionLink' style={cssForDescriptionLink}> → Link </a>
+                    
+                                    
+                                <Rating
+                                emptySymbol="fa fa-star-o fa-2x"
+                                fullSymbol="fa fa-star fa-2x"
+                                fractions={2}
+                                onClick={(value)=>{
+                                  firebase.addRating(firebase.getCurrentUsername(),firebase.getCurrentUID(),gridBookId,value)
+                                //   console.log(firebase.getCurrentUID(),movie.id,value)
+                                }}
+                                />
                 </div>
             </li>
         )

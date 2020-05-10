@@ -109,7 +109,10 @@ const editprofile = (props) => {
                                 {/* {files.map(({ src }) => ( */}
                                 {/* <div class="logo2" style={{ backgroundImage: `url(${file})` }}> */}
                                 <div>
-                                    <input id="fileUpload" class="imgbutton" type="file" name="Upload" onChange={fileSelectedHandler}></input>
+                                    <input id="fileUpload" class="imgbutton" type="file" name="Upload" onChange={fileSelectedHandler}
+                                    style={{
+                                        position: "relative", left: "90px", top: "125px"
+                                    }}></input>
                                    
                                     <img src={preview} class="logo2"></img>
                                 </div>
@@ -158,7 +161,7 @@ const editprofile = (props) => {
                                 ))} */}
 
                                 <br></br>
-                                <p class="register">Want to leave a feedback ? <a href="/loader"> <br></br>Click Here! </a></p>
+                                <p class="register">Want to leave a feedback ? <a href="/feedback"> <br></br>Click Here! </a></p>
 
                             </div>
                         </div>

@@ -11,21 +11,133 @@ import { makeStyles } from "@material-ui/core/styles";
 import BackgroundImg from "../img/profilebackground.jpg";
 import "../Styles/profileStyle.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { element } from 'prop-types';
 
 
 
 const session = Session.get();
+var myListBooks=[]
+var elements
 
 export default function profile(props) {
     if (session.isValid === false) {
         alert('Please Login First!');
         return <Redirect to="/login" />
     }
+    
     else {
         try {
+            const [myList,setMyList]=useState({
+                hasLoaded:false
+            })
+            const [ratingState,setRatingState]=useState({
+                ratinghasLoaded:false,
+                ratingbooks:[],
+                ratingerror:null
+            })
+            const [userId,setUserId]=useState(0)
+            const [deleteBook,setDeleteBook]=useState(false)
 
+            function fetchBooksRating(){
+                        
+                fetch("http://127.0.0.1:5000/ratingbased")
+                        .then(response=>response.json())
+                        .then((data)=>{
+                            // console.log(data)
+                            setRatingState({
+                                ratingbooks:data,
+                                ratinghasLoaded:true
+                            })
+                            
+                        })
+                        .catch(ratingerror=>setRatingState({
+                            ratingerror,
+                            ratinghasLoaded:true}))
+                            
+                            
+                        }
+
+            useEffect(()=>{
+                fetchBooksRating()
+                firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
+                .then((response)=>{
+                    // console.log(response)
+                    myListBooks=response.map(book=>{
+                        const{Title,Bookid
+                            // ,Bookid,ImgURL,Desc
+                        }=book
+                        
+                        return {
+                            // id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,
+                        title:Title,id:Bookid
+                        // ,desc:Desc,imageBg:ImgURL
+                    }
+                        
+                    })
+                   setMyList({hasLoaded:true})
+                    // console.log(myListBooks[0].title)
+                })
+                
+                
+            },[userId])
+            
+            // var str = '<ul>'
+            const {hasLoaded}=myList
+            if(hasLoaded){
+            // myListBooks= myListBooks.map((booksArray)=>{return booksArray.title})
+            // myListBooks.forEach(function(books) {
+                
+            //     str += '<li>'+ books  + `<button >🗑️</button>` + '</li>';
+            // }); 
+            // str += '</ul>';
+            // console.log(str)
+            // document.getElementById("myListContainer").innerHTML = str;
+
+            elements=myListBooks.map((element)=>{
+                return(
+                <li key={element.id}>--> {element.title}
+                <button style={{backgroundColor:'transparent', border:'none'}} onClick={()=>{deleteValue(element.id,element.title)}}>🗑️</button>
+                </li>
+                )
+            })
+            const deleteValue=(e,h)=>{
+                if (window.confirm('Are you sure you want to delete '+ h + '?')) {
+                    firebase.deleteBook(e)
+                    console.log('Deleted Book:- ',h);
+                    setDeleteBook(true)
+                    
+                } else {
+                    // Do nothing!
+                    // console.log('Thing was not saved to the database.');
+                }
+                // window.location.reload()
+            }
+            }
+            if(deleteBook){
+                firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
+                .then((response)=>{
+                    // console.log(response)
+                    myListBooks=response.map(book=>{
+                        const{Title,Bookid
+                            // ,Bookid,ImgURL,Desc
+                        }=book
+                        
+                        return {
+                            // id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,
+                        title:Title,id:Bookid
+                        // ,desc:Desc,imageBg:ImgURL
+                    }
+                        
+                    })
+                   setMyList({hasLoaded:true})
+                    // console.log(myListBooks[0].title)
+                })
+            }
+            
             return (
                 <>
+                
                     <div style={{
                         backgroundImage: `url(${BackgroundImg})`,
 
@@ -71,8 +183,10 @@ export default function profile(props) {
                                 <h3>My Books</h3>
                                 <div class="projects_data">
                                     <div class="data">
+                                        
                                         <h4>My List</h4>
-                                        <p>Lorem ipsum dolor sit amet.</p>
+                                        <div id="myListContainer" style={{color:'#fead03'}}><ul>{elements}</ul>  </div>
+                                        {/* <p>Lorem ipsum dolor sit amet.</p> */}
                                     </div>
                                     
                                 </div>
@@ -87,9 +201,8 @@ export default function profile(props) {
                     <Footer></Footer>
                 </>
             )
-        } catch{
-            alert("Login Again")
-            return <Redirect to="/login" />
+        } catch(error){
+            console.log(error)
         }
     }
 

@@ -26,13 +26,11 @@ const Content = ({ movie, onClose }) => (
                                 fractions={2}
                                 onClick={(value)=>{
                                   firebase.addRating(firebase.getCurrentUsername(),firebase.getCurrentUID(),movie.id,value)
-                                  console.log(firebase.getCurrentUID(),movie.id,value)
                                 }}
                                 />
                                 <br></br>
                                 <button onClick={(value)=>{
                                   firebase.addMyList(firebase.getCurrentUsername(),firebase.getCurrentUID(),movie.id,movie.title,movie.desc,movie.image)
-                                  console.log(firebase.getCurrentUID(),movie.id,movie.title,movie.desc,movie.image)
                                 }}>Add to My List</button>
                                 </div>
     </div>

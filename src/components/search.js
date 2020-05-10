@@ -14,7 +14,7 @@ import {AsyncTypeahead} from "react-bootstrap-typeahead";
 //             }
 //     };
 
-    
+    export var data=[]
     // const SEARCH_URI = 'https://api.github.com/search/users';
     const SEARCH_URI = 'http://127.0.0.1:5000/search'
 
@@ -34,12 +34,21 @@ import {AsyncTypeahead} from "react-bootstrap-typeahead";
               avatar_url: i.ImgURL,
               id: i.Bookid,
               login: i.Title,
+              desc:i.Desc
             }));
             // console.log("OPTIONS::",options)
+            // items.onClick=searching()
             setOptions(options);
             setIsLoading(false);
           });
-      });
+
+        });
+         const searching=(Bookid,Title,ImgURL,Desc)=>
+        {
+          data=[{'bookid':Bookid,'title':Title,'img':ImgURL,'description':Desc}]
+          window.location.href=`/searchpage?q=${Bookid}`
+          return console.log("searching",data)
+        } 
       return (
         <AsyncTypeahead
           style={{height:"30px",width:"100px",position:""}}
@@ -51,7 +60,7 @@ import {AsyncTypeahead} from "react-bootstrap-typeahead";
           options={options}
           placeholder="Search Book..."
           renderMenuItemChildren={(option, props) => (
-            <div style={{background:"white"}}>
+            <div class="search" style={{background:"white"}} onClick={()=>searching(option.id,option.login,option.avatar_url,option.desc)}>
               <img
                 alt={option.login}
                 src={option.avatar_url}
@@ -65,8 +74,10 @@ import {AsyncTypeahead} from "react-bootstrap-typeahead";
             </div>
           )}
         />
+        
       );
     }
+    
 export default Search
 
 

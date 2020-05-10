@@ -59,6 +59,7 @@ var rating_data
 var rating_data_strings
 var mf_data
 var mf_data_strings
+var myListBooks=[]
 
 
 
@@ -100,6 +101,10 @@ export default function dashboard(props) {
                 mfhasLoaded:false,
                 mfbooks:[],
                 mferror:null
+            })
+             
+            const [myList,setMyList]=useState({
+                hasLoaded:false
             })
             
             const[author,setAuthor]=useState({authorBook:[]})
@@ -197,6 +202,18 @@ export default function dashboard(props) {
                 fetchBooksTag()
                 fetchBooksRating()
                 fetchBooksMf()
+                firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
+                                                                .then((response)=>{
+                                                                    // console.log(response)
+                                                                    myListBooks=response.map(book=>{
+                                                                        const{Title,Bookid,ImgURL,Desc}=book
+                                                                        
+                                                                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
+                                                                        
+                                                                    })
+                                                                   setMyList({hasLoaded:true})
+                                                                    console.log(myListBooks)
+                                                                })
             },[userId])
                     datas=books.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
@@ -305,11 +322,19 @@ export default function dashboard(props) {
                         <br></br>
                         <h2><font color="#fead03">My List </font></h2>
                         <div>
-                                <Slider>
+                        {hasLoaded ? (
+                        <Slider>
+                        {}
+                        {myListBooks.map(rating_data => (
+                        <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
+                         ))}
+                            </Slider>    
+                            ):(<Loader/>)}
+                                {/* <Slider>
                             {datas.map(datas => (
                             <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
                             ))}
-                            </Slider> 
+                            </Slider>  */}
                                 {/* <ReactExpandableGrid
                                 gridData={data_strings} /> */}
                                 </div>
@@ -365,7 +390,7 @@ export default function dashboard(props) {
                             </Slider> 
                             // <ReactExpandableGrid
                             // gridData={mf_data_strings} />
-                            ):(<Loader/>)}
+                            ):(null)}
                                 
                                 </div>
                 <br></br>

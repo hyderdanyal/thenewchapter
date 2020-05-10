@@ -162,6 +162,7 @@ uploadTask.on('state_changed', function(snapshot){
       Desc: bookdesc,
       ImgURL: bookimage
   })
+  
   // .then(function(docRef) {
   //     console.log("Document written with ID: ", docRef.id);
   // })
@@ -173,10 +174,10 @@ uploadTask.on('state_changed', function(snapshot){
   readMyList(uid,name){
     let db=app.firestore()
     const fetchedBooks = [];
-     let myListPromise=new Promise((resolve,reject)=>{
+    //  let myListPromise=new Promise((resolve,reject)=>{
     
     
-    db.collection("mylist").doc(name).collection(uid).get()
+    return db.collection("mylist").doc(name).collection(uid).get()
     .then(response => {
       response.forEach(document => {
         const fetchedBook = {
@@ -184,16 +185,17 @@ uploadTask.on('state_changed', function(snapshot){
           ...document.data()
         };
         fetchedBooks.push(fetchedBook)
-        // console.log("HELLO",fetchedBooks.length)
+      })
+        // console.log("HELLO",fetchedBooks)
         return new Promise((resolve,reject)=>{
           if(fetchedBooks.length>0){
             resolve(fetchedBooks)
           }
 
-        })
+        
       });
      
-    })
+    // })
     // console.log(fetchedBooks.length)
     
       // resolve(fetchedBooks)
@@ -203,9 +205,19 @@ uploadTask.on('state_changed', function(snapshot){
   
   })
   
-  return myListPromise
+  // return myListPromise
   // .then((mylist)=>{return mylist})
-}}
+}
+
+deleteBook(id){
+  let db=app.firestore()
+
+  db.collection("mylist").doc(this.getCurrentUsername()).collection(this.getCurrentUID()).doc(id).delete()
+  .then(()=>{console.log(id,' Deleted Successfully!')})
+
+}
+
+}
 
 
 

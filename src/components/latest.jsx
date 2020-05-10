@@ -70,7 +70,7 @@ export default function latest(props) {
                             latest_data=latestbooks.map(book=>{
                                 const{Title,Bookid,ImgURL,Desc}=book
                                 
-                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc,'bookid':Bookid}
                                 
                             })
                             latest_data_strings=JSON.stringify(latest_data)

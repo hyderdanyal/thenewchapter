@@ -63,7 +63,9 @@ export default function mylist(props) {
                 return null
             }
 
-            const [myList,setMyList]=useState([])
+            const [myList,setMyList]=useState({
+                hasLoaded:false
+            })
 
             const [ratingState,setRatingState]=useState({
                 ratinghasLoaded:false,
@@ -97,12 +99,17 @@ export default function mylist(props) {
                                                                 fetchBooksRating()
                                                                 firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
                                                                 .then((response)=>{
-                                                                    console.log(response)
-                                                                    setMyList([response])
-                                                                   
+                                                                    // console.log(response)
+                                                                    myListBooks=response.map(book=>{
+                                                                        const{Title,Bookid,ImgURL,Desc}=book
+                                                                        
+                                                                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
+                                                                        
+                                                                    })
+                                                                   setMyList({hasLoaded:true})
+                                                                    // console.log(myListBooks)
                                                                 })
-                                 
-                                                            
+                                                                
                                                                 
                                                             },[userId])
                                                             // console.log(myList)
@@ -123,7 +130,7 @@ export default function mylist(props) {
                         
                     // })
                     // rating_data_strings=JSON.stringify(rating_data)
-        
+       const {hasLoaded}=myList
             return (
 
                 <React.Fragment>
@@ -153,9 +160,10 @@ export default function mylist(props) {
                         <br></br>
                         <h2><font color="#fead03"> Top Books </font></h2>
                         <div>
-                        {ratinghasLoaded ? (
+                        {hasLoaded ? (
                         <Slider>
-                        {rating_data.map(rating_data => (
+                        {}
+                        {myListBooks.map(rating_data => (
                         <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
                          ))}
                             </Slider>    

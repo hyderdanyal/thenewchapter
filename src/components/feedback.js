@@ -81,12 +81,13 @@ const Contact = () => {
                                         }}></textarea></div>
                                 <div class="inputBox">
 
-                                    <input type="submit" name="" value="Submit" onClick={async function (event) {
+                                    <input type="submit" name="" value="Submit" onClick={()=> {
                                         console.log("Sending ...")
                                         try {
-                                            let response = await fetch(`https://thenewchapter.now.sh/feedbackMail.js?name=${name}&email=${email}&message=${message}&subject=${subject}`);
+                                            // fetch(`http:127.0.0.1:5000/feedback?name=${name}&email=${email}&msg=${message}`);
+                                            fetch(`http://127.0.0.1:5000/feedback?name=${name}&email=${email}&msg=${message}`)
                                             console.log("Done");
-                                            console.log(response);
+                                            // console.log(response);
                                         } catch (err) {
                                             console.log(err)
                                         }

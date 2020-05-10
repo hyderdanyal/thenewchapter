@@ -89,28 +89,7 @@ export default function latest(props) {
                         <br></br>
                         <br></br>
                         <div >
-                            <h2><font color="#fead03"> Recommend a Book </font></h2>
-                            <br></br>
-                            <br></br>
-                            <div style={{color:"#fead03"}}> 
-                            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
-
-                                <Rating
-                                emptySymbol="fa fa-star-o fa-2x"
-                                fullSymbol="fa fa-star fa-2x"
-                                fractions={2}
-                                /></div>
-                                <br></br><br></br><br></br><br></br>
-                            <div style={{
-                                height:'auto',
-                                minHeight:'30vh',
-                                width:'100%'
-                            }}>
-                                <Search style={{margin:'0 auto'}} />
-                            </div>
-
-                            <br></br>
-                            <br></br>
+                            
                             <div >
                                 <br></br>
                                 <h2><font color="#fead03"> Recommended Books </font></h2>

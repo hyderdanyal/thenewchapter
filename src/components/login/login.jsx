@@ -129,8 +129,7 @@ const RegisterPage = (props) => {
 
           </div>
         </div>
-        <br></br>
-        <br></br>
+        
 
         <Footer />
 
