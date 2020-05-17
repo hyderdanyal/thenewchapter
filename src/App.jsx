@@ -56,7 +56,7 @@ function App() {
         <Route exact path="/feedback" component={Feedback} />
         <Route exact path="/Background" component={Background}/>
         <Route exact path="/searchpage" component={SearchPage}/>
-        {/* <Route exact path="/initialdata" component={InitialData}/> */}
+        
       </BrowserRouter>
     </>
   ) : <div id="loader"><Loader /></div>

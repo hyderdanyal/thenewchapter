@@ -1,26 +1,12 @@
 /*eslint-disable*/
 import React from "react";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-// react components for routing our app without refresh
-import { Link } from "react-router-dom";
-
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
-import ListItemText from '@material-ui/core/ListItemText';
-
 // @material-ui/icons
-import { Apps, CloudDownload, Person } from "@material-ui/icons";
-
-// core components
-import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 import Button from "../CustomButtons/Button.js";
-import firebase from "../../firebase"
 import styles from "../../Styles/headerLinksStyle";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -52,6 +38,9 @@ const StyledMenu = withStyles({
   
   const StyledMenuItem = withStyles((theme) => ({
     root: {
+      '&:hover':{
+        backgroundColor:'#fead03'
+      },
       '&:focus': {
         backgroundColor: theme.palette.primary.main,
         '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
@@ -78,7 +67,7 @@ const StyledMenu = withStyles({
        console.log("Selected genre::", e)
        
        window.location.href=`/genre?genre=${e}`
-       // return selectGenre
+       
      }
     return (
         <List className={classes.list}>
@@ -104,8 +93,8 @@ const StyledMenu = withStyles({
                 </Button>
 
             </ListItem>
-            <ListItem className={classes.listItem}>
-            <div class= "dropdown">
+            <ListItem className={classes.listItem} >
+            <div class= "dropdown" >
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
@@ -121,12 +110,13 @@ const StyledMenu = withStyles({
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        
       >
-        <div class="dropdown-menu dropdown-multicol2" aria-labelledby="dropdownMenuButton">
-        <div class="dropdown-col">
+        <div class="dropdown-menu dropdown-multicol2" aria-labelledby="dropdownMenuButton"  >
+        <div class="dropdown-col" >
         <StyledMenuItem value='Fiction' > 
-          <Button color="transparent" value='Fiction' onClick={e=>selectedGenre('Fiction')}>Fiction</Button>
-          {/* <ListItemText primary="Fiction" value='Fiction'  /> */}
+          <Button color="transparent" value='Fiction' onClick={e=>selectedGenre('Fiction')} >Fiction</Button>
+          
         </StyledMenuItem>
         <StyledMenuItem value='Fantasy' >
           
@@ -226,7 +216,7 @@ const StyledMenu = withStyles({
                     Recommendations
                 </Button>
             </ListItem>
-            <ListItem className={classes.listItem}>
+            <ListItem className={classes.listItem} style={{top:"5px"}}>
                 <Search />
 
             </ListItem>

@@ -7,23 +7,16 @@ import HeaderLinks from "../components/Header/DashHeaderLink";
 import TypedR from "../Styles/typed";
 import Footer from "../components/Footer/Footer";
 import LeftHeader from "../components/Header/leftheader";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import Book1 from "../img/book1.jpg"
-import Book2 from "../img/book2.jpg"
-import Book3 from "../img/book3.jpg"
-import Book4 from "../img/book4.jpg"
-
 import { Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import "../Styles/styling.css";
 import cfl from '../img/cfl.jpg';
-import ReactExpandableGrid from "./Grid/ExpandableSlider";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loader from './loader'
 import Slider from './Slider/components/NetflixSlider'
-// import { Title } from "@material-ui/icons";
+import _ from 'underscore'
 
 
 
@@ -52,14 +45,20 @@ import Slider from './Slider/components/NetflixSlider'
 
 const session = Session.get();
 var tag_data
-var tag_data_strings
+
 var datas
-var data_strings
+
 var rating_data
-var rating_data_strings
+
 var mf_data
-var mf_data_strings
+
 var myListBooks=[]
+
+var item
+
+var myListTitle
+
+var myListId
 
 
 
@@ -78,7 +77,7 @@ export default function dashboard(props) {
                 props.history.replace('/login')
                 return null
             }
-            const [userId,setUserId]=useState(0)
+            const [userId]=useState(0)
             const [state,setState]=useState({
                 hasLoaded:false,
                 books:[],
@@ -103,14 +102,12 @@ export default function dashboard(props) {
                 mferror:null
             })
              
-            const [myList,setMyList]=useState({
-                hasLoaded:false
-            })
             
-            const[author,setAuthor]=useState({authorBook:[]})
-            function fetchBooksAuthor(){
+            
+            
+            function fetchBooksAuthor(item){
         
-                fetch("http://127.0.0.1:5000/authorbased?Title=The Hobbit")
+                fetch(`http://127.0.0.1:5000/authorbased?Title=${item}`)
                         .then(response=>response.json())
                         .then((data)=>{
                             
@@ -126,15 +123,13 @@ export default function dashboard(props) {
                             
                             
                         }
-                        //     })            
-                            // var datas
-                            // var data_strings
+                        
                 
                             const{hasLoaded,books,error}=state
                           
-                            function fetchBooksTag(){
+                            function fetchBooksTag(item){
         
-                                fetch("http://127.0.0.1:5000/tagbased?Title=The Hobbit")
+                                fetch(`http://127.0.0.1:5000/tagbased?Title=${item}`)
                                         .then(response=>response.json())
                                         .then((data)=>{
                                             
@@ -151,7 +146,7 @@ export default function dashboard(props) {
                                             
                                         }
                                 
-                            // const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
+                            
                                                       
                                             function fetchBooksRating(){
                         
@@ -191,43 +186,99 @@ export default function dashboard(props) {
                                                                         
                                                                     }
                                                 
-                                                            const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
+                                                            const{ratinghasLoaded,ratingbooks}=ratingState
 
-                                                            const{taghasLoaded,tagbooks,tagerror}=tagState
+                                                            const{taghasLoaded,tagbooks}=tagState
 
-                                                            const{mfhasLoaded,mfbooks,mferror}=mfState
-
+                                                            const{mfhasLoaded,mfbooks}=mfState
+                                                            var[empty,setEmpty]=useState(Boolean)
+                                                            function conditionalChaining(value) {
+                                                                if (value) {
+                                                                    myListBooks=value.map(book=>{
+                                                                         const{Title,Bookid,ImgURL,Desc}=book
+                                                                         return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
+                                                                         
+                                                                     })
+                                                                     let bookname=myListBooks.map(book=>{
+                                                                         return {id:book.id,title:book.title}
+                                                                        })
+                                                                        item=bookname[Math.floor(Math.random() * bookname.length)];
+                                                                        myListId=item.id
+                                                                        myListTitle=item.title
+                                                                        setEmpty(false)
+                                                                        fetchBooksAuthor(myListId)
+                                                                        fetchBooksTag(myListId)
+                                                                    //do something
+                                                                    // return doSomething().then(doSomethingMore).then(doEvenSomethingMore);
+                                                                } else {
+                                                                    //do something else
+                                                                    // myListTitle='Roadwork'
+                                                                    // fetchBooksAuthor('5763')
+                                                                    // setEmpty(true)
+                                                                    // console.log("asas",empty)
+                                                                    // return doSomeOtherThing().then(doSomethingMore).then(doEvenSomethingMore);
+                                                                }
+                                                            }
+                                                            // if(empty==true){
+                                                            //     myListTitle='Roadwork'
+                                                            //     fetchBooksAuthor('5763')
+                                                            //    }
+                                                            //    else if(empty==false){
+                                                            //        console.log(empty)
+                                                            //    fetchBooksAuthor(myListId)
+                                                            // }
+                                                            // console.log("ddddd",item)
              useEffect(()=>{
-                fetchBooksAuthor()
-                fetchBooksTag()
+                 firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
+                                                                 .then(conditionalChaining).catch(()=>{
+                                                                 myListTitle='My List Empty'
+                                                                    fetchBooksAuthor('5763')
+                                                                    fetchBooksTag('5763')
+                                                                    setEmpty(true)})
+                                                                    //  (response)=>{
+                                                                    // //  console.log(response)
+                                                                    
+                                                                    
+                                                                    // myListBooks=response.map(book=>{
+                                                                    //     console.log("dddd",empty)
+                                                                    //      const{Title,Bookid,ImgURL,Desc}=book
+                                                                    //      return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
+                                                                         
+                                                                    //  })
+                                                                    //  let bookname=myListBooks.map(book=>{
+                                                                    //      return {id:book.id,title:book.title}
+                                                                    //     })
+                                                                    //     item=bookname[Math.floor(Math.random() * bookname.length)];
+                                                                    //     myListId=item.id
+                                                                    //     myListTitle=item.title
+                                                                    //     // console.log("type",item)
+                                                                    //     setEmpty(false)
+                                                                     
+                                                                    // },(error)=>setEmpty(true))
+                                                                        // console.log(_.size(myListBooks))
+                                                                        //  if(_.size(myListBooks)>0){
+                                                                        //     //  console.log(_.size(myListBooks))
+                                                                        //      setEmpty(false)
+                                                                        //  }
+                                                                        //  else{
+                                                                        //     //  item='5763'
+                                                                             
+                                                                        //      setEmpty(true)
+                                                                        //  }
+                                                                         
+                // fetchBooksAuthor()
+                // fetchBooksTag()
                 fetchBooksRating()
                 fetchBooksMf()
-                firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
-                                                                .then((response)=>{
-                                                                    // console.log(response)
-                                                                    myListBooks=response.map(book=>{
-                                                                        const{Title,Bookid,ImgURL,Desc}=book
-                                                                        
-                                                                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
-                                                                        
-                                                                    })
-                                                                   setMyList({hasLoaded:true})
-                                                                    console.log(myListBooks)
-                                                                })
             },[userId])
                     datas=books.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
                         
                         return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
-                        // setAuthor({authorBook:data_strings})
                         
-                        
-                        // setState({hasLoaded:true})
-                        
-                        // console.log("DATASTRINGS",author.authorBook)
                     })
-                    data_strings=JSON.stringify(datas)
+                    
                     
                     tag_data=tagbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
@@ -235,7 +286,7 @@ export default function dashboard(props) {
                         return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
-                    tag_data_strings=JSON.stringify(tag_data)
+                    
 
                     rating_data=ratingbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
@@ -243,7 +294,7 @@ export default function dashboard(props) {
                         return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
-                    rating_data_strings=JSON.stringify(rating_data)
+                    
                     
                     mf_data=mfbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
@@ -251,7 +302,7 @@ export default function dashboard(props) {
                         return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
-                    mf_data_strings=JSON.stringify(mf_data)
+                    
                     
 
             return (
@@ -320,6 +371,7 @@ export default function dashboard(props) {
                     <br></br>
                     <div >
                         <br></br>
+                        {empty ? (null):(<>    
                         <h2><font color="#fead03">My List </font></h2>
                         <div>
                         {hasLoaded ? (
@@ -330,14 +382,10 @@ export default function dashboard(props) {
                          ))}
                             </Slider>    
                             ):(<Loader/>)}
-                                {/* <Slider>
-                            {datas.map(datas => (
-                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
-                            ))}
-                            </Slider>  */}
-                                {/* <ReactExpandableGrid
-                                gridData={data_strings} /> */}
                                 </div>
+                            </>
+                            )}
+                                
                 <br></br>
                     </div>
                     <br></br>
@@ -345,32 +393,18 @@ export default function dashboard(props) {
                     <br></br>
                     
                     <div style={{height:'auto'}}>
-                        <h2><font color="#fead03">Author Based Recommendation </font></h2>
+                        <h2><font color="#fead03">Author Based >   {myListTitle}  </font></h2>
                        
                             
                         <div>
-                            {/* {hasLoaded ?( 
-                                books.map(book=>{
-                                    const{Title,Bookid,ImgURL,Desc}=book
-                                    
-                                    datas=[{'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc},]
-                                    var data_strings=JSON.stringify(datas)
-                                    
-                                    return(
-                                        <ReactExpandableGrid key={Bookid}
-                                     gridData={data_strings} />
-                                    )
-                                })
-                                
-                            ):<p></p>} */}
-                            {taghasLoaded ? (
+                            
+                            {hasLoaded ? (
                             <Slider>
-                            {tag_data.map(tag_data => (
-                            <Slider.Item movie={tag_data} key={tag_data.id}>item1</Slider.Item>
+                            {datas.map(datas => (
+                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
                             ))}
                             </Slider> 
-                            // <ReactExpandableGrid
-                            // gridData={tag_data_strings} />
+                            
                             ):(<Loader/>)}
                              </div>   
                 <br></br>
@@ -388,8 +422,7 @@ export default function dashboard(props) {
                             <Slider.Item movie={mf_data} key={mf_data.id}>item1</Slider.Item>
                             ))}
                             </Slider> 
-                            // <ReactExpandableGrid
-                            // gridData={mf_data_strings} />
+                            
                             ):(null)}
                                 
                                 </div>
@@ -408,8 +441,7 @@ export default function dashboard(props) {
                             <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
                             ))}
                             </Slider> 
-                            // <ReactExpandableGrid
-                            // gridData={rating_data_strings} />
+                            
                             ):(<Loader/>)}
                                 
                                 </div>
@@ -418,34 +450,18 @@ export default function dashboard(props) {
                     <br></br>
                     <br></br>
                     <br></br>
+                    
                     <div >
                         <br></br>
-                        <h2><font color="#fead03">Top Books </font></h2>
+                        <h2><font color="#fead03"> Tag Based >   {myListTitle}</font></h2>
                         <div>
-                        <Slider>
-                            {datas.map(datas => (
-                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
-                            ))}
-                            </Slider> 
-                                {/* <ReactExpandableGrid
-                                gridData={data_strings} /> */}
-                                </div>
-                <br></br>
-                    </div>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <div >
-                        <br></br>
-                        <h2><font color="#fead03">Because You Read Corona! </font></h2>
-                        <div>
+                        {taghasLoaded ? (
                             <Slider>
-                            {datas.map(datas => (
-                            <Slider.Item movie={datas} key={datas.id}>item1</Slider.Item>
+                            {tag_data.map(tag_data => (
+                            <Slider.Item movie={tag_data} key={tag_data.id}>item1</Slider.Item>
                             ))}
                             </Slider> 
-                                {/* <ReactExpandableGrid
-                                gridData={data_strings} /> */}
+                                ):(<Loader/>)}
                                 </div>
                 <br></br>
                     </div>
@@ -462,9 +478,9 @@ export default function dashboard(props) {
             )
         } catch(error){
             console.log(error)
-            alert("Login Again please")
+            
 
-            return <Redirect to="/login" />
+            return <Loader />
         }
     }
 }

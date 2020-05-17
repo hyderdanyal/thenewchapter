@@ -50,6 +50,11 @@
     height: 100%;
     z-index: 3;
     width: 50%;
+    text-align: justify;
+    word-wrap: break-word;
+    overflow: hidden;
+    overflow: auto;
+    white-space: break-spaces;
 
     &__container {
       padding: 30px 70px;

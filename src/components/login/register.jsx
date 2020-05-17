@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// @material-ui/core components
-// core components
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import image from "../../img/login.jpg";
@@ -18,7 +16,7 @@ const LoginPage = (props) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [setAnimation, setCardAnimation] = React.useState("cardHidden");
+    const [ setCardAnimation] = React.useState("cardHidden");
     setTimeout(function () {
         setCardAnimation("");
     }, 700);

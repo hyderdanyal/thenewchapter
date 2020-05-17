@@ -5,9 +5,7 @@ const useSizeElement = () => {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    // if(!elementRef){return }
-    // if(!elementRef.current){return}
-    // console.log("asas",elementRef.current)
+    
     setWidth(elementRef.current.clientWidth);
   }, [elementRef.current]);
 

@@ -1,6 +1,6 @@
 import React from "react";
-import BackgroundImg from "../../img/login.jpg";
-
+import BackgroundImg from "../../img/3132.jpg";
+import Footer from "../Footer/Footer"
 
 
 
@@ -28,7 +28,7 @@ export default function creativeteam(props) {
                     margin: "30px",
 
                 }}>
-                    <h2><font color="yellow" size="16"><center> About us </center></font></h2>
+                    <h2><font color="#fead03" size="16"><center> About us </center></font></h2>
                     <br></br>
                     <br></br>
 
@@ -50,10 +50,11 @@ export default function creativeteam(props) {
                     Our recommendation engine analyzes 20 billion data points to give suggestions tailored to your literary tastes.
                     Recommend books to your friends.</font>
 
-                    <br></br>
-                </div>
+                    
 
+                </div>
             </div>
+                <Footer></Footer>
 
 
         </>

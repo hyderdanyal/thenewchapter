@@ -1,29 +1,21 @@
 /*eslint-disable*/
 import React from "react";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
 // react components for routing our app without refresh
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
-
 // @material-ui/icons
-import { Apps, CloudDownload, Person } from "@material-ui/icons";
-import UserProfile from "../../components/session";
+import {Person } from "@material-ui/icons";
 // core components
 import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 import Button from "../CustomButtons/Button.js";
 import firebase from "../../firebase"
 import styles from "../../Styles/headerLinksStyle";
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import { Session } from 'bc-react-session';
-import Search from "../../components/search"
+
 
 
 const useStyles = makeStyles(styles);

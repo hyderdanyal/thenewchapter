@@ -13,14 +13,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Loader from './loader'
 import ReactExpandableGrid from "./Grid/ExpandableGrid";
-import {data} from "./search"
 import queryString from 'query-string'
 
 var value
 var searchQuery
 const session = Session.get();
-var latest_data
-var latest_data_strings
 var search_data
 var search_data_strings
 
@@ -38,37 +35,16 @@ export default function searchpage(props) {
                 props.history.replace('/login')
                 return null
             }
-            console.log(data)
-            const [latestState,setLatestState]=useState({
-                latesthasLoaded:false,
-                latestbooks:[],
-                latesterror:null
-            })
+           
+            
             const [searchState,setSearchState]=useState({
                 searchhasLoaded:false,
                 searchbook:[],
                 searcherror:null
             })
-            const [userId,setUserId]=useState(0)
+            const [userId]=useState(0)
 
-            function fetchBooksLatest(){
             
-                fetch("http://127.0.0.1:5000/timebased")
-                        .then(response=>response.json())
-                        .then((data)=>{
-                            
-                            setLatestState({
-                                latestbooks:data,
-                                latesthasLoaded:true
-                            })
-                            
-                        })
-                        .catch(latesterror=>setLatestState({
-                            latesterror,
-                            latesthasLoaded:true}))
-                            
-                            
-                        }
         function fetchBooksSearch(){
             value=queryString.parse(props.location.search)
             searchQuery=value.q
@@ -89,27 +65,21 @@ export default function searchpage(props) {
                                         
                         }        
                 
-                            const{latesthasLoaded,latestbooks,latesterror}=latestState
+                            
                             const{searchhasLoaded,searchbook,searcherror}=searchState
                             useEffect(()=>{
                                 fetchBooksSearch()
-                                fetchBooksLatest()
+                                
                                 
                                 
                             },[userId])
     
-                            latest_data=latestbooks.map(book=>{
-                                const{Title,Bookid,ImgURL,Desc}=book
-                                
-                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
-                                
-                            })
-                            latest_data_strings=JSON.stringify(latest_data)
+                            
 
                             search_data=searchbook.map(book=>{
                                 const{Title,Bookid,ImgURL,Desc}=book
                                 
-                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc,'bookid':Bookid}
                                 
                             })
                             search_data_strings=JSON.stringify(search_data)

@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Loader from "./loader";
 import queryString from 'query-string'
-// import {selectedGenre} from "../components/Header/leftheader"
+
 
 var value
 var selectedGenre
@@ -45,15 +45,14 @@ export default function genre(props) {
                 genrebooks:[],
                 genreerror:null
             })
-            const [userId,setUserId]=useState(0)
+            const [userId]=useState(0)
             
-            // const value=queryString.parse(props.location.search)
-            // const selectedGenre=value.genre
+            
 
             function fetchBooksGenre(){
                 value=queryString.parse(props.location.search)
                 selectedGenre=value.genre
-                // console.log(`http://127.0.0.1:5000/genre?genre=${selectedGenre}`)
+                
                 fetch(`http://127.0.0.1:5000/genre?genre=${selectedGenre.toLowerCase()}`)
                         .then(response=>response.json())
                         .then((data)=>{
@@ -76,12 +75,12 @@ export default function genre(props) {
                                
                                 fetchBooksGenre()
                             },[userId])
-                            // console.log(props.location.search)
+                            
                             
                             genre_data=genrebooks.map(book=>{
                                 const{Title,Bookid,ImgURL,Desc}=book
                                 
-                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
+                                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc,'bookid':Bookid}
                                 
                             })
                             genre_data_strings=JSON.stringify(genre_data)
@@ -130,8 +129,7 @@ export default function genre(props) {
                 </>
             )
         } catch{
-            // alert("Login Again")
-            // return <Redirect to="/login" />
+            
             return <Loader/>
         }
     }

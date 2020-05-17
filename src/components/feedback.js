@@ -5,8 +5,9 @@ import Footer from "./Footer/Footer";
 import BackgroundImg from "../img/profilebackground.jpg";
 import LeftHeader from "./Header/leftheader";
 import { Session } from 'bc-react-session';
-import { withRouter, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "../Styles/feedbackstyle.css";
+import firebase from "../firebase";
 /* eslint-disable react-hooks/rules-of-hooks */
 
 
@@ -27,7 +28,7 @@ const Contact = () => {
 
             let [name, setName] = useState("");
             let [email, setEmail] = useState("");
-            let [subject, setSubject] = useState("");
+            let [setSubject] = useState("");
             let [message, setMessage] = useState("");
             return (
                 <>
@@ -54,13 +55,13 @@ const Contact = () => {
                                 <div class="inputBox">
                                     <label> UserName </label>
                                     <input type="UserName" id="username" name="name" value={name}
-                                        onChange={e => setName(e.target.value)} placeholder="UserName"
+                                        onChange={e => setName(e.target.value)} placeholder={firebase.getCurrentUsername()}
                                         width="100%"></input>
                                 </div>
                                 <div class="inputBox">
                                     <label> Email </label>
                                     <input type="email" id="email" name="email" value={email}
-                                        onChange={e => setEmail(e.target.value)} placeholder="example@xyz.com"
+                                        onChange={e => setEmail(e.target.value)} placeholder={firebase.getCurrentEmail()}
                                         width="100%"></input>
 
                                 </div>
@@ -84,10 +85,12 @@ const Contact = () => {
                                     <input type="submit" name="" value="Submit" onClick={()=> {
                                         console.log("Sending ...")
                                         try {
-                                            // fetch(`http:127.0.0.1:5000/feedback?name=${name}&email=${email}&msg=${message}`);
+                                            
                                             fetch(`http://127.0.0.1:5000/feedback?name=${name}&email=${email}&msg=${message}`)
                                             console.log("Done");
-                                            // console.log(response);
+                                            alert('Feedback Submitted, Thank You!');
+                                             window.location.href="/profile"
+                                            
                                         } catch (err) {
                                             console.log(err)
                                         }
@@ -97,81 +100,6 @@ const Contact = () => {
 
                         </div>
 
-                        {/* <div class="wrapper" style={{
-                            justifyContent: "center"
-
-
-                        }}>
-                            <form class="form">
-                                <div class="contact-logo">
-                                    <h2>Contact us</h2>
-                                </div>
-
-                                <div class="input">
-                                    <div class="inputbox" style={{ border: 1 }}>
-                                        <h2>Your Name (required)</h2>
-                                        <input type="text"
-                                            onChange={
-                                                function (event) {
-                                                    setName(event.target.value);
-
-                                                }
-                                            }
-                                        />
-                                    </div>
-
-                                    <div class="email">
-                                        <h2>Your Email (required)</h2>
-                                        <input type="text"
-                                            onChange={
-                                                function (event) {
-                                                    setEmail(event.target.value);
-
-                                                }
-                                            }
-                                        />
-                                    </div>
-
-                                    <div class="subject">
-                                        <h2>Subject</h2>
-                                        <input type="text"
-                                            onChange={
-                                                function (event) {
-                                                    setSubject(event.target.value);
-
-                                                }
-                                            }
-                                        />
-                                    </div>
-
-                                    <div class="message">
-                                        <h2>Your message</h2>
-                                        <input type="text"
-                                            onChange={
-                                                function (event) {
-                                                    setMessage(event.target.value);
-
-                                                }
-                                            }
-                                        />
-                                    </div>
-
-                                    <div class="but">
-                                        <button type="button"
-                                            onClick={async function (event) {
-                                                console.log("Sending ...")
-                                                try {
-                                                    let response = await fetch(`https://server.hyderhadi.now.sh/index.js?name=${name}&email=${email}&message=${message}&subject=${subject}`);
-                                                    console.log("Done");
-                                                    console.log(response);
-                                                } catch (err) {
-                                                    console.log(err)
-                                                }
-                                            }} >SEND</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div> */}
                     </div>
                     <Footer></Footer>
                 </>
@@ -184,8 +112,83 @@ const Contact = () => {
     }
 }
 
-
 export default Contact;
+    /* <div class="wrapper" style={{
+                justifyContent: "center"
+    
+    
+            }}>
+                <form class="form">
+                    <div class="contact-logo">
+                        <h2>Contact us</h2>
+                    </div>
+    
+                    <div class="input">
+                        <div class="inputbox" style={{ border: 1 }}>
+                            <h2>Your Name (required)</h2>
+                            <input type="text"
+                                onChange={
+                                    function (event) {
+                                        setName(event.target.value);
+    
+                                    }
+                                }
+                            />
+                        </div>
+    
+                        <div class="email">
+                            <h2>Your Email (required)</h2>
+                            <input type="text"
+                                onChange={
+                                    function (event) {
+                                        setEmail(event.target.value);
+    
+                                    }
+                                }
+                            />
+                        </div>
+    
+                        <div class="subject">
+                            <h2>Subject</h2>
+                            <input type="text"
+                                onChange={
+                                    function (event) {
+                                        setSubject(event.target.value);
+    
+                                    }
+                                }
+                            />
+                        </div>
+    
+                        <div class="message">
+                            <h2>Your message</h2>
+                            <input type="text"
+                                onChange={
+                                    function (event) {
+                                        setMessage(event.target.value);
+    
+                                    }
+                                }
+                            />
+                        </div>
+    
+                        <div class="but">
+                            <button type="button"
+                                onClick={async function (event) {
+                                    console.log("Sending ...")
+                                    try {
+                                        let response = await fetch(`https://server.hyderhadi.now.sh/index.js?name=${name}&email=${email}&message=${message}&subject=${subject}`);
+                                        console.log("Done");
+                                        console.log(response);
+                                    } catch (err) {
+                                        console.log(err)
+                                    }
+                                }} >SEND</button>
+                        </div>
+                        </div>
+                        </form>
+                    </div> */
+
 
 
 

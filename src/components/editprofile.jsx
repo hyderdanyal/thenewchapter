@@ -5,7 +5,6 @@ import HeaderLinks from "./Header/DashHeaderLink";
 import Footer from "./Footer/Footer";
 import Firebase from "./../firebase";
 import { withRouter, Redirect } from "react-router-dom";
-import UserProfile from "./session";
 import { Session } from 'bc-react-session';
 import BackgroundImg from "../img/profilebackground.jpg";
 import LeftHeader from "../components/Header/leftheader";
@@ -27,19 +26,16 @@ const editprofile = (props) => {
     else {
         try {
 
-            const { classes } = props
-            // const allInputs = { imgUrl: '' }
+            // const { classes } = props
+            
             var [email, setEmail] = useState('');
             var [name, setName] = useState('');
-            // var [imageAsFile, setImageAsFile] = useState('');
-            // var [imageAsUrl, setImageAsUrl] = useState(allInputs);
+            
             const [selectedFile, setSelectedFile] = useState('')
             const [preview,setPreview]=useState('')
             
             useEffect(()=>{
-                // if(preview===''){
-                //     setPreview(Firebase.getCurrentDisplayPhoto())
-                // }
+                
                  if(!selectedFile){
                     setPreview(Firebase.getCurrentDisplayPhoto())
                     return
@@ -80,7 +76,7 @@ const editprofile = (props) => {
                         <div
 
                             style={{
-                                // background: "url(" + image + ")",
+                                
                                 backgroundSize: "cover",
                                 backgroundPosition: "top center",
                                 display: "flex",
@@ -95,28 +91,20 @@ const editprofile = (props) => {
                             }}
                         >
 
-                            <div class="form" method="post" >
-                                {/* {status === 'FILES_UPLOADED' && (
-                                    <div className="success-container">
-                                        <div>
-                                            <h2>Congratulations!</h2>
-                                            <small>You uploaded your files. Get some rest.</small>
-                                        </div>
-                                    </div>
-                                )} */}
+                            <div class="form" method="post" style={{top: "-40px"}}>
+                                
                                 <h2>Edit Profile</h2>
                                 <br></br>
-                                {/* {files.map(({ src }) => ( */}
-                                {/* <div class="logo2" style={{ backgroundImage: `url(${file})` }}> */}
+                                
                                 <div>
                                     <input id="fileUpload" class="imgbutton" type="file" name="Upload" onChange={fileSelectedHandler}
                                     style={{
                                         position: "relative", left: "90px", top: "125px"
                                     }}></input>
                                    
-                                    <img src={preview} class="logo2"></img>
+                                    <img src={preview} class="logo2" alt=""></img>
                                 </div>
-                                {/* ))} */}
+                                
                                 <div class="input">
                                     <div class="inputBox">
                                         <label> Name </label>
@@ -148,17 +136,7 @@ const editprofile = (props) => {
                                         ></input>
                                     </div>
                                 </div>
-                                {/* <div
-                                        style={{
-                                            opacity: uploaded[id] ? 0.2 : 1,
-                                        }}
-                                        key={`thumb${index}`}
-                                        className="thumbnail-wrapper"
-                                    >
-                                        <img className="thumbnail" src={src} alt="" />
-                                        <div className="thumbnail-caption">{file.name}</div>
-                                    </div>
-                                ))} */}
+                                
 
                                 <br></br>
                                 <p class="register">Want to leave a feedback ? <a href="/feedback"> <br></br>Click Here! </a></p>
@@ -193,8 +171,7 @@ const editprofile = (props) => {
                     
                    await Firebase.uploadImage(selectedFile)
                 Firebase.editProfile(name, email)
-                    // alert("Profile Updated Successfully. Thank You!")
-                    // window.location.href="/profile"
+                    
                 } catch (error) {
                     console.log(error)
                     alert("Error in Updating Profile", error)
@@ -211,6 +188,6 @@ const editprofile = (props) => {
     }catch(error){
         console.log(error)
     }
-    //  );
+    
 }
 export default withRouter(editprofile);

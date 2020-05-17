@@ -3,15 +3,24 @@
 /* eslint react/jsx-no-bind: 0 */
 
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes, { func, element } from 'prop-types';
 import firebase from '../../firebase'
 import Rating from "react-rating";
+import "../../Styles/GridButton.css"
+import {
+    MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage,
+    MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn
+} from "mdbreact";
 
 
 var gridTitle
 var gridBookId
 var gridDesc
 var gridImgURL
+var bookExists = true
+var Books = []
+var hasLoaded = false
+var elements
 class SingleGridCell extends React.Component {
 
     constructor(props) {
@@ -54,9 +63,10 @@ class ReactExpandableGrid extends React.Component {
         this.state = {
             expanded: false,
             selected_id: '',
-            gridData: JSON.parse(this.props.gridData)
+            gridData: JSON.parse(this.props.gridData),
+            bookexists: true
         }
-        
+
         // console.log('Grid data',this.props.gridData)
     }
 
@@ -85,9 +95,31 @@ class ReactExpandableGrid extends React.Component {
         window.addEventListener('resize', this.handleResize.bind(this))
     }
 
-    componentWillUnmount() { }
+    componentDidMount() {
 
-    renderExpandedDetail(target) {
+    }
+
+    componentWillUnmount() { }
+    getRelatedBooks(thisIdNumber) {
+
+        gridBookId = this.state.gridData[thisIdNumber]['bookid']
+        gridTitle = this.state.gridData[thisIdNumber]['title']
+        return fetch(`http://127.0.0.1:5000/tagbased?Title=${gridBookId}`)
+
+
+
+    }
+    renderRelatedBooks(Books) {
+
+
+
+
+
+    }
+    renderExpandedDetail(target, Books) {
+        console.log('Test', elements)
+        console.log('Test2', Books)
+
         var thisId = target.id
         var thisIdNumber = parseInt(thisId.substring(10))
         var detail = document.getElementById('expandedDetail')
@@ -98,6 +130,9 @@ class ReactExpandableGrid extends React.Component {
         var insertedFlag = false
 
         ol.insertBefore(detail, ol.childNodes[lengthOfList])
+
+
+
 
         for (var i = startingIndex; i < lengthOfList; i++) {
             if (ol.childNodes[i].className === 'SingleGridCell') {
@@ -117,9 +152,11 @@ class ReactExpandableGrid extends React.Component {
         var arrow = document.getElementById('selected_arrow')
         cell.append(arrow)
         arrow.style.display = 'block'
+
     }
 
     closeExpandedDetail() {
+
         this.setState({
             expanded: false,
             selected_id: ''
@@ -130,11 +167,29 @@ class ReactExpandableGrid extends React.Component {
             arrow.style.display = 'none'
         })
     }
-
+    // conditionalChaining(value){
+    //     if(value){this.setState({bookexists:true})
+    //     bookExists=true}
+    //     else{}
+    // }
     handleCellClick(event) {
+
         var target = event.target
         var thisIdNumber = parseInt(event.target.id.substring(10))
-        
+        var bookid = this.state.gridData[thisIdNumber]['bookid']
+
+        // console.log(bookid)
+        firebase.bookExists(bookid).then(() => {
+            this.setState({ bookexists: true })
+            bookExists = true
+            // console.log("Yes",this.state.bookexists)
+        })
+            .catch(() => {
+                this.setState({ bookexists: false })
+                bookExists = false
+                // console.log('No',this.state.bookexists)
+                // console.log('No2',bookExists)
+            })
 
         if (this.state.expanded) { // expanded == true
             if (this.state.selected_id === event.target.id) { // Clicking on already opened detail
@@ -156,11 +211,32 @@ class ReactExpandableGrid extends React.Component {
                     img.src = this.state.gridData[thisIdNumber]['img']
                     DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
                     ImageLink.href = this.state.gridData[thisIdNumber]['link']
+                    gridBookId = this.state.gridData[thisIdNumber]['bookid']
+                    gridTitle = this.state.gridData[thisIdNumber]['title']
+                    gridImgURL = img.src
+                    gridDesc = description.innerHTML
+                    this.getRelatedBooks(thisIdNumber)
+                        .then(response => response.json())
+                        .then((data) => {
+                            Books = data.map(book => {
+                                const { Title, Bookid, ImgURL, Desc } = book
+                                return { id: Bookid, image: ImgURL, 'link': `https://www.amazon.in/s?k=${Title}&i=stripbooks`, title: Title, desc: Desc, imageBg: ImgURL }
+                            })
 
-                    this.renderExpandedDetail(target)
+                            hasLoaded = true
+                            elements = Books.map((element) => {
+                                return (
+                                    <li key={element.id} style={{ overflow: 'auto' }}>
+                                        <img src={element.image} style={{ height: '200px', width: '150px' }}></img>
+                                        <h4>{element.title}</h4>
+                                    </li>
+                                )
+                            })
+                            this.renderExpandedDetail(target, Books)
+                        })
 
                     detail.style.display = 'block'
-                    console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
+                    // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
                 })
             }
         } else { // expanded == false
@@ -180,11 +256,34 @@ class ReactExpandableGrid extends React.Component {
                 DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
                 ImageLink.href = this.state.gridData[thisIdNumber]['link']
 
-                this.renderExpandedDetail(target)
-                gridBookId=this.state.gridData[thisIdNumber]['bookid']
-                gridTitle=title.innerHTML
-                gridImgURL=img.src
-                gridDesc=description.innerHTML
+                this.getRelatedBooks(thisIdNumber)
+                    .then(response => response.json())
+                    .then((data) => {
+                        Books = data.map(book => {
+                            const { Title, Bookid, ImgURL, Desc } = book
+                            return { id: Bookid, image: ImgURL, 'link': `https://www.amazon.in/s?k=${Title}&i=stripbooks`, title: Title, desc: Desc, imageBg: ImgURL }
+                        })
+
+                        hasLoaded = true
+                        elements = Books.map((element) => {
+                            return (
+                                <li key={element.id} style={{ overflow: 'auto' }}>
+                                    <img src={element.image} style={{ height: '200px', width: '150px' }}></img>
+                                    <h4>{element.title}</h4>
+                                </li>
+                            )
+                        })
+                    })
+                if (hasLoaded) {
+                    this.renderExpandedDetail(target, Books)
+                }
+                // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
+
+                gridBookId = this.state.gridData[thisIdNumber]['bookid']
+                gridTitle = this.state.gridData[thisIdNumber]['title']
+                gridImgURL = img.src
+                gridDesc = description.innerHTML
+                // console.log('Test',gridBookId)
                 detail.style.display = 'block'
             })
         }
@@ -203,7 +302,8 @@ class ReactExpandableGrid extends React.Component {
 
         var cssforExpandedDetail = {
             backgroundColor: this.props.detailBackgroundColor,
-            height: this.props.detailHeight,
+            // height: this.props.detailHeight,
+            height: '600px',
             display: 'none',
             position: 'relative',
             padding: '20px',
@@ -240,8 +340,8 @@ class ReactExpandableGrid extends React.Component {
             marginLeft: '30px',
             textAlign: 'justify',
             wordWrap: 'break-word',
-            overflow:'auto',
-            whiteSpaces:'break-spaces'
+            overflow: 'auto',
+            whiteSpaces: 'break-spaces'
         }
 
         var cssforExpandedDetailLeft
@@ -282,6 +382,9 @@ class ReactExpandableGrid extends React.Component {
             cursor: 'pointer'
         }
 
+
+
+
         // Make Mobile Friendly
         if (window.innerWidth < this.props.show_mobile_style_from_width) {
             cssforExpandedDetailLeft = {
@@ -298,6 +401,7 @@ class ReactExpandableGrid extends React.Component {
                 float: 'right',
                 position: 'relative'
             }
+
         }
 
         var closeX
@@ -307,38 +411,55 @@ class ReactExpandableGrid extends React.Component {
             closeX = ''
         }
 
+
+        // console.log(Books, hasLoaded)
         grid.push(
+
             <li style={cssforExpandedDetail} key='expandedDetail' id='expandedDetail'>
-                <div id='ExpandedDetail_left' className='ExpandedDetail_left' style={cssforExpandedDetailLeft}>
-                    <a id='ExpandedDetailImageLink' style={cssForImageLink}>
-                        <img id='ExpandedDetailImage' className='ExpandedDetailImage' style={cssforExpandedDetailImage} alt='' />
-                    </a>
-                </div>
-                <div id='ExpandedDetail_right' className='ExpandedDetail_right' style={cssforExpandedDetailRight}>
-                    <div id='ExpandedDetail_close' key='ExpandedDetail_close' style={cssforExpandedDetailClose} onClick={this.closeExpandedDetail.bind(this)}>{closeX}</div>
-                    <div id='ExpandedDetailTitle' className='ExpandedDetailTitle' style={cssforExpandedDetailTitle}> Title </div>
-                    <div id='ExpandedDetailDescription' className='ExpandedDetailDescription' style={cssforExpandedDetailDescription}> Some Description</div>
-                    <button 
-                    onClick={()=>{
-                                  firebase.addMyList(firebase.getCurrentUsername(),firebase.getCurrentUID(),gridBookId,gridTitle,gridDesc,gridImgURL)
-                                
+                <div style={{ height: '300px' }}>
+                    <div id='ExpandedDetail_left' className='ExpandedDetail_left' style={cssforExpandedDetailLeft}>
+                        <a id='ExpandedDetailImageLink' style={cssForImageLink}>
+                            <img id='ExpandedDetailImage' className='ExpandedDetailImage' style={cssforExpandedDetailImage} alt='' />
+                        </a>
+                    </div>
+                    <div id='ExpandedDetail_right' className='ExpandedDetail_right' style={cssforExpandedDetailRight}>
+                        <div id='ExpandedDetail_close' key='ExpandedDetail_close' style={cssforExpandedDetailClose} onClick={this.closeExpandedDetail.bind(this)}>{closeX}</div>
+                        <div id='ExpandedDetailTitle' className='ExpandedDetailTitle' style={cssforExpandedDetailTitle}> Title </div>
+                        <div id='ExpandedDetailDescription' className='ExpandedDetailDescription' style={cssforExpandedDetailDescription}> Some Description</div>
+                        {this.state.bookexists ? (<button className='gridbutton'
+                            onClick={() => {
+                                firebase.deleteBook(gridBookId)
+                                this.setState({ bookexists: false })
+                            }}>
+                            Remove from My List</button>) : (<button className='gridbutton'
+                                onClick={() => {
+
+                                    firebase.addMyList(firebase.getCurrentUsername(), firebase.getCurrentUID(), gridBookId, gridTitle, gridDesc, gridImgURL)
+                                    this.setState({ bookexists: true })
                                 }}>
-                                    Add to My List</button>
-                                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
-                    <a id='ExpandedDetailDescriptionLink' style={cssForDescriptionLink}> → Link </a>
-                    
-                                    
-                                <Rating
-                                emptySymbol="fa fa-star-o fa-2x"
-                                fullSymbol="fa fa-star fa-2x"
-                                fractions={2}
-                                onClick={(value)=>{
-                                  firebase.addRating(firebase.getCurrentUsername(),firebase.getCurrentUID(),gridBookId,value)
+                                Add to My List</button>
+                            )}
+
+
+                        <Rating className="gridrating"
+                            emptySymbol="fa fa-star-o fa-2x"
+                            fullSymbol="fa fa-star fa-2x"
+                            fractions={2}
+                            onClick={(value) => {
+                                firebase.addRating(firebase.getCurrentUsername(), firebase.getCurrentUID(), gridBookId, value)
                                 //   console.log(firebase.getCurrentUID(),movie.id,value)
-                                }}
-                                />
+                            }}
+                        />
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+                        <a id='ExpandedDetailDescriptionLink' className="gridlink" style={cssForDescriptionLink}> → Get Book </a>
+                    </div>
                 </div>
+                <br></br>
+
+                <div style={{ color: '#fead03' }}><ul>{elements}</ul>  </div>
+
             </li>
+
         )
 
         return grid

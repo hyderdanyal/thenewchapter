@@ -1,5 +1,6 @@
 import React from "react";
-import BackgroundImg from "../../img/login.jpg";
+import BackgroundImg from "../../img/3132.jpg";
+import Footer from "../Footer/Footer"
 
 
 
@@ -28,7 +29,7 @@ export default function privacy(props) {
                     margin: "30px",
 
                 }}>
-                    <h2><font color="yellow" size="16"><center> End User License Agreement </center></font></h2>
+                    <h2><font color="#fead03" size="16"><center> End User License Agreement </center></font></h2>
                     <br></br>
                     <br></br>
 
@@ -60,7 +61,7 @@ export default function privacy(props) {
                     <br></br>
                     <br></br>
                 </div>
-
+                <Footer></Footer>
             </div>
 
 

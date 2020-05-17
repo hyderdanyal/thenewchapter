@@ -41,7 +41,7 @@ export default function latest(props) {
                 latestbooks:[],
                 latesterror:null
             })
-            const [userId,setUserId]=useState(0)
+            const [userId]=useState(0)
     
             function fetchBooksLatest(){
             
@@ -127,53 +127,3 @@ export default function latest(props) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// <GridContainer>
-//     <Link to='/dashboard'>
-//         <GridItem>
-//             <img src={Book1} alt='' />
-//         </GridItem>
-//     </Link>
-//     <GridItem>
-//         <img src={Book2} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book3} alt="" />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-//     <GridItem>
-//         <img src={Book4} alt='' />
-//     </GridItem>
-// </GridContainer>
-//     <Gallery style={{ width: "100%" }} images={IMAGES} />

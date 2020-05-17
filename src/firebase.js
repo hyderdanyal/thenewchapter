@@ -30,7 +30,7 @@ class Firebase {
     var updateDisplayPicture=app.auth().currentUser
     var uploadTask = this.storage.ref(`images/${this.getCurrentUsername()}.jpg`).put(image);
 
-    // uploadTask.then(data=>console.log('uploaded', data)).catch(err=>console.error(err));
+    
 // Register three observers:
 // 1. 'state_changed' observer, called any time the state changes
 // 2. Error observer, called on failure
@@ -65,27 +65,7 @@ uploadTask.on('state_changed', function(snapshot){
 }
 );
 
-    //  this.storage.ref(`images/${firebase.getCurrentUsername}.jpeg`).put(image);
-    // uploadTask.on(
-    //   "state_changed",
-    //   snapshot => {
-    //     //progress function
-    //     const progress = Math.round(
-    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    //     );
-    //     setSelectedFile[progress] = progress
-    //   })
-    //   () => {
-    //     this.storage
-    //       .ref("images")
-    //       .child(image.name)
-    //       .getDownloadURL()
-    //       .then(url => {
-    //         setFile[url] = url
-    //       })
-    //   }
-    // )
-    // return (file, console.log("AAA", setFile));
+   
   }
   uploadPhoto(downloadURL){
     console.log("DOWNLOADURL::",downloadURL)
@@ -146,9 +126,7 @@ uploadTask.on('state_changed', function(snapshot){
       bookId: bookid,
       ratingValue: ratingValue
   })
-  // .then(function(docRef) {
-  //     console.log("Document written with ID: ", docRef.id);
-  // })
+  
   .catch(function(error) {
       console.error("Error adding document: ", error);
   });
@@ -163,9 +141,7 @@ uploadTask.on('state_changed', function(snapshot){
       ImgURL: bookimage
   })
   
-  // .then(function(docRef) {
-  //     console.log("Document written with ID: ", docRef.id);
-  // })
+  
   .catch(function(error) {
       console.error("Error adding document: ", error);
   });
@@ -174,7 +150,7 @@ uploadTask.on('state_changed', function(snapshot){
   readMyList(uid,name){
     let db=app.firestore()
     const fetchedBooks = [];
-    //  let myListPromise=new Promise((resolve,reject)=>{
+    
     
     
     return db.collection("mylist").doc(name).collection(uid).get()
@@ -186,27 +162,23 @@ uploadTask.on('state_changed', function(snapshot){
         };
         fetchedBooks.push(fetchedBook)
       })
-        // console.log("HELLO",fetchedBooks)
+        
         return new Promise((resolve,reject)=>{
           if(fetchedBooks.length>0){
             resolve(fetchedBooks)
           }
+          else{
+            reject('My List Empty')
+          }
 
         
-      });
-     
-    // })
-    // console.log(fetchedBooks.length)
-    
-      // resolve(fetchedBooks)
-      
+      });   
     
     
   
   })
   
-  // return myListPromise
-  // .then((mylist)=>{return mylist})
+ 
 }
 
 deleteBook(id){
@@ -217,6 +189,30 @@ deleteBook(id){
 
 }
 
+bookExists(bookid){
+  // bookid='2741'
+  let db= app.firestore()
+  var docRef=db.collection('mylist').doc(this.getCurrentUsername()).collection(this.getCurrentUID()).doc(bookid)
+  return docRef.get().then(function(doc) {
+    return new Promise((resolve,reject)=>{
+    if (doc.exists) {
+          resolve(true)
+          // console.log("Book Found");
+        } else {
+          reject(false)
+          // doc.data() will be undefined in this case
+          // console.log("No such document!");
+        }
+      })
+})
+// .catch(function(error) {
+//     console.log("Error getting document:", error);
+// });
+
+    
+
+  }
+
 }
 
 
@@ -224,9 +220,3 @@ deleteBook(id){
 export default new Firebase();
 
 
-// console.log("Current data: ", myListBooks);
-
-// .onSnapshot(function(doc) {
-//     console.log("Current data: ", doc.data());
-//     // console.log("BID",doc.data().bookId)
-// });

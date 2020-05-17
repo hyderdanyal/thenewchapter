@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
-// @material-ui/core components
-// core components
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import image from "../../img/login.jpg";
@@ -159,7 +157,7 @@ const RegisterPage = (props) => {
         });
 
         window.location.href = '/dashboard';
-        // props.history.replace('/dashboard');
+        
       } catch (error) {
         alert(error.message);
       }

@@ -1,0 +1,38 @@
+.gridbutton {
+    background-color: #fead03; /* Green */
+    border: none;
+    border-radius: 10px;
+    color: black;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    
+  }
+  .gridbutton:hover {
+    box-shadow: 0 10px 14px 0 rgba(0,0,0,0.64), 0 17px 20px 0 rgba(0,0,0,0.59);
+  }
+  l:ExpandedDetailDescriptionLink {
+    color: #fead03;
+  }
+  
+  .gridlink:link {
+    color: royalblue;
+  }
+  
+  /* visited link */
+  .gridlink:visited {
+    color: royalblue;
+  }
+  
+  /* mouse over link */
+  .gridlink:hover {
+    color: #fead03;
+  }
+  
+  /* selected link */
+  .gridlink:active {
+    color: #fead03;
+  }
+ 

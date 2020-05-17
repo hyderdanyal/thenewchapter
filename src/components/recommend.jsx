@@ -8,44 +8,48 @@ import { Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import LeftHeader from "../components/Header/leftheader";
 /* eslint-disable react-hooks/rules-of-hooks */
+
+import ReactExpandableGrid from "./Grid/ExpandableGrid";
+
+import { useEffect } from "react";
+import { useState } from "react";
+import Loader from "./loader";
+import firebase from "../firebase";
+import ItemsCarousel from 'react-items-carousel'
 import Carousel from "react-multi-carousel";
-import Book1 from "../img/book1.jpg"
-import Book2 from "../img/book2.jpg"
-import Book3 from "../img/book3.jpg"
-import Book4 from "../img/book4.jpg"
-import Search from "../components/search"
-import ReactExpandableGrid from "./Grid/ExpandableSlider";
-import Rating from "react-rating"; 
-
-
+import "react-multi-carousel/lib/styles.css";
 
 
 
 const responsive = {
     superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5,
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
     },
     desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 5,
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
     },
     tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
     },
     mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-    },
-};
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
+
 
 
 const session = Session.get();
+var mf_data
+var mf_data_strings
+var isDataFetching=false
 
-
-export default function latest(props) {
+export default function recommend(props) {
     if (session.isValid === false) {
         alert('Please Login First!');
         return <Redirect to="/login" />
@@ -53,23 +57,61 @@ export default function latest(props) {
     else {
         try {
 
-            var data=[
-                { 'img': 'http://i.imgur.com/mf3qfzt.jpg', 'link': 'https://www.instagram.com/p/BQvy7gbgynF/', 'title': 'Elephants', 'description': 'Photo by @ronan_donovan // Two bull African elephants at dawn in Uganda\'s Murchison Falls National Park. See more from Uganda with @ronan_donovan.' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
-            { 'img': 'http://i.imgur.com/zIEjP6Q.jpg', 'link': 'https://www.instagram.com/p/BRFjVZtgSJD/', 'title': 'Westland Tai Poutini National Park', 'description': 'Photo by @christopheviseux / The Westland Tai Poutini National Park in New Zealand’s South Island offers a remarkable opportunity to take a guided walk on a glacier. A helicopter drop high on the Franz Josef Glacier, provides access to explore stunning ice formations and blue ice caves. Follow me for more images around the world @christopheviseux #newzealand #mountain #ice' },
+            if (!firebase.getCurrentUsername()) {
+                alert('Please Login First')
+                props.history.replace('/login')
+                return null
+            }
 
-            { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
-        ]
-        var data_strings=JSON.stringify(data)
+            const [userId]=useState(0)
+            
+            const [mfState,setMfState]=useState({
+                mfhasLoaded:false,
+                mfbooks:[],
+                mferror:null
+            })
+
+            function fetchBooksMf(){
+                let uid=firebase.getCurrentUID()    
+                fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
+                        .then(response=>response.json())
+                        .then((data)=>{
+                            
+                            setMfState({
+                                mfbooks:data,
+                                mfhasLoaded:true
+                            })
+                            
+                        })
+                        .catch(mferror=>setMfState({
+                            mferror,
+                            mfhasLoaded:true}))
+                            
+                            
+                        }
+            
+                        const{mfhasLoaded,mfbooks,mferror}=mfState     
+                    
+            useEffect(()=>{
+                fetchBooksMf()
+            },[userId])
+
+            mf_data=mfbooks.map(book=>{
+                const{Title,Bookid,ImgURL,Desc}=book
+                
+                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc,'bookid':Bookid}
+                
+            })
+            mf_data_strings=JSON.stringify(mf_data)
 
 
             return (
                 <>
+                {mferror ?<p>{mferror.message}</p> : null}
+                {mfhasLoaded ?(    
                     <div style={{
                         backgroundImage: `url(${BackgroundDiv})`,
-                        height: "100vh"
+                        height: "100"
                     }}>
                         <Header
                             brand="The New Chapter"
@@ -88,77 +130,48 @@ export default function latest(props) {
                         <br></br>
                         <br></br>
                         <br></br>
+                        <div style={{background:'white'}}>
+                        <Carousel responsive={responsive}>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+  <div>Item 4</div>
+</Carousel>
+</div>
                         <div >
+                            
+                                
                             
                             <div >
                                 <br></br>
                                 <h2><font color="#fead03"> Recommended Books </font></h2>
                                 <div>
+                                {mfhasLoaded ? (
                                 <ReactExpandableGrid
-                                gridData={data_strings} />
+                                gridData={mf_data_strings} />
+                                ):(<Loader/>)}
                                 </div>
 
 
 
-                                {/* <Carousel responsive={responsive}
-                                    swipeable={false}
-                                    draggable={false}
-                                    showDots={true}
-                                    //autoPlay={true}
-                                    //responsive={responsive}
-                                    ssr={true} // means to render carousel on server-side.
-                                    infinite={true}
-                                    autoPlay={props.deviceType !== "mobile" ? true : false}
-                                    autoPlaySpeed={1000}
-                                    keyBoardControl={true}
-                                    customTransition="all .8"
-                                    transitionDuration={1800}
-                                    containerClass="carousel-container"
-                                    removeArrowOnDeviceType={["tablet", "mobile"]}
-                                    deviceType={props.deviceType}
-                                    dotListClass="custom-dot-list-style"
-                                    itemClass="carousel-item-padding-40-px"
-                                >
-                                    <div>
-                                        <img src={Book1} alt="" />
-                                    </div>
-                                    <div>
-                                        <img src={Book2} alt="" />
-                                    </div>
-                                    <div>
-                                        <img src={Book3} alt="" />
-                                    </div>
-                                    <div>
-                                        <img src={Book4} alt="" />
-                                    </div>
-                                    <div>
-                                        <img src={Book4} alt="" />
-                                    </div>
-                                    <div>
-                                        <img src={Book4} alt="" />
-                                    </div>
-                                    <div>
-                                        <img src={Book4} alt="" />
-                                    </div>
-                                </Carousel>; */}
-                            <br></br>
-                                <br></br>
-                                <br></br>
+                                
+                            
                             </div>
 
 
 
-                            <br></br>
+                            
                         </div>
 
-                    </div>
 
                     <Footer></Footer>
+                    </div>
+                    ):(<Loader/>)}
                 </>
             )
         } catch{
-            alert("Login Again")
-            return <Redirect to="/login" />
+            
+            return <Loader/>
         }
 
     }

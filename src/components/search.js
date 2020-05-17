@@ -1,21 +1,9 @@
 import React,{useState,useCallback} from 'react';
 import {AsyncTypeahead} from "react-bootstrap-typeahead";
-// import 'react-bootstrap-typeahead/css/Typeahead.css';
-// import AsyncExample from "react-bootstrap-typeahead"
-// import "../Styles/searchStyle.css";
-// import ReactLiveSearch from 'react-live-search'
 
-
-//   export default class Search extends React.Component {
-  
-
-//     render() {
-     
-//             }
-//     };
 
     export var data=[]
-    // const SEARCH_URI = 'https://api.github.com/search/users';
+    
     const SEARCH_URI = 'http://127.0.0.1:5000/search'
 
     const Search = () => {
@@ -24,7 +12,7 @@ import {AsyncTypeahead} from "react-bootstrap-typeahead";
     
       const handleSearch = useCallback((query) => {
         setIsLoading(true);
-        // +in:login&page=1&per_page=50
+        
         fetch(`${SEARCH_URI}?q=${query}`)
 
           .then((resp) => resp.json())
@@ -36,8 +24,7 @@ import {AsyncTypeahead} from "react-bootstrap-typeahead";
               login: i.Title,
               desc:i.Desc
             }));
-            // console.log("OPTIONS::",options)
-            // items.onClick=searching()
+            
             setOptions(options);
             setIsLoading(false);
           });
@@ -91,46 +78,7 @@ export default Search
 
 
 
-//     state = {
-//         value: '',
-//         data: [
-//             { label: 'test', value: 1 },
-//             { label: 'work', value: 2 },
-//             { label: 'great', value: 3 },
-//             { label: 'bar', value: 4 },
-//             { label: 'foo', value: 5 }
-//         ]
-//     };
 
-//     onChange = value => {
-//         this.setState({
-//             value
-//         });
-//     };
-
-//     onSelect = v => {
-//         console.log(v)
-//     };
-
-
-//     render() {
-//         return (
-
-
-//             <ReactLiveSearch style={{
-//                 backgroundColor: "#fead03"
-//             }}
-//                 value={this.state.value}
-//                 onChange={this.onChange}
-//                 onSelect={this.onSelect}
-//                 data={this.state.data}
-//             />
-//         )
-//     }
-
-
-
-// }
 
 
 

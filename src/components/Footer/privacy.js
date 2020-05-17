@@ -1,6 +1,6 @@
 import React from "react";
-import BackgroundImg from "../../img/login.jpg";
-
+import BackgroundImg from "../../img/3132.jpg";
+import Footer from "../Footer/Footer"
 
 
 
@@ -28,7 +28,7 @@ export default function privacy(props) {
                     margin: "30px",
 
                 }}>
-                    <h2><font color="yellow" size="16"><center> Privacy Policy </center></font></h2>
+                    <h2><font color="#fead03" size="16"><center> Privacy Policy </center></font></h2>
                     <br></br>
                     <br></br>
 
@@ -91,7 +91,7 @@ To protect your privacy and security, we take reasonable steps (such as requesti
                     <br></br>
                     <br></br>
                 </div>
-
+                <Footer></Footer>
             </div>
 
 

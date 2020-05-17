@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Header from "./Header/Header";
 import HeaderLinks from "./Header/HeaderLinks";
 import styles from "../Styles/homeStyle";
-import Footer from "../components/Footer/Footer";
+import Footer from "./Footer/Footer";
 import Background from "../img/home.jpg";
 import { Button } from "@material-ui/core";
 import TypedR from "../Styles/typed"
@@ -17,25 +17,7 @@ import "../Styles/homestyle.css";
 import BookGif from "../img/bookgif.gif";
 import GenreImg from "../img/genrecss.png";
 
-const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 4,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
+
 const useStyles = makeStyles(styles);
 //KALYE
 const session = Session.get();
@@ -204,7 +186,7 @@ export default function Components(props) {
                 <ul class="stage clearfix">
 
                   <li class="scene">
-                    <div class="movie" onClick="return true">
+                    <div class="movie" >
                       <div class="poster"></div>
                       <div class="info">
                         <h1><br></br>Curious George Rides a Bike</h1>
@@ -222,7 +204,7 @@ export default function Components(props) {
                   </li>
 
                   <li class="scene">
-                    <div class="movie" onClick="return true">
+                    <div class="movie">
                       <div class="poster"></div>
                       <div class="info">
                         <h1><br></br>Sapphique</h1>
@@ -238,7 +220,7 @@ export default function Components(props) {
                   </li>
 
                   <li class="scene">
-                    <div class="movie" onClick="return true">
+                    <div class="movie" >
                       <div class="poster"></div>
                       <div class="info">
                         <h1><br></br> It's A Magical World</h1>
@@ -253,7 +235,7 @@ export default function Components(props) {
                     </div>
                   </li>
                   <li class="scene">
-                    <div class="movie" onClick="return true">
+                    <div class="movie" >
                       <div class="poster"></div>
                       <div class="info">
                         <h1><br></br>The Pearl That Broke Its Shell</h1>
@@ -269,7 +251,7 @@ export default function Components(props) {
                   </li>
 
                   <li class="scene">
-                    <div class="movie" onClick="return true">
+                    <div class="movie" >
                       <div class="poster"></div>
                       <div class="info">
                         <h1><br></br> Like the Flowing River </h1>
@@ -329,7 +311,7 @@ export default function Components(props) {
             <div style={{ color: "yellow", textAlign: "right", width: "50%", paddingRight: "10%" }} className="c">
               <h3 className={classes.title} style={{ textAlign: "right" }}>Genres </h3>
               <br></br><br></br><br></br>
-              <h2 style={{ textAlign: "right", margin:"25px" }}> We have <i><b>17863</b></i> books of <i><b>412</b></i> genres. </h2>
+              <h2 style={{ textAlign: "right", margin:"25px" }}> We have <i><b>10000</b></i> books of <i><b>230</b></i> genres. </h2>
               <br></br>
               <Link to='/login'><button class="button" size="lg"
                 

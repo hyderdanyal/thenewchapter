@@ -4,17 +4,11 @@ import BackgroundDiv from "../img/divwood.jpg";
 import Header from "./Header/Header";
 import HeaderLinks from "./Header/DashHeaderLink";
 import Footer from "./Footer/Footer";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import Book1 from "../img/book1.jpg"
-import Book2 from "../img/book2.jpg"
-import Book3 from "../img/book3.jpg"
-import Book4 from "../img/book4.jpg"
 import { Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import firebase from "../firebase";
 import LeftHeader from "./Header/leftheader";
-import ReactExpandableGrid from "./Grid/ExpandableSlider";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loader from './loader'
@@ -24,30 +18,11 @@ import Slider from './Slider/components/NetflixSlider'
 
 
 
-const responsive = {
-    superLargeDesktop: {
-        // the naming can be any, depends on you.
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5,
-    },
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 5,
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-    },
-};
 
 const session = Session.get();
 var rating_data
-var rating_data_strings
-var myListBooks=[]
+var mf_data
+
 
 export default function mylist(props) {
     if (session.isValid === false) {
@@ -63,24 +38,30 @@ export default function mylist(props) {
                 return null
             }
 
-            const [myList,setMyList]=useState({
-                hasLoaded:false
-            })
-
+            
             const [ratingState,setRatingState]=useState({
                 ratinghasLoaded:false,
                 ratingbooks:[],
                 ratingerror:null
             })
-            const [userId,setUserId]=useState(0)
+
+            const [mfState,setMfState]=useState({
+                mfhasLoaded:false,
+                mfbooks:[],
+                mferror:null
+            })
+
+            const [userId]=useState(0)
+
             const {ratinghasLoaded,ratingbooks,ratingerror}=ratingState
+            const{mfhasLoaded,mfbooks,mferror}=mfState
                                                       
                                             function fetchBooksRating(){
                         
                                                 fetch("http://127.0.0.1:5000/ratingbased")
                                                         .then(response=>response.json())
                                                         .then((data)=>{
-                                                            // console.log(data)
+                                                            
                                                             setRatingState({
                                                                 ratingbooks:data,
                                                                 ratinghasLoaded:true
@@ -93,27 +74,41 @@ export default function mylist(props) {
                                                             
                                                             
                                                         }
-                                                
-                                                            // const{ratinghasLoaded,ratingbooks,ratingerror}=ratingState
-                                                            useEffect(()=>{
-                                                                fetchBooksRating()
-                                                                firebase.readMyList(firebase.getCurrentUID(),firebase.getCurrentUsername())
-                                                                .then((response)=>{
-                                                                    // console.log(response)
-                                                                    myListBooks=response.map(book=>{
-                                                                        const{Title,Bookid,ImgURL,Desc}=book
+                                            
+                                                        function fetchBooksMf(){
+                                                            let uid=firebase.getCurrentUID()    
+                                                            fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
+                                                                    .then(response=>response.json())
+                                                                    .then((data)=>{
                                                                         
-                                                                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
+                                                                        setMfState({
+                                                                            mfbooks:data,
+                                                                            mfhasLoaded:true
+                                                                        })
                                                                         
                                                                     })
-                                                                   setMyList({hasLoaded:true})
-                                                                    // console.log(myListBooks)
-                                                                })
+                                                                    .catch(mferror=>setMfState({
+                                                                        mferror,
+                                                                        mfhasLoaded:true}))
+                                                                        
+                                                                        
+                                                                    }            
+                                                                    function fetchBookID(){
+                                                                        let uid=firebase.getCurrentUID()  
+                                                                        let uname=firebase.getCurrentUsername()
+                                                                        fetch(`http://127.0.0.1:5000/bookname?name=${uname}&uid=${uid}`)
+                                                                        // console.log("ddddd", uname,uid )
+                                                                    }
+                                                                    
+                                                                    useEffect(()=>{
+                                                                        fetchBooksRating()
+                                                                        fetchBooksMf()
+                                                                        fetchBookID()
                                                                 
                                                                 
+                                                                        // firebase.bookExists()
                                                             },[userId])
-                                                            // console.log(myList)
-
+                                                            
 
             rating_data=ratingbooks.map(book=>{
                         const{Title,Bookid,ImgURL,Desc}=book
@@ -121,22 +116,23 @@ export default function mylist(props) {
                         return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
                         
                     })
-                    rating_data_strings=JSON.stringify(rating_data)
+                    
+            mf_data=mfbooks.map(book=>{
+                        const{Title,Bookid,ImgURL,Desc}=book
+                        
+                        return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
+                        
+                    })
+                          
 
-                    // rating_data=ratingbooks.map(book=>{
-                    //     const{Title,Bookid,ImgURL,Desc}=book
-                        
-                    //     return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc}
-                        
-                    // })
-                    // rating_data_strings=JSON.stringify(rating_data)
-       const {hasLoaded}=myList
+                    
+       
             return (
 
-                <React.Fragment>
+                <React.Fragment >
                     {ratingerror ?<p>{ratingerror.message}</p> : null}
                 {ratinghasLoaded ?(    
-                <div style={{ backgroundImage: `url(${BackgroundDiv})` }}>
+                    <div style={{  height: "100", backgroundImage: `url(${BackgroundDiv})` }}>
                     <Header
                         brand="The New Chapter"
                         leftLinks={<LeftHeader />}
@@ -147,27 +143,24 @@ export default function mylist(props) {
                             height: 400,
                             color: "white"
                         }}
-                    />
+                        />
                     <br></br>
                     <br></br>
                     <br></br>
                     <br></br>
                     <br></br>
 
-
+                        
 
                     <div >
                         <br></br>
                         <h2><font color="#fead03"> Top Books </font></h2>
                         <div>
-                        {hasLoaded ? (
                         <Slider>
-                        {}
-                        {myListBooks.map(rating_data => (
-                        <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
-                         ))}
-                            </Slider>    
-                            ):(<Loader/>)}
+                            {rating_data.map(rating_data => (
+                            <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
+                            ))}
+                            </Slider> 
                                 </div>
                             <br></br>
                             
@@ -180,30 +173,31 @@ export default function mylist(props) {
                         <br></br>
                         <h2><font color="#fead03"> Recommended Books </font></h2>
                         <div>
-                        <Slider>
-                            {rating_data.map(rating_data => (
-                            <Slider.Item movie={rating_data} key={rating_data.id}>item1</Slider.Item>
+                        {mfhasLoaded ? (
+                            <Slider>
+                            {mf_data.map(mf_data => (
+                            <Slider.Item movie={mf_data} key={mf_data.id}>item1</Slider.Item>
                             ))}
                             </Slider> 
-                                {/* <ReactExpandableGrid
-                                gridData={rating_data_strings} /> */}
+                            
+                            ):(mferror)}
+                        
+                                
                                 </div>
                             <br></br>
                         <br></br>
                         <br></br>
                     </div>
 
-                    <br></br>
-                    <br></br>
+                    
 
-                    <Footer></Footer>
                 </div>
                 ):(<Loader/>)}
+                <Footer></Footer>
                 </React.Fragment>
             )
         } catch{
-            alert("Login Again")
-            return <Redirect to="/login" />
+            return <Loader/>
         }
     }
 }

@@ -43,7 +43,7 @@ class Background extends React.Component{
                        <div key={Bookid}>
                            <p>Title:{Title}</p>
                            <p>ImgURL:{ImgURL}</p>
-                           <img src={ImgURL}></img>
+                           <img src={ImgURL} alt=""></img>
                            <p>Description:{Desc}</p>
                        <hr />
                        </div> 
