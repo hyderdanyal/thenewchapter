@@ -20,7 +20,8 @@ var gridImgURL
 var bookExists = true
 var Books = []
 var hasLoaded = false
-var elements
+// var elements = []
+var relatedBookshtml = []
 class SingleGridCell extends React.Component {
 
     constructor(props) {
@@ -34,6 +35,7 @@ class SingleGridCell extends React.Component {
     }
 
     cellClick(event) {
+
         this.props.handleCellClick(event)
     }
 
@@ -96,6 +98,10 @@ class ReactExpandableGrid extends React.Component {
     }
 
     componentDidMount() {
+        if (hasLoaded) {
+
+
+        }
 
     }
 
@@ -104,25 +110,52 @@ class ReactExpandableGrid extends React.Component {
 
         gridBookId = this.state.gridData[thisIdNumber]['bookid']
         gridTitle = this.state.gridData[thisIdNumber]['title']
+
         return fetch(`http://127.0.0.1:5000/tagbased?Title=${gridBookId}`)
 
 
 
     }
     renderRelatedBooks(Books) {
+        function recommendClicked() {
+            console.log('Clicked!!')
+        }
+        //relatedBooksGrid
+        let elements = []
+        elements = Books.map((element) => {
+            if (elements.length > 0) console.log('Abey Saale!!!!')
 
-
-
-
+            return (
+                `<li id=${element.id} key=${element.id} style="display:inline;" onclick="recommendClicked"   >
+                    <img src=${element.image} style="height: 200px; width: 150px;></img>
+                    <h3>${element.title}</h3>
+                </li>`
+            )
+            // document.getElementById(`${element.id}`)
+            // var green = document.getElementById('relatedBooksGrid')
+            // green.insertAdjacentElement('beforebegin', elements)
+        })
+        return elements;
 
     }
     renderExpandedDetail(target, Books) {
-        console.log('Test', elements)
         console.log('Test2', Books)
-
+        if (relatedBookshtml.length > 0) console.log('Has values', relatedBookshtml)
+        relatedBookshtml = this.renderRelatedBooks(Books)
+        // console.log('Test', elements)
+        // console.log('Has Updated values', relatedBookshtml)
         var thisId = target.id
         var thisIdNumber = parseInt(thisId.substring(10))
         var detail = document.getElementById('expandedDetail')
+        // console.log('EXPANDED DETAILS', detail)
+        var rhtml = document.getElementById('relatedBooksGrid')
+
+        // let abcd = JSON.stringify(relatedBookshtml)
+        // rhtml.innerHTML = elements
+        // console.log('Testing', abcd)
+        // let abcd = '<li><p>Hello</p></li>'
+        rhtml.innerHTML = ''
+        rhtml.insertAdjacentHTML('afterbegin', relatedBookshtml);
         var ol = target.parentNode
         var lengthOfList = parseInt(ol.childNodes.length)
         var startingIndex = thisIdNumber + 1
@@ -138,6 +171,7 @@ class ReactExpandableGrid extends React.Component {
             if (ol.childNodes[i].className === 'SingleGridCell') {
                 if (ol.childNodes[i].offsetTop !== ol.childNodes[thisIdNumber].offsetTop) {
                     ol.childNodes[i].insertAdjacentElement('beforebegin', detail)
+                    // ol.childNodes[i].insertAdjacentElement('beforebegin', rhtml)
                     insertedFlag = true
                     break
                 }
@@ -173,7 +207,9 @@ class ReactExpandableGrid extends React.Component {
     //     else{}
     // }
     handleCellClick(event) {
-
+        if (!event || !event.target) {
+            return;
+        }
         var target = event.target
         var thisIdNumber = parseInt(event.target.id.substring(10))
         var bookid = this.state.gridData[thisIdNumber]['bookid']
@@ -196,66 +232,6 @@ class ReactExpandableGrid extends React.Component {
                 this.closeExpandedDetail()
                 this.renderExpandedDetail(target)
             } else { // Clicking on a different thumbnail, when detail is already expanded
-                this.setState({
-                    expanded: true,
-                    selected_id: event.target.id
-                }, function afterStateChange() {
-                    var detail = document.getElementById('expandedDetail')
-                    var description = document.getElementById('ExpandedDetailDescription')
-                    var title = document.getElementById('ExpandedDetailTitle')
-                    var img = document.getElementById('ExpandedDetailImage')
-                    var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
-                    var ImageLink = document.getElementById('ExpandedDetailImageLink')
-                    description.innerHTML = this.state.gridData[thisIdNumber]['description']
-                    title.innerHTML = this.state.gridData[thisIdNumber]['title']
-                    img.src = this.state.gridData[thisIdNumber]['img']
-                    DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
-                    ImageLink.href = this.state.gridData[thisIdNumber]['link']
-                    gridBookId = this.state.gridData[thisIdNumber]['bookid']
-                    gridTitle = this.state.gridData[thisIdNumber]['title']
-                    gridImgURL = img.src
-                    gridDesc = description.innerHTML
-                    this.getRelatedBooks(thisIdNumber)
-                        .then(response => response.json())
-                        .then((data) => {
-                            Books = data.map(book => {
-                                const { Title, Bookid, ImgURL, Desc } = book
-                                return { id: Bookid, image: ImgURL, 'link': `https://www.amazon.in/s?k=${Title}&i=stripbooks`, title: Title, desc: Desc, imageBg: ImgURL }
-                            })
-
-                            hasLoaded = true
-                            elements = Books.map((element) => {
-                                return (
-                                    <li key={element.id} style={{ overflow: 'auto' }}>
-                                        <img src={element.image} style={{ height: '200px', width: '150px' }}></img>
-                                        <h4>{element.title}</h4>
-                                    </li>
-                                )
-                            })
-                            this.renderExpandedDetail(target, Books)
-                        })
-
-                    detail.style.display = 'block'
-                    // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
-                })
-            }
-        } else { // expanded == false
-            this.setState({
-                expanded: true,
-                selected_id: event.target.id
-            }, function afterStateChange() {
-                var detail = document.getElementById('expandedDetail')
-                var description = document.getElementById('ExpandedDetailDescription')
-                var title = document.getElementById('ExpandedDetailTitle')
-                var img = document.getElementById('ExpandedDetailImage')
-                var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
-                var ImageLink = document.getElementById('ExpandedDetailImageLink')
-                description.innerHTML = this.state.gridData[thisIdNumber]['description']
-                title.innerHTML = this.state.gridData[thisIdNumber]['title']
-                img.src = this.state.gridData[thisIdNumber]['img']
-                DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
-                ImageLink.href = this.state.gridData[thisIdNumber]['link']
-
                 this.getRelatedBooks(thisIdNumber)
                     .then(response => response.json())
                     .then((data) => {
@@ -263,29 +239,79 @@ class ReactExpandableGrid extends React.Component {
                             const { Title, Bookid, ImgURL, Desc } = book
                             return { id: Bookid, image: ImgURL, 'link': `https://www.amazon.in/s?k=${Title}&i=stripbooks`, title: Title, desc: Desc, imageBg: ImgURL }
                         })
-
                         hasLoaded = true
-                        elements = Books.map((element) => {
-                            return (
-                                <li key={element.id} style={{ overflow: 'auto' }}>
-                                    <img src={element.image} style={{ height: '200px', width: '150px' }}></img>
-                                    <h4>{element.title}</h4>
-                                </li>
-                            )
+
+                        this.setState({
+                            expanded: true,
+                            selected_id: thisIdNumber
+                        }, function afterStateChange() {
+                            var detail = document.getElementById('expandedDetail')
+                            var description = document.getElementById('ExpandedDetailDescription')
+                            var title = document.getElementById('ExpandedDetailTitle')
+                            var img = document.getElementById('ExpandedDetailImage')
+                            var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
+                            var ImageLink = document.getElementById('ExpandedDetailImageLink')
+                            description.innerHTML = this.state.gridData[thisIdNumber]['description']
+                            title.innerHTML = this.state.gridData[thisIdNumber]['title']
+                            img.src = this.state.gridData[thisIdNumber]['img']
+                            DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
+                            ImageLink.href = this.state.gridData[thisIdNumber]['link']
+                            gridBookId = this.state.gridData[thisIdNumber]['bookid']
+                            gridTitle = this.state.gridData[thisIdNumber]['title']
+                            gridImgURL = img.src
+                            gridDesc = description.innerHTML
+
+                            this.renderExpandedDetail(target, Books)
+
+
+                            detail.style.display = 'block'
+                            // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
                         })
                     })
-                if (hasLoaded) {
-                    this.renderExpandedDetail(target, Books)
-                }
-                // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
+            }
+        } else { // expanded == false
+            this.getRelatedBooks(thisIdNumber)
+                .then(response => response.json())
+                .then((data) => {
+                    Books = data.map(book => {
+                        const { Title, Bookid, ImgURL, Desc } = book
+                        return { id: Bookid, image: ImgURL, 'link': `https://www.amazon.in/s?k=${Title}&i=stripbooks`, title: Title, desc: Desc, imageBg: ImgURL }
+                    })
+                    hasLoaded = true
 
-                gridBookId = this.state.gridData[thisIdNumber]['bookid']
-                gridTitle = this.state.gridData[thisIdNumber]['title']
-                gridImgURL = img.src
-                gridDesc = description.innerHTML
-                // console.log('Test',gridBookId)
-                detail.style.display = 'block'
-            })
+
+                    this.setState({
+                        expanded: true,
+                        selected_id: thisIdNumber
+                    }, function afterStateChange() {
+                        var detail = document.getElementById('expandedDetail')
+                        var description = document.getElementById('ExpandedDetailDescription')
+                        var title = document.getElementById('ExpandedDetailTitle')
+                        var img = document.getElementById('ExpandedDetailImage')
+                        var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
+                        var ImageLink = document.getElementById('ExpandedDetailImageLink')
+                        description.innerHTML = this.state.gridData[thisIdNumber]['description']
+                        title.innerHTML = this.state.gridData[thisIdNumber]['title']
+                        img.src = this.state.gridData[thisIdNumber]['img']
+                        DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
+                        ImageLink.href = this.state.gridData[thisIdNumber]['link']
+
+                        this.renderExpandedDetail(target, Books)
+
+
+
+
+                        // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
+                        // this.renderExpandedDetail(target, Books)
+
+                        gridBookId = this.state.gridData[thisIdNumber]['bookid']
+                        gridTitle = this.state.gridData[thisIdNumber]['title']
+                        gridImgURL = img.src
+                        gridDesc = description.innerHTML
+                        // console.log('Test',gridBookId)
+                        detail.style.display = 'block'
+                    })
+                })
         }
     }
 
@@ -454,10 +480,10 @@ class ReactExpandableGrid extends React.Component {
                         <a id='ExpandedDetailDescriptionLink' className="gridlink" style={cssForDescriptionLink}> → Get Book </a>
                     </div>
                 </div>
-                <br></br>
-
-                <div style={{ color: '#fead03' }}><ul>{elements}</ul>  </div>
-
+                <br></br><br></br><br></br>
+                <div>
+                    <div style={{ color: '#fead03', height: "200px", overflow: "scroll" }}><ul id="relatedBooksGrid"></ul>  </div>
+                </div>
             </li>
 
         )
@@ -466,6 +492,8 @@ class ReactExpandableGrid extends React.Component {
     }
 
     render() {
+
+        console.log('Meh HU Nobita')
         var rows = this.generateGrid()
 
         var cssForGridDetailExpansion = {
@@ -496,6 +524,7 @@ class ReactExpandableGrid extends React.Component {
             marginLeft: this.props.cellSize / 2 - 20,
             display: 'none'
         }
+
 
         return (
             <div id='GridDetailExpansion' style={cssForGridDetailExpansion}>
