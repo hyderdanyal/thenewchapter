@@ -7,10 +7,6 @@ import PropTypes, { func, element } from 'prop-types';
 import firebase from '../../firebase'
 import Rating from "react-rating";
 import "../../Styles/GridButton.css"
-import {
-    MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage,
-    MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn
-} from "mdbreact";
 
 
 var gridTitle
@@ -123,13 +119,24 @@ class ReactExpandableGrid extends React.Component {
         //relatedBooksGrid
         let elements = []
         elements = Books.map((element) => {
-            if (elements.length > 0) console.log('Abey Saale!!!!')
+
 
             return (
-                `<li id=${element.id} key=${element.id} style="display:inline;" onclick="recommendClicked"   >
-                    <img src=${element.image} style="height: 200px; width: 150px;></img>
-                    <h3>${element.title}</h3>
+                `<li id=${element.id} key=${element.id} style="display:inline;height:300px;width:100%" >
+                    <div style="vertical-align: top;
+                    display: inline-block;
+                    text-align: center;
+                    height:300px;
+                    width: 150px;">
+                    <img src=${element.image} onclick="window.location.href='/searchpage?q=${element.id}'" style="height: 200px; width: 150px;></img>
+                    <h3 style="display: block;" >${element.title}</h3>
+                    
+                    </div>
                 </li>`
+                // <li id={element.id} key={element.id} style={{display:'inline'}} onClick={recommendClicked()}  >
+                //     <img src={element.image} style={{height: '200px', width: '150px'}}></img>
+                //     <h3>{element.title}</h3>
+                // </li>
             )
             // document.getElementById(`${element.id}`)
             // var green = document.getElementById('relatedBooksGrid')
@@ -149,11 +156,12 @@ class ReactExpandableGrid extends React.Component {
         var detail = document.getElementById('expandedDetail')
         // console.log('EXPANDED DETAILS', detail)
         var rhtml = document.getElementById('relatedBooksGrid')
-
+        // console.log("OUTER", rhtml.outerHTML)
         // let abcd = JSON.stringify(relatedBookshtml)
         // rhtml.innerHTML = elements
         // console.log('Testing', abcd)
         // let abcd = '<li><p>Hello</p></li>'
+
         rhtml.innerHTML = ''
         rhtml.insertAdjacentHTML('afterbegin', relatedBookshtml);
         var ol = target.parentNode
@@ -329,7 +337,7 @@ class ReactExpandableGrid extends React.Component {
         var cssforExpandedDetail = {
             backgroundColor: this.props.detailBackgroundColor,
             // height: this.props.detailHeight,
-            height: '600px',
+            height: '700px',
             display: 'none',
             position: 'relative',
             padding: '20px',
@@ -479,10 +487,11 @@ class ReactExpandableGrid extends React.Component {
                         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
                         <a id='ExpandedDetailDescriptionLink' className="gridlink" style={cssForDescriptionLink}> → Get Book </a>
                     </div>
+                    <br></br><br></br><br></br>
                 </div>
                 <br></br><br></br><br></br>
                 <div>
-                    <div style={{ color: '#fead03', height: "200px", overflow: "scroll" }}><ul id="relatedBooksGrid"></ul>  </div>
+                    <div style={{ color: '#fead03', height: "300px", overflow: "hidden" }}><ul id="relatedBooksGrid"></ul>  </div>
                 </div>
             </li>
 

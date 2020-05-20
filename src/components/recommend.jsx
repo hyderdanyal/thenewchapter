@@ -23,23 +23,23 @@ import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
     superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
+        // the naming can be any, depends on you.
+        breakpoint: { max: 4000, min: 3000 },
+        items: 5
     },
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3
+        breakpoint: { max: 3000, min: 1024 },
+        items: 3
     },
     tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
+        breakpoint: { max: 1024, min: 464 },
+        items: 2
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
+        breakpoint: { max: 464, min: 0 },
+        items: 1
     }
-  };
+};
 
 
 
@@ -47,7 +47,7 @@ const responsive = {
 const session = Session.get();
 var mf_data
 var mf_data_strings
-var isDataFetching=false
+var isDataFetching = false
 
 export default function recommend(props) {
     if (session.isValid === false) {
@@ -63,115 +63,116 @@ export default function recommend(props) {
                 return null
             }
 
-            const [userId]=useState(0)
-            
-            const [mfState,setMfState]=useState({
-                mfhasLoaded:false,
-                mfbooks:[],
-                mferror:null
+            const [userId] = useState(0)
+
+            const [mfState, setMfState] = useState({
+                mfhasLoaded: false,
+                mfbooks: [],
+                mferror: null
             })
 
-            function fetchBooksMf(){
-                let uid=firebase.getCurrentUID()    
+            function fetchBooksMf() {
+                let uid = firebase.getCurrentUID()
                 fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
-                        .then(response=>response.json())
-                        .then((data)=>{
-                            
-                            setMfState({
-                                mfbooks:data,
-                                mfhasLoaded:true
-                            })
-                            
-                        })
-                        .catch(mferror=>setMfState({
-                            mferror,
-                            mfhasLoaded:true}))
-                            
-                            
-                        }
-            
-                        const{mfhasLoaded,mfbooks,mferror}=mfState     
-                    
-            useEffect(()=>{
-                fetchBooksMf()
-            },[userId])
+                    .then(response => response.json())
+                    .then((data) => {
 
-            mf_data=mfbooks.map(book=>{
-                const{Title,Bookid,ImgURL,Desc}=book
-                
-                return {'img':ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,'title':Title,'description':Desc,'bookid':Bookid}
-                
+                        setMfState({
+                            mfbooks: data,
+                            mfhasLoaded: true
+                        })
+
+                    })
+                    .catch(mferror => setMfState({
+                        mferror,
+                        mfhasLoaded: true
+                    }))
+
+
+            }
+
+            const { mfhasLoaded, mfbooks, mferror } = mfState
+
+            useEffect(() => {
+                fetchBooksMf()
+            }, [userId])
+
+            mf_data = mfbooks.map(book => {
+                const { Title, Bookid, ImgURL, Desc } = book
+
+                return { 'img': ImgURL, 'link': `https://www.amazon.in/s?k=${Title}&i=stripbooks`, 'title': Title, 'description': Desc, 'bookid': Bookid }
+
             })
-            mf_data_strings=JSON.stringify(mf_data)
+            mf_data_strings = JSON.stringify(mf_data)
 
 
             return (
                 <>
-                {mferror ?<p>{mferror.message}</p> : null}
-                {mfhasLoaded ?(    
-                    <div style={{
-                        backgroundImage: `url(${BackgroundDiv})`,
-                        height: "100"
-                    }}>
-                        <Header
-                            brand="The New Chapter"
-                            leftLinks={<LeftHeader />}
-                            rightLinks={<HeaderLinks />}
-                            fixed
-                            color="transparent"
-                            changeColorOnScroll={{
-                                height: 400,
-                                color: "white"
-                            }}
-                        />
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <div style={{background:'white'}}>
-                        <Carousel responsive={responsive}>
+                    {mferror ? <p>{mferror.message}</p> : null}
+                    {mfhasLoaded ? (
+                        <div style={{
+                            backgroundImage: `url(${BackgroundDiv})`,
+                            height: "100"
+                        }}>
+                            <Header
+                                brand="The New Chapter"
+                                leftLinks={<LeftHeader />}
+                                rightLinks={<HeaderLinks />}
+                                fixed
+                                color="transparent"
+                                changeColorOnScroll={{
+                                    height: 400,
+                                    color: "white"
+                                }}
+                            />
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <div style={{ background: 'white' }}>
+                                {/* <Carousel responsive={responsive}>
   <div>Item 1</div>
   <div>Item 2</div>
   <div>Item 3</div>
   <div>Item 4</div>
-</Carousel>
-</div>
-                        <div >
-                            
-                                
-                            
+</Carousel> */}
+                            </div>
                             <div >
-                                <br></br>
-                                <h2><font color="#fead03"> Recommended Books </font></h2>
-                                <div>
-                                {mfhasLoaded ? (
-                                <ReactExpandableGrid
-                                gridData={mf_data_strings} />
-                                ):(<Loader/>)}
+
+
+
+                                <div >
+                                    <br></br>
+                                    <h2><font color="#fead03"> Recommended Books </font></h2>
+                                    <div>
+                                        {mfhasLoaded ? (
+                                            <ReactExpandableGrid
+                                                gridData={mf_data_strings} />
+                                        ) : (<Loader />)}
+                                    </div>
+
+
+
+
+
                                 </div>
 
 
 
-                                
-                            
+
                             </div>
 
 
-
-                            
+                            <Footer></Footer>
                         </div>
-
-
-                    <Footer></Footer>
-                    </div>
-                    ):(<Loader/>)}
+                    ) : (<Loader />)}
                 </>
             )
         } catch{
-            
-            return <Loader/>
+
+            return <Loader />
         }
 
     }

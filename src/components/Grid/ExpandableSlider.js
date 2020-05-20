@@ -28,8 +28,8 @@ class SingleGridCell extends React.Component {
             backgroundSize: this.props.cellSize,
             // width: this.props.cellSize,
             // height: this.props.cellSize,
-            width:'260px',
-            height:'340px',
+            width: '260px',
+            height: '340px',
             display: 'inline-block',
             margin: this.props.cellMargin,
             marginBottom: 25,
@@ -42,7 +42,7 @@ class SingleGridCell extends React.Component {
     }
 }
 var TitleName
-class ReactExpandableGrid extends React.Component {
+class ReactExpandableSlider extends React.Component {
 
     constructor(props) {
         super(props)
@@ -143,7 +143,7 @@ class ReactExpandableGrid extends React.Component {
                     var title = document.getElementById('ExpandedDetailTitle')
                     var img = document.getElementById('ExpandedDetailImage')
                     var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
-                    var LikeButton=document.getElementById('ExpandedLikeButton')
+                    var LikeButton = document.getElementById('ExpandedLikeButton')
                     var ImageLink = document.getElementById('ExpandedDetailImageLink')
                     description.innerHTML = this.state.gridData[thisIdNumber]['description']
                     title.innerHTML = this.state.gridData[thisIdNumber]['title']
@@ -166,16 +166,16 @@ class ReactExpandableGrid extends React.Component {
                 var title = document.getElementById('ExpandedDetailTitle')
                 var img = document.getElementById('ExpandedDetailImage')
                 var DescriptionLink = document.getElementById('ExpandedDetailDescriptionLink')
-                var LikeButton=document.getElementById('ExpandedLikeButton')
+                var LikeButton = document.getElementById('ExpandedLikeButton')
                 var ImageLink = document.getElementById('ExpandedDetailImageLink')
                 description.innerHTML = this.state.gridData[thisIdNumber]['description']
                 title.innerHTML = this.state.gridData[thisIdNumber]['title']
                 img.src = this.state.gridData[thisIdNumber]['img']
                 DescriptionLink.href = this.state.gridData[thisIdNumber]['link']
                 ImageLink.href = this.state.gridData[thisIdNumber]['link']
-                var TitleName=this.state.gridData[thisIdNumber]['title']
-                LikeButton.onClick=(console.log(TitleName +' is Liked'))
-                DescriptionLink.onclick=(console.log(TitleName +'is Likeed'))
+                var TitleName = this.state.gridData[thisIdNumber]['title']
+                LikeButton.onClick = (console.log(TitleName + ' is Liked'))
+                DescriptionLink.onclick = (console.log(TitleName + 'is Likeed'))
                 // console.log(this.state.gridData[thisIdNumber]['title'])
 
                 this.renderExpandedDetail(target)
@@ -184,7 +184,7 @@ class ReactExpandableGrid extends React.Component {
             })
         }
     }
-    BookLiked(){
+    BookLiked() {
         // console.log(this.state.gridData)       
         // alert(TitleName +'Book Liked')
     }
@@ -202,7 +202,7 @@ class ReactExpandableGrid extends React.Component {
         var cssforExpandedDetail = {
             backgroundColor: this.props.detailBackgroundColor,
             height: this.props.detailHeight,
-            width:'1700px',
+            width: '1700px',
             display: 'none',
             position: 'relative',
             padding: '20px',
@@ -239,8 +239,8 @@ class ReactExpandableGrid extends React.Component {
             marginLeft: '30px',
             textAlign: 'justify',
             wordWrap: 'break-word',
-            overflow:'auto',
-            whiteSpace:'break-spaces'
+            overflow: 'auto',
+            whiteSpace: 'break-spaces'
         }
 
         var cssforExpandedDetailLeft
@@ -350,10 +350,10 @@ class ReactExpandableGrid extends React.Component {
             width: '100%',
             backgroundColor: this.props.bgColor,
             margin: 0,
-            height:'auto',
-            overflow:'auto',
-            overflowY:'hidden',
-            whiteSpace:'nowrap',
+            height: 'auto',
+            overflow: 'auto',
+            overflowY: 'hidden',
+            whiteSpace: 'nowrap',
             textAlign: 'center'
         }
 
@@ -381,7 +381,7 @@ class ReactExpandableGrid extends React.Component {
     }
 }
 
-ReactExpandableGrid.propTypes = {
+ReactExpandableSlider.propTypes = {
     gridData: PropTypes.string,
     cellSize: PropTypes.number,
     cellMargin: PropTypes.number,
@@ -417,7 +417,7 @@ var data = [
     // { 'img': 'http://i.imgur.com/rCrvQTv.jpg', 'link': 'https://www.instagram.com/p/BQ6_Wa2gmdR/', 'title': 'Dubai Desert Conservation Reserve', 'description': 'Photo by @christopheviseux / Early morning flight on a hot air balloon ride above the Dubai Desert Conservation Reserve. Merely an hour drive from the city, the park was created to protect indigenous species and biodiversity. The Arabian Oryx, which was close to extinction, now has a population well over 100. There are many options to explore the desert and flying above may be one of the most mesmerizing ways. Follow me @christopheviseux for more images from the Middle East. #dubai #desert' }
 ]
 
-ReactExpandableGrid.defaultProps = {
+ReactExpandableSlider.defaultProps = {
     gridData: JSON.stringify(data),
     cellSize: 250,
     cellMargin: 25,
@@ -432,10 +432,10 @@ ReactExpandableGrid.defaultProps = {
     ExpandedDetail_title_bgColor: '#D9D9D9',
     ExpandedDetail_img_bgColor: '#D9D9D9',
     ExpandedDetail_link_text: '→ Link',
-    ExpandedLike_text:'💖Like',
+    ExpandedLike_text: '💖Like',
     ExpandedDetail_font_color: '#434343',
     ExpandedDetail_closeX_bool: true,
     show_mobile_style_from_width: 600,
 }
 
-export default ReactExpandableGrid
+export default ReactExpandableSlider
