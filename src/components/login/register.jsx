@@ -16,10 +16,10 @@ const LoginPage = (props) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [ setCardAnimation] = React.useState("cardHidden");
-    setTimeout(function () {
-        setCardAnimation("");
-    }, 700);
+    const [setCardAnimation] = React.useState("cardHidden");
+    // setTimeout(function () {
+    //     setCardAnimation("");
+    // }, 700);
 
 
     if (session.isValid === true) {
@@ -44,7 +44,7 @@ const LoginPage = (props) => {
                     ]
                 }],
             callbacks: {
-                signInSuccess: function (currentUser, credential, redirectUrl) {
+                signInSuccessWithAuthResult: function (currentUser, credential, redirectUrl) {
                     Session.start({
                         payload: {
 
@@ -52,6 +52,7 @@ const LoginPage = (props) => {
                         expiration: 86400000,
 
                     })
+
                     window.location.assign('/dashboard')
                     return false
                 }
@@ -80,12 +81,12 @@ const LoginPage = (props) => {
                     }}
                 >
                     <div class="form" method="post"
-                    style={{top:'50px'}}>
+                        style={{ top: '50px' }}>
                         <h2>Register</h2>
                         <div class="logo"></div>
                         <div class="input">
                             <div class="inputBox">
-                                <label> UserName </label>
+                                <label> Name </label>
                                 <input type="UserName" id="username" name="name" value={name}
                                     onChange={e => setName(e.target.value)} placeholder="UserName"
                                     width="100%"></input>
@@ -127,12 +128,17 @@ const LoginPage = (props) => {
         );
     }
     async function onRegister() {
-        try {
+        if (name === '') {
+            alert('Name field is empty! Please enter your name.')
+        }
+        else {
+            try {
 
-            await Firebase.register(name, email, password);
-            props.history.replace('/');
-        } catch (error) {
-            alert(error.message)
+                await Firebase.register(name, email, password);
+                props.history.replace('/');
+            } catch (error) {
+                alert(error.message)
+            }
         }
     }
 }

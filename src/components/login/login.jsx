@@ -39,7 +39,9 @@ const RegisterPage = (props) => {
           ]
         }],
       callbacks: {
-        signInSuccess: function (currentUser, credential, redirectUrl) {
+        signInSuccessWithAuthResult: function (result) {
+          // alert(result.user.displayName)
+
           Session.start({
             payload: {
 
@@ -47,6 +49,8 @@ const RegisterPage = (props) => {
             expiration: 86400000,
 
           })
+
+          // alert('CurrentUser', currentUser)
           window.location.assign('/dashboard')
           return false
         }
@@ -85,10 +89,10 @@ const RegisterPage = (props) => {
             }}
           >
 
-            <div class="form" method="post" 
-            style={{
-              top:'-30px'
-            }}>
+            <div class="form" method="post"
+              style={{
+                top: '-30px'
+              }}>
               <h2>Login</h2>
               <br></br>
               <div class="logo"></div>
@@ -127,7 +131,7 @@ const RegisterPage = (props) => {
 
           </div>
         </div>
-        
+
 
         <Footer />
 
@@ -145,6 +149,7 @@ const RegisterPage = (props) => {
       })
     }
     async function login() {
+
       try {
 
         await Firebase.login(email, password);
@@ -157,7 +162,7 @@ const RegisterPage = (props) => {
         });
 
         window.location.href = '/dashboard';
-        
+
       } catch (error) {
         alert(error.message);
       }

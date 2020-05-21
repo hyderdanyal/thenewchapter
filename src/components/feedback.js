@@ -28,7 +28,7 @@ const Contact = () => {
 
             let [name, setName] = useState("");
             let [email, setEmail] = useState("");
-            let [setSubject] = useState("");
+            // let [setSubject] = useState("");
             let [message, setMessage] = useState("");
             return (
                 <>
@@ -48,7 +48,7 @@ const Contact = () => {
                             }}
                         />
                         <div class="form" method="post">
-                            <h2>Feedback</h2>
+                            <h2>Feedback</h2><br></br><br></br><br></br>
                             <div class="logo"></div>
                             <div class="input">
 
@@ -66,14 +66,7 @@ const Contact = () => {
 
                                 </div>
 
-                                <div class="inputBox">
-                                    <label> Subject </label>
-                                    <input type="text" placeholder="your subject"
-                                        onChange={function (e) {
-                                            setSubject(e.target.value);
-
-                                        }}></input></div>
-                                <div class="inputBox1">
+                                    <div class="inputBox1">
                                     <label> Message </label>
                                     <textarea rows="3" columns="10" placeholder="your feedback"
                                         onChange={function (e) {

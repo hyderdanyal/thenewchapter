@@ -40,7 +40,7 @@ class SingleGridCell extends React.Component {
             background: 'url(' + this.props.SingleGridCellData['img'] + ') no-repeat center center',
             backgroundSize: this.props.cellSize,
             width: "260px",
-            height: "340px",
+            height: "360px",
             display: 'inline-block',
             margin: this.props.cellMargin,
             marginBottom: 25,
@@ -65,7 +65,6 @@ class ReactExpandableGrid extends React.Component {
             bookexists: true
         }
 
-        // console.log('Grid data',this.props.gridData)
     }
 
     handleResize() {
@@ -113,9 +112,7 @@ class ReactExpandableGrid extends React.Component {
 
     }
     renderRelatedBooks(Books) {
-        function recommendClicked() {
-            console.log('Clicked!!')
-        }
+
         //relatedBooksGrid
         let elements = []
         elements = Books.map((element) => {
@@ -133,34 +130,18 @@ class ReactExpandableGrid extends React.Component {
                     
                     </div>
                 </li>`
-                // <li id={element.id} key={element.id} style={{display:'inline'}} onClick={recommendClicked()}  >
-                //     <img src={element.image} style={{height: '200px', width: '150px'}}></img>
-                //     <h3>{element.title}</h3>
-                // </li>
             )
-            // document.getElementById(`${element.id}`)
-            // var green = document.getElementById('relatedBooksGrid')
-            // green.insertAdjacentElement('beforebegin', elements)
+
         })
         return elements;
 
     }
     renderExpandedDetail(target, Books) {
-        console.log('Test2', Books)
-        if (relatedBookshtml.length > 0) console.log('Has values', relatedBookshtml)
         relatedBookshtml = this.renderRelatedBooks(Books)
-        // console.log('Test', elements)
-        // console.log('Has Updated values', relatedBookshtml)
         var thisId = target.id
         var thisIdNumber = parseInt(thisId.substring(10))
         var detail = document.getElementById('expandedDetail')
-        // console.log('EXPANDED DETAILS', detail)
         var rhtml = document.getElementById('relatedBooksGrid')
-        // console.log("OUTER", rhtml.outerHTML)
-        // let abcd = JSON.stringify(relatedBookshtml)
-        // rhtml.innerHTML = elements
-        // console.log('Testing', abcd)
-        // let abcd = '<li><p>Hello</p></li>'
 
         rhtml.innerHTML = ''
         rhtml.insertAdjacentHTML('afterbegin', relatedBookshtml);
@@ -179,7 +160,6 @@ class ReactExpandableGrid extends React.Component {
             if (ol.childNodes[i].className === 'SingleGridCell') {
                 if (ol.childNodes[i].offsetTop !== ol.childNodes[thisIdNumber].offsetTop) {
                     ol.childNodes[i].insertAdjacentElement('beforebegin', detail)
-                    // ol.childNodes[i].insertAdjacentElement('beforebegin', rhtml)
                     insertedFlag = true
                     break
                 }
@@ -209,11 +189,6 @@ class ReactExpandableGrid extends React.Component {
             arrow.style.display = 'none'
         })
     }
-    // conditionalChaining(value){
-    //     if(value){this.setState({bookexists:true})
-    //     bookExists=true}
-    //     else{}
-    // }
     handleCellClick(event) {
         if (!event || !event.target) {
             return;
@@ -222,17 +197,13 @@ class ReactExpandableGrid extends React.Component {
         var thisIdNumber = parseInt(event.target.id.substring(10))
         var bookid = this.state.gridData[thisIdNumber]['bookid']
 
-        // console.log(bookid)
         firebase.bookExists(bookid).then(() => {
             this.setState({ bookexists: true })
             bookExists = true
-            // console.log("Yes",this.state.bookexists)
         })
             .catch(() => {
                 this.setState({ bookexists: false })
                 bookExists = false
-                // console.log('No',this.state.bookexists)
-                // console.log('No2',bookExists)
             })
 
         if (this.state.expanded) { // expanded == true
@@ -273,7 +244,6 @@ class ReactExpandableGrid extends React.Component {
 
 
                             detail.style.display = 'block'
-                            // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
                         })
                     })
             }
@@ -309,14 +279,11 @@ class ReactExpandableGrid extends React.Component {
 
 
 
-                        // console.log("BOOKID",this.state.gridData[thisIdNumber]['bookid'])  
-                        // this.renderExpandedDetail(target, Books)
 
                         gridBookId = this.state.gridData[thisIdNumber]['bookid']
                         gridTitle = this.state.gridData[thisIdNumber]['title']
                         gridImgURL = img.src
                         gridDesc = description.innerHTML
-                        // console.log('Test',gridBookId)
                         detail.style.display = 'block'
                     })
                 })
@@ -336,7 +303,7 @@ class ReactExpandableGrid extends React.Component {
 
         var cssforExpandedDetail = {
             backgroundColor: this.props.detailBackgroundColor,
-            // height: this.props.detailHeight,
+
             height: '700px',
             display: 'none',
             position: 'relative',
@@ -446,7 +413,6 @@ class ReactExpandableGrid extends React.Component {
         }
 
 
-        // console.log(Books, hasLoaded)
         grid.push(
 
             <li style={cssforExpandedDetail} key='expandedDetail' id='expandedDetail'>
@@ -481,11 +447,11 @@ class ReactExpandableGrid extends React.Component {
                             fractions={2}
                             onClick={(value) => {
                                 firebase.addRating(firebase.getCurrentUsername(), firebase.getCurrentUID(), gridBookId, value)
-                                //   console.log(firebase.getCurrentUID(),movie.id,value)
+
                             }}
                         />
                         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
-                        <a id='ExpandedDetailDescriptionLink' className="gridlink" style={cssForDescriptionLink}> → Get Book </a>
+                        <a id='ExpandedDetailDescriptionLink' className="gridlink" style={cssForDescriptionLink} target="blank"> → Get Book </a>
                     </div>
                     <br></br><br></br><br></br>
                 </div>
@@ -502,7 +468,6 @@ class ReactExpandableGrid extends React.Component {
 
     render() {
 
-        console.log('Meh HU Nobita')
         var rows = this.generateGrid()
 
         var cssForGridDetailExpansion = {
@@ -529,7 +494,7 @@ class ReactExpandableGrid extends React.Component {
             borderLeft: '20px solid transparent',
             borderRight: '20px solid transparent',
             borderBottom: '30px solid' + this.props.detailBackgroundColor,
-            marginTop: '340px',
+            marginTop: '360px',
             marginLeft: this.props.cellSize / 2 - 20,
             display: 'none'
         }

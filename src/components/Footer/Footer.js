@@ -77,7 +77,7 @@ export default function Footer(props) {
             className={aClasses}
             target="_blank"
           >
-            Hadi Hyder & Danyal Hyder
+            Danyal Hyder
           </a>{" "}
           for a better web.
         </div>

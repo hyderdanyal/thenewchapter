@@ -18,21 +18,21 @@
   }
   
   .gridlink:link {
-    color: royalblue;
+    color: #fead03;
   }
   
   /* visited link */
   .gridlink:visited {
-    color: royalblue;
+    color: #fead03;
   }
   
   /* mouse over link */
   .gridlink:hover {
-    color: #fead03;
+    color: darkblue;
   }
   
   /* selected link */
   .gridlink:active {
-    color: #fead03;
+    color: red;
   }
  

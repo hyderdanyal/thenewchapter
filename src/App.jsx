@@ -21,7 +21,6 @@ import Licenses from "../src/components/Footer/licenses"
 import Feedback from "./components/feedback"
 import Background from "./components/Background"
 import SearchPage from "./components/searchpage"
-// import InitialData from "./components/initialdata"
 
 function App() {
 
@@ -54,9 +53,9 @@ function App() {
         <Route exact path="/footer/privacy" component={Privacy} />
         <Route exact path="/footer/licenses" component={Licenses} />
         <Route exact path="/feedback" component={Feedback} />
-        <Route exact path="/Background" component={Background}/>
-        <Route exact path="/searchpage" component={SearchPage}/>
-        
+        <Route exact path="/Background" component={Background} />
+        <Route exact path="/searchpage" component={SearchPage} />
+
       </BrowserRouter>
     </>
   ) : <div id="loader"><Loader /></div>

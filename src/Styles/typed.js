@@ -180,7 +180,7 @@ export default class TypedR extends React.Component {
 		// this.el refers to the <span> in the render() method
 		//this.typed = new Typed(this.el, options);
 		typed.start()
-		console.log("asasas", this.el);
+
 
 	}
 
