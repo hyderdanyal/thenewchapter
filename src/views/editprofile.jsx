@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
-import Header from "./Header/Header";
-import HeaderLinks from "./Header/DashHeaderLink";
-import Footer from "./Footer/Footer";
-import Firebase from "./../firebase";
+import Header from "../components/Header/Header";
+import HeaderLinks from "../components/Header/DashHeaderLink";
+import Footer from "../components/Footer/Footer";
+import Firebase from "../firebase";
 import { withRouter, Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import BackgroundImg from "../img/profilebackground.jpg";

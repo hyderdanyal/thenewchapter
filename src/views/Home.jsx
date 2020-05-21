@@ -2,10 +2,10 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Header from "./Header/Header";
-import HeaderLinks from "./Header/HeaderLinks";
+import Header from "../components/Header/Header";
+import HeaderLinks from "../components/Header/HeaderLinks";
 import styles from "../Styles/homeStyle";
-import Footer from "./Footer/Footer";
+import Footer from "../components/Footer/Footer";
 import Background from "../img/home.jpg";
 import { Button } from "@material-ui/core";
 import TypedR from "../Styles/typed"

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import image from "../../img/login.jpg";
 import { Redirect } from "react-router-dom";
 import Firebase from "../../firebase";

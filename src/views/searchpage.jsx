@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import BackgroundDiv from "../img/divwood.jpg";
-import Header from "./Header/Header";
-import HeaderLinks from "./Header/DashHeaderLink";
-import Footer from "./Footer/Footer";
+import Header from "../components/Header/Header";
+import HeaderLinks from "../components/Header/DashHeaderLink";
+import Footer from "../components/Footer/Footer";
 import "react-multi-carousel/lib/styles.css";
 import { Redirect } from "react-router-dom";
 import { Session } from 'bc-react-session';
 import firebase from "../firebase";
-import LeftHeader from "./Header/leftheader";
+import LeftHeader from "../components/Header/leftheader";
 import { useEffect } from "react";
 import { useState } from "react";
-import Loader from './loader'
-import ReactExpandableGrid from "./Grid/ExpandableGrid";
+import Loader from '../components/loader'
+import ReactExpandableGrid from "../components/Grid/ExpandableGrid";
 import queryString from 'query-string'
 
 var value

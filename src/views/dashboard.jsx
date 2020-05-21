@@ -14,8 +14,8 @@ import "../Styles/styling.css";
 import cfl from '../img/cfl.jpg';
 import { useEffect } from "react";
 import { useState } from "react";
-import Loader from './loader'
-import Slider from './Slider/components/NetflixSlider'
+import Loader from '../components/loader'
+import Slider from '../components/Slider/components/NetflixSlider'
 import _ from 'underscore'
 
 

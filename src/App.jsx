@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
-import Register from "./components/login/register";
-import LoginPage from "./components/login/login"
+import Register from "./views/login/register";
+import LoginPage from "./views/login/login"
 import { Route, BrowserRouter } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./views/Home";
 import Loader from "./components/loader";
 import firebase from "./firebase";
-import Dashboard from "./components/dashboard"
+import Dashboard from "./views/dashboard"
 import TypedR from "./Styles/typed"
-import TopPicks from "./components/toppicks"
-import Latest from "./components/latest"
-import Genre from "./components/genre"
-import Recommend from "./components/recommend"
-import Profile from "./components/profile"
-import EditProfile from "./components/editprofile"
+import TopPicks from "./views/toppicks"
+import Latest from "./views/latest"
+import Genre from "./views/genre"
+import Recommend from "./views/recommend"
+import Profile from "./views/profile"
+import EditProfile from "./views/editprofile"
 import CreativeTeam from "../src/components/Footer/creativeteam"
 import AboutUs from "../src/components/Footer/aboutus"
 import Privacy from "../src/components/Footer/privacy"
 import Licenses from "../src/components/Footer/licenses"
-import Feedback from "./components/feedback"
-import Background from "./components/Background"
-import SearchPage from "./components/searchpage"
+import Feedback from "./views/feedback"
+import SearchPage from "./views/searchpage"
 
 function App() {
 
@@ -53,7 +52,6 @@ function App() {
         <Route exact path="/footer/privacy" component={Privacy} />
         <Route exact path="/footer/licenses" component={Licenses} />
         <Route exact path="/feedback" component={Feedback} />
-        <Route exact path="/Background" component={Background} />
         <Route exact path="/searchpage" component={SearchPage} />
 
       </BrowserRouter>

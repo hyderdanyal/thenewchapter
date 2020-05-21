@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Header from "./Header/Header";
-import HeaderLinks from "./Header/DashHeaderLink";
-import Footer from "./Footer/Footer";
+import Header from "../components/Header/Header";
+import HeaderLinks from "../components/Header/DashHeaderLink";
+import Footer from "../components/Footer/Footer";
 import BackgroundImg from "../img/profilebackground.jpg";
-import LeftHeader from "./Header/leftheader";
+import LeftHeader from "../components/Header/leftheader";
 import { Session } from 'bc-react-session';
 import { Redirect } from "react-router-dom";
 import "../Styles/feedbackstyle.css";
