@@ -40,7 +40,7 @@ const RegisterPage = (props) => {
         }],
       callbacks: {
         signInSuccessWithAuthResult: function (result) {
-          // alert(result.user.displayName)
+
 
           Session.start({
             payload: {
@@ -50,7 +50,7 @@ const RegisterPage = (props) => {
 
           })
 
-          // alert('CurrentUser', currentUser)
+
           window.location.assign('/dashboard')
           return false
         }

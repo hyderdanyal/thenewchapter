@@ -9,7 +9,6 @@ import { Session } from 'bc-react-session';
 import BackgroundImg from "../img/profilebackground.jpg";
 import LeftHeader from "../components/Header/leftheader";
 import "./../Styles/editprofilestyle.css";
-import { Modal } from "@material-ui/core";
 
 
 
@@ -27,7 +26,6 @@ const editprofile = (props) => {
         else {
             try {
 
-                // const { classes } = props
 
                 var [email, setEmail] = useState('');
                 var [name, setName] = useState('');
@@ -176,21 +174,18 @@ const editprofile = (props) => {
                             window.location.href = '/profile'
 
                         } catch (error) {
-                            console.log(error)
                             alert("Error in Updating Profile", error)
                         }
                     } else if (name === '' || email === '') {
                         alert("Please fill all the fields!")
 
                     } else {
-                        // Firebase.editProfile(name, email)
                         alert("👀HAHA you've been pranked,\n you can't update your name and email!👀\n You may update your display picture! ")
                         window.location.href = '/profile'
 
                     }
                 }
             } catch (error) {
-                console.log(error)
                 alert("Login Again")
                 return <Redirect to="/login" />
             }

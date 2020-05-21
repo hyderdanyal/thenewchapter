@@ -73,11 +73,9 @@ export default function profile(props) {
                         </li>
                     )
                 })
-                console.log(elements)
                 const deleteValue = (e, h) => {
                     if (window.confirm('Are you sure you want to delete ' + h + '?')) {
                         firebase.deleteBook(e)
-                        console.log('Deleted Book:- ', h);
                         setDeleteBook(true)
 
                     } else {

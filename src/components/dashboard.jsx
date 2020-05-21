@@ -211,26 +211,8 @@ export default function dashboard(props) {
                     setEmpty(false)
                     fetchBooksAuthor(myListId)
                     fetchBooksTag(myListId)
-                    //do something
-                    // return doSomething().then(doSomethingMore).then(doEvenSomethingMore);
-                } else {
-                    //do something else
-                    // myListTitle='Roadwork'
-                    // fetchBooksAuthor('5763')
-                    // setEmpty(true)
-                    // console.log("asas",empty)
-                    // return doSomeOtherThing().then(doSomethingMore).then(doEvenSomethingMore);
                 }
             }
-            // if(empty==true){
-            //     myListTitle='Roadwork'
-            //     fetchBooksAuthor('5763')
-            //    }
-            //    else if(empty==false){
-            //        console.log(empty)
-            //    fetchBooksAuthor(myListId)
-            // }
-            // console.log("ddddd",item)
             useEffect(() => {
                 firebase.readMyList(firebase.getCurrentUID(), firebase.getCurrentUsername())
                     .then(conditionalChaining).catch(() => {
@@ -239,39 +221,6 @@ export default function dashboard(props) {
                         fetchBooksTag('5763')
                         setEmpty(true)
                     })
-                //  (response)=>{
-                // //  console.log(response)
-
-
-                // myListBooks=response.map(book=>{
-                //     console.log("dddd",empty)
-                //      const{Title,Bookid,ImgURL,Desc}=book
-                //      return {id:Bookid,image:ImgURL,'link':`https://www.amazon.in/s?k=${Title}&i=stripbooks`,title:Title,desc:Desc,imageBg:ImgURL}
-
-                //  })
-                //  let bookname=myListBooks.map(book=>{
-                //      return {id:book.id,title:book.title}
-                //     })
-                //     item=bookname[Math.floor(Math.random() * bookname.length)];
-                //     myListId=item.id
-                //     myListTitle=item.title
-                //     // console.log("type",item)
-                //     setEmpty(false)
-
-                // },(error)=>setEmpty(true))
-                // console.log(_.size(myListBooks))
-                //  if(_.size(myListBooks)>0){
-                //     //  console.log(_.size(myListBooks))
-                //      setEmpty(false)
-                //  }
-                //  else{
-                //     //  item='5763'
-
-                //      setEmpty(true)
-                //  }
-
-                // fetchBooksAuthor()
-                // fetchBooksTag()
                 fetchBooksRating()
                 fetchBooksMf()
             }, [userId])

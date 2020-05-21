@@ -17,9 +17,7 @@ const LoginPage = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [setCardAnimation] = React.useState("cardHidden");
-    // setTimeout(function () {
-    //     setCardAnimation("");
-    // }, 700);
+
 
 
     if (session.isValid === true) {

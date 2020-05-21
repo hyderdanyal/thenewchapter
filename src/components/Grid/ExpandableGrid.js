@@ -3,7 +3,7 @@
 /* eslint react/jsx-no-bind: 0 */
 
 import React from 'react'
-import PropTypes, { func, element } from 'prop-types';
+import PropTypes from 'prop-types';
 import firebase from '../../firebase'
 import Rating from "react-rating";
 import "../../Styles/GridButton.css"

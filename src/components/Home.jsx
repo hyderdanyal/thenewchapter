@@ -11,7 +11,7 @@ import { Button } from "@material-ui/core";
 import TypedR from "../Styles/typed"
 import BackgroundDiv from "../img/divlakda.jpg";
 import "react-multi-carousel/lib/styles.css";
-import { Link,Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Session } from "bc-react-session";
 import "../Styles/homestyle.css";
 import BookGif from "../img/bookgif.gif";
@@ -19,7 +19,7 @@ import GenreImg from "../img/genrecss.png";
 
 
 const useStyles = makeStyles(styles);
-//KALYE
+
 const session = Session.get();
 
 
@@ -142,7 +142,7 @@ export default function Components(props) {
                 <span></span>
                 Try it !
                     </button>
-                    </Link>
+              </Link>
             </div>
             <div class="bookgif" style={{ width: "50%", display: "grid", alignContent: "center" }} >
               <img style={{
@@ -182,7 +182,7 @@ export default function Components(props) {
               <br></br>
 
 
-              <div class="wrapper" style={{width:"100%",height:"100%"}}>
+              <div class="wrapper" style={{ width: "100%", height: "100%" }}>
                 <ul class="stage clearfix">
 
                   <li class="scene">
@@ -196,7 +196,7 @@ export default function Components(props) {
                         <br></br>
                         <span class="genre">Childrens</span>
                         <p>
-                        Today is a special day for George because he gets his first bike. He does tricks, he helps the paper boy with his round and then he sees a river... and George is curious. And that's when his exciting adventure begins.
+                          Today is a special day for George because he gets his first bike. He does tricks, he helps the paper boy with his round and then he sees a river... and George is curious. And that's when his exciting adventure begins.
 								</p>
                         <Button href="\login" style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book ->  </Button>
                       </div>
@@ -212,7 +212,7 @@ export default function Components(props) {
                         <span class="rating">3.7</span><br></br>
                         <span class="genre">Fiction</span>
                         <p>
-                        Incarceron, the living prison, has lost one of its inmates to the outside world: Finn's escaped, only to find that Outside is not at all what he expected. Used to the technologically advanced, if violently harsh, conditions of the prison, Finn is now forced to obey the rules of Protocol, which require all people to live without technology. To Finn, Outside is just a prison of another kind, especially when Claudia, the daughter of the prison's warden, declares Finn the lost heir to the throne. 
+                          Incarceron, the living prison, has lost one of its inmates to the outside world: Finn's escaped, only to find that Outside is not at all what he expected. Used to the technologically advanced, if violently harsh, conditions of the prison, Finn is now forced to obey the rules of Protocol, which require all people to live without technology. To Finn, Outside is just a prison of another kind, especially when Claudia, the daughter of the prison's warden, declares Finn the lost heir to the throne.
 								</p>
                         <Button href="\login" style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
                       </div>
@@ -228,9 +228,9 @@ export default function Components(props) {
                         <span class="rating">4.76</span><br></br>
                         <span class="genre">Comics</span>
                         <p>
-                        It's a Magical World includes full-color Sundays and has it all: Calvin-turned-firefly waking Hobbes with his flashlight glow; courageous Spaceman Spiff rocketing through alien galaxies as he battles Dad-turned-Bug-Being; and Calvin's always inspired snowman art. There's no better way for Watterson fans to savor again the special qualities of their favorite strip.
+                          It's a Magical World includes full-color Sundays and has it all: Calvin-turned-firefly waking Hobbes with his flashlight glow; courageous Spaceman Spiff rocketing through alien galaxies as he battles Dad-turned-Bug-Being; and Calvin's always inspired snowman art. There's no better way for Watterson fans to savor again the special qualities of their favorite strip.
 								</p>
-                        <Button href="\login"  style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
+                        <Button href="\login" style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
                       </div>
                     </div>
                   </li>
@@ -243,9 +243,9 @@ export default function Components(props) {
                         <span class="rating">4.14</span><br></br>
                         <span class="genre">Fiction</span>
                         <p>
-                        Afghan-American Nadia Hashimi's literary debut novel, The Pearl that Broke Its Shell is a searing tale of powerlessness, fate, and the freedom to control one's own fate that combines the cultural flavor and emotional resonance of the works of Khaled Hosseini, Jhumpa Lahiri, and Lisa See.
+                          Afghan-American Nadia Hashimi's literary debut novel, The Pearl that Broke Its Shell is a searing tale of powerlessness, fate, and the freedom to control one's own fate that combines the cultural flavor and emotional resonance of the works of Khaled Hosseini, Jhumpa Lahiri, and Lisa See.
 								</p>
-                        <Button  href="\login"  style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
+                        <Button href="\login" style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
                       </div>
                     </div>
                   </li>
@@ -259,9 +259,9 @@ export default function Components(props) {
                         <span class="rating">3.92</span><br></br>
                         <span class="genre">Inspirational</span>
                         <p>
-                        'Like the Flowing River' includes jewel-like fables, packed with meaning and retold in Coelho's inimitable style. Sharing his thoughts on spirituality, life and ethics, Paulo touches you with his philosophy and invites you to go on an exciting journey of your own.
+                          'Like the Flowing River' includes jewel-like fables, packed with meaning and retold in Coelho's inimitable style. Sharing his thoughts on spirituality, life and ethics, Paulo touches you with his philosophy and invites you to go on an exciting journey of your own.
 								</p>
-                        <Button href="\login"  style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
+                        <Button href="\login" style={{ borderRadius: "12px", background: "#ff0047" }}> Get your book -> </Button>
                       </div>
                     </div>
                   </li>
@@ -311,10 +311,10 @@ export default function Components(props) {
             <div style={{ color: "yellow", textAlign: "right", width: "50%", paddingRight: "10%" }} className="c">
               <h3 className={classes.title} style={{ textAlign: "right" }}>Genres </h3>
               <br></br><br></br><br></br>
-              <h2 style={{ textAlign: "right", margin:"25px" }}> We have <i><b>10000</b></i> books of <i><b>230</b></i> genres. </h2>
+              <h2 style={{ textAlign: "right", margin: "25px" }}> We have <i><b>10000</b></i> books of <i><b>230</b></i> genres. </h2>
               <br></br>
               <Link to='/login'><button class="button" size="lg"
-                
+
 
 
               // target="_blank"
@@ -325,11 +325,11 @@ export default function Components(props) {
                 <span></span>
                 Try it !
                     </button>
-                    </Link>
+              </Link>
             </div>
 
           </div>
-          
+
         </div>
         <Footer style={{ position: "relative", backgroundColor: "black", color: "#fead03" }} />
       </div >
