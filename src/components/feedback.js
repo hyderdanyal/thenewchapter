@@ -28,7 +28,6 @@ const Contact = () => {
 
             let [name, setName] = useState("");
             let [email, setEmail] = useState("");
-            // let [setSubject] = useState("");
             let [message, setMessage] = useState("");
             return (
                 <>
@@ -76,11 +75,9 @@ const Contact = () => {
                                 <div class="inputBox">
 
                                     <input type="submit" name="" value="Submit" onClick={()=> {
-                                        console.log("Sending ...")
                                         try {
                                             
                                             fetch(`http://127.0.0.1:5000/feedback?name=${name}&email=${email}&msg=${message}`)
-                                            console.log("Done");
                                             alert('Feedback Submitted, Thank You!');
                                              window.location.href="/profile"
                                             
