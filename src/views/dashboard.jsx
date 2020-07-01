@@ -23,25 +23,6 @@ import _ from 'underscore'
 
 
 
-// const responsive = {
-//     superLargeDesktop: {
-//         // the naming can be any, depends on you.
-//         breakpoint: { max: 4000, min: 3000 },
-//         items: 5,
-//     },
-//     desktop: {
-//         breakpoint: { max: 3000, min: 1024 },
-//         items: 5,
-//     },
-//     tablet: {
-//         breakpoint: { max: 1024, min: 464 },
-//         items: 2,
-//     },
-//     mobile: {
-//         breakpoint: { max: 464, min: 0 },
-//         items: 1,
-//     },
-// };
 
 const session = Session.get();
 var tag_data
@@ -106,7 +87,7 @@ export default function dashboard(props) {
 
             function fetchBooksAuthor(item) {
 
-                fetch(`http://127.0.0.1:5000/authorbased?Title=${item}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/authorbased?Title=${item}`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -129,7 +110,7 @@ export default function dashboard(props) {
 
             function fetchBooksTag(item) {
 
-                fetch(`http://127.0.0.1:5000/tagbased?Title=${item}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/tagbased?Title=${item}`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -151,7 +132,7 @@ export default function dashboard(props) {
 
             function fetchBooksRating() {
 
-                fetch("http://127.0.0.1:5000/ratingbased")
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/ratingbased`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -171,7 +152,7 @@ export default function dashboard(props) {
 
             function fetchBooksMf() {
                 let uid = firebase.getCurrentUID()
-                fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/matrixfactorization?uid=${uid}`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -216,7 +197,7 @@ export default function dashboard(props) {
             useEffect(() => {
                 firebase.readMyList(firebase.getCurrentUID(), firebase.getCurrentUsername())
                     .then(conditionalChaining).catch(() => {
-                        myListTitle = 'My List Empty'
+                        myListTitle = 'My List Empty, Randomly recommending'
                         fetchBooksAuthor('5763')
                         fetchBooksTag('5763')
                         setEmpty(true)

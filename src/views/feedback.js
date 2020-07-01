@@ -77,7 +77,7 @@ const Contact = () => {
                                     <input type="submit" name="" value="Submit" onClick={()=> {
                                         try {
                                             
-                                            fetch(`http://127.0.0.1:5000/feedback?name=${name}&email=${email}&msg=${message}`)
+                                            fetch(`${process.env.REACT_APP_API_ADDRESS}/feedback?name=${name}&email=${email}&msg=${message}`)
                                             alert('Feedback Submitted, Thank You!');
                                              window.location.href="/profile"
                                             

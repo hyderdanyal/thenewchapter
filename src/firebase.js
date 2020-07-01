@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import app from 'firebase/app';
 import 'firebase/firebase-firestore';
 import 'firebase/auth';
@@ -27,7 +28,7 @@ class Firebase {
   uploadImage(selectedFile) {
 
     const image = selectedFile;
-    var updateDisplayPicture = app.auth().currentUser
+    var updateDisplayPicture = this.auth().currentUser
     var uploadTask = this.storage.ref(`images/${this.getCurrentUsername()}.jpg`).put(image);
 
 
@@ -118,7 +119,9 @@ class Firebase {
   editProfile(name, email) {
 
     return (this.auth.currentUser.updateEmail(email),
-      this.auth.currentUser.updateProfile({ displayName: name })
+      this.auth.currentUser.updateProfile({ displayName: name }
+
+      )
     )
   }
   addRating(name, uid, bookid, ratingValue) {

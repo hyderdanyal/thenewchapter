@@ -106,7 +106,7 @@ class ReactExpandableGrid extends React.Component {
         gridBookId = this.state.gridData[thisIdNumber]['bookid']
         gridTitle = this.state.gridData[thisIdNumber]['title']
 
-        return fetch(`http://127.0.0.1:5000/tagbased?Title=${gridBookId}`)
+        return fetch(`${process.env.REACT_APP_API_ADDRESS}/tagbased?Title=${gridBookId}`)
 
 
 

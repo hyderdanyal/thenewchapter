@@ -4,7 +4,7 @@ import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 export var data = []
 
-const SEARCH_URI = 'http://127.0.0.1:5000/search'
+const SEARCH_URI = `${process.env.REACT_APP_API_ADDRESS}/search`
 
 const Search = () => {
   const [isLoading, setIsLoading] = useState(false);

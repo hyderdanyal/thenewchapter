@@ -28,6 +28,7 @@ function App() {
   useEffect(() => {
     firebase.isInitialized().then(val => {
       setFirebaseInitialised(val);
+      // console.log("ASAS", process.env.REACT_APP_API_ADDRESS)
     })
   })
 

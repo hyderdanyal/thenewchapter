@@ -171,7 +171,7 @@ const editprofile = (props) => {
 
                             await Firebase.uploadImage(selectedFile)
                             Firebase.editProfile(name, email)
-                            window.location.href = '/profile'
+                            // window.location.href = '/profile'
 
                         } catch (error) {
                             alert("Error in Updating Profile", error)

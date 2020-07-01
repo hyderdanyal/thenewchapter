@@ -58,7 +58,7 @@ export default function mylist(props) {
 
             function fetchBooksRating() {
 
-                fetch("http://127.0.0.1:5000/ratingbased")
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/ratingbased`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -78,7 +78,7 @@ export default function mylist(props) {
 
             function fetchBooksMf() {
                 let uid = firebase.getCurrentUID()
-                fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/matrixfactorization?uid=${uid}`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -98,7 +98,7 @@ export default function mylist(props) {
             function fetchBookID() {
                 let uid = firebase.getCurrentUID()
                 let uname = firebase.getCurrentUsername()
-                fetch(`http://127.0.0.1:5000/bookname?name=${uname}&uid=${uid}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/bookname?name=${uname}&uid=${uid}`)
                 // console.log("ddddd", uname,uid )
             }
 

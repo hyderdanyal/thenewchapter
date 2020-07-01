@@ -48,7 +48,7 @@ export default function searchpage(props) {
             function fetchBooksSearch() {
                 value = queryString.parse(props.location.search)
                 searchQuery = value.q
-                fetch(`http://127.0.0.1:5000/searchresult?q=${searchQuery}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/searchresult?q=${searchQuery}`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -142,9 +142,11 @@ export default function searchpage(props) {
                         : (<Loader />)}
                 </React.Fragment>
             )
-        } catch{
-            alert("Login Again")
-            return <Redirect to="/login" />
+        } catch (error) {
+            console.log(error)
+
+            // alert("Login Again")
+            return <Loader />
         }
     }
 }

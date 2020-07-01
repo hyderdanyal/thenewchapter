@@ -50,11 +50,11 @@ export default function creativeteam(props) {
                     Our recommendation engine analyzes 20 billion data points to give suggestions tailored to your literary tastes.
                     Recommend books to your friends.</font>
 
-                    
+
 
                 </div>
             </div>
-                <Footer></Footer>
+            <Footer></Footer>
 
 
         </>

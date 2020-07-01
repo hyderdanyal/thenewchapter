@@ -12,7 +12,7 @@ const componentsStyle = theme => ({
     bottom: "5px"
   },
   typed: {
-    fontSize: "3rem",
+    fontSize: "4vw",
     position: "absolute",
     textAlign: "center",
     margin: "0 auto",
@@ -28,7 +28,7 @@ const componentsStyle = theme => ({
     fontWeight: "500",
     display: "inline-block",
     position: "relative",
-    top:"15px"
+    top: "15px"
 
 
 
@@ -39,7 +39,7 @@ const componentsStyle = theme => ({
     margin: "25px 0 0",
     textAlign: 'left',
     bottom: "50%",
-    letterSpacing:"0.1rem"
+    letterSpacing: "0.1rem"
 
   },
   search: {

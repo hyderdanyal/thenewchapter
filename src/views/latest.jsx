@@ -45,7 +45,7 @@ export default function latest(props) {
 
             function fetchBooksLatest() {
 
-                fetch("http://127.0.0.1:5000/timebased")
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/timebased`)
                     .then(response => response.json())
                     .then((data) => {
 
@@ -119,9 +119,10 @@ export default function latest(props) {
                     ) : (<Loader />)}
                 </>
             )
-        } catch{
-            alert("Login Again")
-            return <Redirect to="/login" />
+        } catch (error) {
+            console.error(error)
+            // alert("Login Again")
+            return <Loader />
         }
     }
 

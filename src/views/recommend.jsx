@@ -21,6 +21,25 @@ import firebase from "../firebase";
 
 
 
+// const responsive = {
+//     superLargeDesktop: {
+//         // the naming can be any, depends on you.
+//         breakpoint: { max: 4000, min: 3000 },
+//         items: 5,
+//     },
+//     desktop: {
+//         breakpoint: { max: 3000, min: 1024 },
+//         items: 5,
+//     },
+//     tablet: {
+//         breakpoint: { max: 1024, min: 464 },
+//         items: 2,
+//     },
+//     mobile: {
+//         breakpoint: { max: 464, min: 0 },
+//         items: 1,
+//     },
+// };
 
 const session = Session.get();
 var mf_data
@@ -51,7 +70,7 @@ export default function recommend(props) {
 
             function fetchBooksMf() {
                 let uid = firebase.getCurrentUID()
-                fetch(`http://127.0.0.1:5000/matrixfactorization?uid=${uid}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/matrixfactorization?uid=${uid}`)
                     .then(response => response.json())
                     .then((data) => {
 

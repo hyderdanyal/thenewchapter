@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Use command "npm start" to run project in development mode.
+
+Hosted link of project is "http://thenewchapter-artifacts.s3-website.ap-south-1.amazonaws.com/".
+
+Use command "npm build" to build project for production mode.
+
 ## Available Scripts
 
 In the project directory, you can run:

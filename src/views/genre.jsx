@@ -53,7 +53,7 @@ export default function genre(props) {
                 value = queryString.parse(props.location.search)
                 selectedGenre = value.genre
 
-                fetch(`http://127.0.0.1:5000/genre?genre=${selectedGenre.toLowerCase()}`)
+                fetch(`${process.env.REACT_APP_API_ADDRESS}/genre?genre=${selectedGenre.toLowerCase()}`)
                     .then(response => response.json())
                     .then((data) => {
 
